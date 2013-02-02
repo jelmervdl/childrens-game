@@ -69,16 +69,16 @@
 					setTimeout(next, 200);
 				},
 				// Characters walk to each other
-				// function(next) {
-				// 	$('scene-1').classList.add('character-1-2-talk');
-				// 	setTimeout(next, 1000);
-				// },
-				// // Characters start speaking
-				// function(next) {
-				// 	var conversation = $('conversation-1-2');
-				// 	conversation.play();
-				// 	conversation.addEventListener('ended', next);
-				// },
+				function(next) {
+					$('scene-1').classList.add('character-1-2-talk');
+					setTimeout(next, 1000);
+				},
+				// Characters start speaking
+				function(next) {
+					var conversation = $('conversation-1-2');
+					conversation.play();
+					conversation.addEventListener('ended', next);
+				},
 				// // Characters finished speaking, baskets appear
 				function(next) {
 					$('scene-1').classList.remove('character-1-2-talk');
