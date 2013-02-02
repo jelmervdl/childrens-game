@@ -60,10 +60,12 @@ html, body {
 	width: 10%;
 	left: 45%;
 	bottom: -100%;
-	-webkit-transition: all .75s ease-in-out;
+	display: none;
+	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
 }
 
 .toy.visible {
+	display: block;
 	bottom: 10%;
 }
 
@@ -73,17 +75,18 @@ html, body {
 }
 
 @-webkit-keyframes move-into-basket {
-	75% { bottom: 60%; }
-	100% { bottom: 40%; }
+	75% { bottom: 60%; z-index: 4; }
+	76% { z-index: 2; } /* Make sure it moves in front of it upwards, and in the back of it downwards */
+	100% { bottom: 36%; z-index: 2; }
 }
 
 .toy.dropped-on-basket-1,
 .toy.dropped-on-basket-2,
 .toy.dropped-on-basket-3 {
-	z-index: 2;
-	/*bottom: 40%;*/
 	-webkit-transition: bottom .75s, left .75s ease-in-out;
 	-webkit-animation: move-into-basket .75s 1;
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-fill-mode: forwards;
 }
 
 .toy.dropped-on-basket-1 {

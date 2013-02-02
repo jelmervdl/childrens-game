@@ -96,7 +96,7 @@
 						setTimeout(next, 1000);
 					});
 				},
-				// Ball is dropped in a basket
+				// Ball is dropped in a basket, hide them again
 				function(next) {
 					ball.classList.remove('visible');
 					ball.classList.remove('dropped-on-basket-1');
@@ -107,7 +107,8 @@
 						basket.classList.remove('visible');
 					});
 					setTimeout(scene1.play, 1000);
-				}
+				},
+
 			]);
 		
 		scene0.play();
