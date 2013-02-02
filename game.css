@@ -60,7 +60,7 @@ html, body {
 	width: 10%;
 	left: 45%;
 	bottom: -100%;
-	-webkit-transition: bottom 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
 }
 
 .toy.visible {
@@ -68,8 +68,8 @@ html, body {
 }
 
 .toy.picked-up {
+	-webkit-transition: none;
 	-webkit-filter: drop-shadow(5px 5px 25px #000);
-	filter: drop-shadow(5px 5px 25px #000);
 }
 
 /* Scene 0 */
