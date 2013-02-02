@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<title>Game</title>
+		<link rel="stylesheet" href="game.css">
+	</head>
+	<body>
+		<div id="stage" class="stage">
+			<div id="scene-0" class="scene">
+				<button id="start-button">Start</button>
+			</div>
+			<div id="scene-1" class="scene">
+				<img id="meadow" class="background" src="assets/meadow.svg">
+				<img id="character-1" class="character" src="assets/dummy.svg">
+				<img id="character-2" class="character" src="assets/dummy.svg">
+				<img id="character-3" class="character" src="assets/dummy.svg">
+				<img id="basket-1" class="basket" src="assets/basket.svg">
+				<img id="basket-2" class="basket" src="assets/basket.svg">
+				<img id="basket-3" class="basket" src="assets/basket.svg">
+				<img id="ball" class="toy" src="assets/ball.svg">
+				<audio id="conversation-1-2">
+					<source src="assets/dummy.m4a">
+				</audio>
+			</div>
+		</div>
+		<script src="lib/draggable.js"></script>
+		<script src="lib/sequence.js"></script>
+		<script>
+
+		var $ = function(id) {
+			return document.getElementById(id);
+		};
+
+		var ball = document.getElementById('ball');
+
+		var baskets = ['basket-1', 'basket-2', 'basket-3'].map(function(id) {
+			return document.getElementById(id);
+		});
+
+		var scene0 = sequence(
+			[
+				// Show the scene
+				function(next) {
+					$('scene-0').classList.add('visible');
+					next();
+				},
+				// Load the conversation on start click (stupid iOS)
+				function(next) {
+					$('start-button').addEventListener('click', function(e) {
+						$('conversation-1-2').load();
+						next();
+					});
+				},
+				// Hide this scene.
+				function(next) {
+					$('scene-0').classList.remove('visible');
+					scene1.play();
+					next();
+				}
+			]);
+
+		var scene1 = sequence(
+			[
+				// Show the scene
+				function(next) {
+					$('scene-1').classList.add('visible');
+					setTimeout(next, 200);
+				},
+				// Characters walk to each other
+				function(next) {
+					$('scene-1').classList.add('character-1-2-talk');
+					setTimeout(next, 1000);
+				},
+				// Characters start speaking
+				function(next) {
+					var conversation = $('conversation-1-2');
+					conversation.play();
+					conversation.addEventListener('ended', next);
+				},
+				// Characters finished speaking, baskets appear
+				function(next) {
+					$('scene-1').classList.remove('character-1-2-talk');
+					baskets.forEach(function(basket) {
+						basket.classList.add('visible');
+					});
+					setTimeout(next, 1000);
+				},
+				// Baskets have appeared, ball appears and is draggable
+				function(next) {
+					ball.classList.add('visible');
+					draggable(ball, baskets, function(toy, basket) {
+						setTimeout(next, 1000);
+					});
+				},
+				// Ball is dropped in a basket
+				function(next) {
+					ball.classList.remove('visible');
+					ball.destroy();
+					baskets.forEach(function(basket) {
+						basket.classList.remove('visible');
+					});
+					setTimeout(scene1.play, 1000);
+				}
+			]);
+		
+		scene0.play();
+
+		</script>
+	</body>
+</html>
