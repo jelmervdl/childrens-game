@@ -37,7 +37,7 @@ html, body {
 	z-index: 2;
 	width: 10%;
 	bottom: 40%;
-	-webkit-transition: left 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
 }
 
 .basket {
@@ -135,6 +135,12 @@ html, body {
 
 #scene-1 #basket-3 {
 	left: 70%;
+}
+
+#scene-1.character-1-2-talk #character-1,
+#scene-1.character-1-2-talk #character-2 {
+	bottom: 30%;
+	width: 12%;
 }
 
 #scene-1.character-1-2-talk #character-1 {
