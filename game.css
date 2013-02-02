@@ -60,7 +60,7 @@ html, body {
 	width: 10%;
 	left: 45%;
 	bottom: -100%;
-	-webkit-transition: all 1s ease-in-out;
+	-webkit-transition: all .75s ease-in-out;
 }
 
 .toy.visible {
@@ -70,6 +70,32 @@ html, body {
 .toy.picked-up {
 	-webkit-transition: none;
 	-webkit-filter: drop-shadow(5px 5px 25px #000);
+}
+
+@-webkit-keyframes move-into-basket {
+	75% { bottom: 60%; }
+	100% { bottom: 40%; }
+}
+
+.toy.dropped-on-basket-1,
+.toy.dropped-on-basket-2,
+.toy.dropped-on-basket-3 {
+	z-index: 2;
+	/*bottom: 40%;*/
+	-webkit-transition: bottom .75s, left .75s ease-in-out;
+	-webkit-animation: move-into-basket .75s 1;
+}
+
+.toy.dropped-on-basket-1 {
+	left: 15%;
+}
+
+.toy.dropped-on-basket-2 {
+	left: 45%;
+}
+
+.toy.dropped-on-basket-3 {
+	left: 75%;
 }
 
 /* Scene 0 */

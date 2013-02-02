@@ -69,17 +69,17 @@
 					setTimeout(next, 200);
 				},
 				// Characters walk to each other
-				function(next) {
-					$('scene-1').classList.add('character-1-2-talk');
-					setTimeout(next, 1000);
-				},
-				// Characters start speaking
-				function(next) {
-					var conversation = $('conversation-1-2');
-					conversation.play();
-					conversation.addEventListener('ended', next);
-				},
-				// Characters finished speaking, baskets appear
+				// function(next) {
+				// 	$('scene-1').classList.add('character-1-2-talk');
+				// 	setTimeout(next, 1000);
+				// },
+				// // Characters start speaking
+				// function(next) {
+				// 	var conversation = $('conversation-1-2');
+				// 	conversation.play();
+				// 	conversation.addEventListener('ended', next);
+				// },
+				// // Characters finished speaking, baskets appear
 				function(next) {
 					$('scene-1').classList.remove('character-1-2-talk');
 					baskets.forEach(function(basket) {
@@ -91,12 +91,17 @@
 				function(next) {
 					ball.classList.add('visible');
 					draggable(ball, baskets, function(toy, basket) {
+						toy.reset();
+						toy.classList.add('dropped-on-' + basket.id);
 						setTimeout(next, 1000);
 					});
 				},
 				// Ball is dropped in a basket
 				function(next) {
 					ball.classList.remove('visible');
+					ball.classList.remove('dropped-on-basket-1');
+					ball.classList.remove('dropped-on-basket-2');
+					ball.classList.remove('dropped-on-basket-3');
 					ball.destroy();
 					baskets.forEach(function(basket) {
 						basket.classList.remove('visible');
