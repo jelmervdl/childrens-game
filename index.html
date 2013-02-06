@@ -42,6 +42,11 @@
 		<script src="lib/sequence.js"></script>
 		<script>
 
+		// Disable scrolling altogether
+		document.body.ontouchmove = function() {
+			return false;
+		};
+
 		var $ = function(id) {
 			return document.getElementById(id);
 		};
