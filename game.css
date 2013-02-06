@@ -4,7 +4,7 @@ html, body {
 	height: 100%;
 }
 
-#stage {
+.screen {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -20,17 +20,17 @@ html, body {
 	-webkit-animation: glow 1s ease-in-out 0 infinite alternate;
 }
 
-.scene {
+.stage {
 	display: none;
 	width: 100%;
 	height: 100%;
 }
 
-.scene.current {
+.stage.current {
 	display: block;
 }
 
-.scene > * {
+.stage > * {
 	position: absolute;
 }
 
@@ -64,7 +64,7 @@ html, body {
 	bottom: 0;
 }
 
-.toy {
+.object {
 	z-index: 4;
 	width: 10%;
 	left: 45%;
@@ -73,72 +73,82 @@ html, body {
 	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
 }
 
-.toy.visible {
+.object.visible {
 	display: block;
 	bottom: 10%;
 }
 
-.toy.dropped-on-option-1,
-.toy.dropped-on-option-2,
-.toy.dropped-on-option-3 {
+.object.dropped-on-option-1,
+.object.dropped-on-option-2,
+.object.dropped-on-option-3 {
 	-webkit-transition: bottom .75s, left .75s ease-in-out;
 	-webkit-animation: move-into-basket .75s 1;
 	-webkit-animation-timing-function: ease-out;
 	-webkit-animation-fill-mode: forwards;
 }
 
-.toy.dropped-on-option-1 {
+.object.dropped-on-option-1 {
 	left: 15%;
 }
 
-.toy.dropped-on-option-2 {
+.object.dropped-on-option-2 {
 	left: 45%;
 }
 
-.toy.dropped-on-option-3 {
+.object.dropped-on-option-3 {
 	left: 75%;
 }
 
 /* Scene 0 */
 
-#start-button {
-	top: 45%;
-	left: 40%;
-	width: 20%;
-	height: 10%;
+.start-button,
+.next-button {
+	width: 40%;
+	height: 20%;
+	top: 40%;
+	left: 30%;
+	z-index: 10;
 	font-size: 200%;
+}
+
+.next-button {
+	display: none;
+}
+
+.next-button.visible {
+	display: block;
 }
 
 /* Scene 1 */
 
-#game-scene {
+#game-stage {
 	background: #FFF7E7 url(assets/meadow.svg) repeat-x;
 	background-position: center bottom;
 }
 
-#game-scene #option-1 {
+#game-stage .option-1 {
 	left: 6%;
 }
 
-#game-scene #option-2 {
+#game-stage .option-2 {
 	left: 40%;
 }
 
-#game-scene #option-3 {
+#game-stage .option-3 {
 	left: 73%;
 }
 
-#game-scene.character-1-2-talk #option-1,
-#game-scene.character-1-2-talk #option-2 {
+#game-stage.character-1-2-togheter .option-1,
+#game-stage.character-1-2-togheter .option-2 {
 	bottom: 20%;
 	width: 30%;
 }
 
-#game-scene.character-1-2-talk #option-1 {
+#game-stage.character-1-2-together .option-1 {
 	left: 15%;
 }
 
-#game-scene.character-1-2-talk #option-2 {
+#game-stage.character-1-2-together .option-2 {
 	left: 25%;
 }
 

@@ -7,36 +7,35 @@
 		<link rel="stylesheet" href="game.css">
 	</head>
 	<body>
-		<div id="stage" class="stage">
-			<div id="login-scene" class="scene">
-				<button id="start-button">Start</button>
+		<div id="screen" class="screen">
+			<div id="login-stage" class="stage">
+				<button class="start-button">Start</button>
 			</div>
 
-			<div id="character-introduction-scene" class="scene">
+			<div id="character-introduction-stage" class="stage">
 				<!-- Show the three characters to the subject, and introduce them with audio files -->
 				<!-- Next, ask the subject to identify the correct character by name -->
 			</div>
 
-			<div id="game-scene" class="scene">
-				<div id="option-1" class="option">
-					<img id="character-1" class="character" src="assets/dummy.svg">
-					<img id="basket-1" class="basket" src="assets/basket.svg">
+			<div id="game-stage" class="stage">
+				<div id="option_1" class="option option-1">
+					<img data-resource-id="character_1" class="character character-1">
+					<img class="basket basket-1" src="assets/basket.svg">
 				</div>
 					
-				<div id="option-2" class="option">
-					<img id="character-2" class="character" src="assets/dummy.svg">
-					<img id="basket-2" class="basket" src="assets/basket.svg">
+				<div id="option_2" class="option option-2">
+					<img data-resource-id="character_2" class="character character-2">
+					<img class="basket basket-2" src="assets/basket.svg">
 				</div>
 				
-				<div id="option-3" class="option">
-					<img id="character-3" class="character" src="assets/dummy.svg">
-					<img id="basket-3" class="basket" src="assets/basket.svg">
+				<div id="option_3" class="option option-3">
+					<img data-resource-id="character_3" class="character character-3">
+					<img class="basket basket-3" src="assets/basket.svg">
 				</div>
 
-				<img id="ball" class="toy" src="assets/ball.svg">
-				<audio id="conversation-1-2">
-					<source src="assets/dummy.m4a">
-				</audio>
+				<img data-resource-id="object" class="object">
+
+				<button class="next-button">Ga verder</button>
 			</div>
 		</div>
 		<script src="lib/sequence.js"></script>
@@ -47,12 +46,15 @@
 			return false;
 		};
 
+		// Todo: implement offline cache control
+		// see http://blogs.adobe.com/cantrell/archives/2011/11/building-an-offline-mobile-web-application.html
+
 		var $ = function(id) {
 			return document.getElementById(id);
 		};
 
-		var clickonce = function(elements, callback) {
-			elements.forEach(function(element) {
+		var clickOnce = function(elements, callback) {
+			Array.prototype.forEach.call(elements, function(element) {
 				element.classList.add('clickable');
 				element.onclick = function() {
 					for (var j = 0; j < elements.length; ++j) {
@@ -67,83 +69,296 @@
 			});
 		};
 
-		var clearClick = function(elements) {
-			
+		var loadConfiguration = function(callback) {
+			callback({
+				"version": 1.0,
+				"configurations": [
+					{
+						"id": "wdem",
+						"type": "wispering-left",
+						"character_1": "dog",
+						"character_2": "elephant",
+						"character_3": "monkey",
+						"object": "spoon"
+					},
+					{
+						"id": "tmed",
+						"type": "talking-left",
+						"character_1": "monkey",
+						"character_2": "elephant",
+						"character_3": "dog",
+						"object": "car"
+					}
+				]
+			});
 		};
 
-		var ball = document.getElementById('ball');
+		// Today, n is my namespace.
+		var n = {};
 
-		var options = ['option-1', 'option-2', 'option-3'].map(function(id) {
-			return document.getElementById(id);
-		});
+		/* Audio resource */
 
-		var scene0 = sequence(
-			[
-				// Show the scene
-				function(next) {
-					$('login-scene').classList.add('current');
+		n.Audio = function(url)
+		{
+			this.audio = new Audio();
+			this.audio.preload = 'none';
+			this.audio.src = url;
+		};
+
+		n.Audio.prototype.load = function(next)
+		{
+			console.log('loading', this);
+			this.audio.addEventListener('loadeddata', function(e) { next(); });
+			this.audio.addEventListener('error', function(e) { console.log("Could not load ", this.src); });
+			this.audio.load();
+		};
+
+		n.Audio.prototype.play = function(next)
+		{
+			this.audio.addEventListener('ended', function() { next(); });
+			this.audio.play();
+		};
+
+		n.Audio.prototype.bindToElement = function(el)
+		{
+			throw new Error("n.Audio.bindToElement is not implemented");
+		};
+
+		/* Image resource */
+
+		n.Image = function(url)
+		{
+			this.img = new Image();
+			this.url = url;
+		};
+
+		n.Image.prototype.load = function(next)
+		{
+			console.log('loading', this);
+			this.img.onload = function() { next(); };
+			this.img.onerror = function() { console.log("Could not load ", this.src); };
+			this.img.src = this.url;
+		};
+
+		n.Image.prototype.bindToElement = function(el)
+		{
+			el.src = this.img.src;
+		};
+
+		/* Act */
+
+		n.Act = function(data)
+		{
+			var self = this;
+
+			this.stage = data.stage;
+
+			this.resources = data.resources || {};
+
+			this.setUp = data.setUp || function() {};
+
+			this.tearDown = data.tearDown || function() {};
+
+			// Bind stage to each of the callbacks
+			this.scenes = new Sequence(data.scenes.map(function(scene) {
+				return function(next) {
+					scene.call(self, self.stage, next);
+				};
+			}));
+		};
+
+		n.Act.prototype.get = function(id)
+		{
+			return this.resources[id];
+		};
+
+		n.Act.prototype.bindResources = function()
+		{
+			for (var id in this.resources)
+			{
+				var el = this.stage.querySelector('*[data-resource-id="' + id + '"]');
+				if (el) this.resources[id].bindToElement(el);
+			}
+		};
+
+		n.Act.prototype.load = function(next)
+		{
+			var loading = 0;
+			console.log('loading', this);
+
+			var progress = function() {
+				if (--loading <= 0)
 					next();
+			};
+
+			for (var id in this.resources) {
+				++loading;
+				this.resources[id].load(progress);
+			}
+
+			// In case there are no things to load, this should be called immediately :)
+			progress();
+		};
+
+		n.Act.prototype.play = function(next)
+		{
+			var self = this;
+
+			this.load(function() {
+				self.bindResources(self);
+			
+				self.stage.classList.add('current');
+
+				self.setUp.call(self, self.stage);
+
+				self.scenes.play(function() {
+					self.stage.classList.remove('current');
+					self.tearDown.call(self, self.stage);
+					next();
+				});
+			});
+		};
+
+		var createAct = function(config)
+		{
+			// e.g. talking-dog-elephant-monkey.m4a
+			var conversation = [
+				config.type.substr(0, config.type.indexOf('-')),
+				config.character_1,
+				config.character_2,
+				config.character_3].join('-');
+
+			// e.g. que-car.m4a
+			var audio_que = ['que', config.object].join('-');
+
+			var scenes = [];
+
+			var resources = {
+				'character_1': new n.Image('assets/characters/' + config.character_1 + '.svg'),
+				'character_2': new n.Image('assets/characters/' + config.character_2 + '.svg'),
+				'character_3': new n.Image('assets/characters/' + config.character_3 + '.svg'),
+				'object': new n.Image('assets/objects/' + config.object + '.svg'),
+				'conversation': new n.Audio('assets/audio/' + conversation + '.m4a'),
+				'cue': new n.Audio('assets/audio/' + audio_que + '.m4a')
+			};
+
+			var templates = {
+				character_1_2_come_together: function(stage, next) {
+					stage.classList.add('character-1-2-together');
+					setTimeout(next, 1000);
 				},
-				// Load the conversation on start click (stupid iOS)
-				function(next) {
-					$('start-button').addEventListener('click', function(e) {
-						$('conversation-1-2').load();
+				character_1_2_walk_back: function(stage, next) {
+					stage.classList.remove('character-1-2-together');
+					setTimeout(next, 1000);
+				},
+				character_1_2_wisper: function(stage, next) {
+					stage.classList.add('character-1-2-wisper');
+					this.get('wisper').play(function() {
+						stage.classList.remove('character-1-2-wisper');
 						next();
 					});
 				},
-				// Hide this scene.
-				function(next) {
-					$('login-scene').classList.remove('current');
-					scene1.play();
-					next();
-				}
-			]);
-
-		var scene1 = sequence(
-			[
-				// Show the scene
-				function(next) {
-					$('game-scene').classList.add('current');
-					setTimeout(next, 200);
+				character_1_2_talk: function(stage, next) {
+					stage.classList.add('character-1-2-talk');
+					this.get('conversation').play(function() {
+						stage.classList.remove('character-1-2-talk');
+						next();
+					});
 				},
-				// Characters walk to each other
-				function(next) {
-					$('game-scene').classList.add('character-1-2-talk');
+				character_2_3_come_together: function(stage, next) {
+					stage.classList.add('character-2-3-together');
 					setTimeout(next, 1000);
 				},
-				// Characters start speaking
-				function(next) {
-					var conversation = $('conversation-1-2');
-					conversation.play();
-					conversation.addEventListener('ended', next);
-				},
-				// // Characters finished speaking, baskets appear
-				function(next) {
-					$('game-scene').classList.remove('character-1-2-talk');
-					$('game-scene').classList.add('show-baskets');
+				character_2_3_walk_back: function(stage, next) {
+					stage.classList.remove('character-2-3-together');
 					setTimeout(next, 1000);
 				},
-				// Baskets have appeared, ball appears and is draggable
-				function(next) {
-					ball.classList.add('visible');
-					clickonce(options, function(option) {
-						ball.classList.add('dropped-on-' + option.id);
+				character_2_3_wisper: function(stage, next) {
+					stage.classList.add('character-2-3-wisper');
+					this.get('wisper').play(function() {
+						stage.classList.remove('character-2-3-wisper');
+						next();
+					});
+				},
+				character_2_3_talk: function(stage, next) {
+					stage.classList.add('character-2-3-talk');
+					this.get('conversation').play(function() {
+						stage.classList.remove('character-2-3-talk');
+						next();
+					});
+				},
+				que: function(stage, next) {
+					stage.classList.add('show-baskets');
+					this.get('cue').play(next);
+				},
+				task: function(stage, next) {
+					clickOnce(stage.querySelectorAll('.option'), function(option) {
+						stage.querySelector('.object').classList.add('dropped-on-' + option.id);
 						setTimeout(next, 1000);
 					});
 				},
-				// Ball is dropped in a basket, hide them again
-				function(next) {
-					ball.classList.remove('visible');
-					ball.classList.remove('dropped-on-option-1');
-					ball.classList.remove('dropped-on-option-2');
-					ball.classList.remove('dropped-on-option-3');
-					$('game-scene').classList.remove('show-baskets');
-					setTimeout(scene1.play, 1000);
-				},
+				next_button: function(stage, next) {
+					var btn = stage.querySelector('.next-button');
+					btn.classList.add('visible');
+					clickOnce([btn], next);
+				}
+			};
 
-			]);
+			switch (config.type)
+			{
+				case 'wispering-left':
+					// Wispering acts also need a wisper audio resource
+					resources.wisper = new n.Audio('assets/audio/wispering.m4a');
+
+					scenes = [
+						templates.character_1_2_come_together,
+						templates.character_1_2_wisper,
+						templates.character_1_2_walk_back,
+						templates.character_2_3_come_together,
+						templates.character_2_3_talk,
+						templates.character_2_3_walk_back,
+						templates.que,
+						templates.task,
+						templates.next_button
+					];
+					break;
+			}
+
+			return new n.Act({
+				stage: document.getElementById('game-stage'),
+				resources: resources,
+				scenes: scenes,
+				setUp: function(stage) {
+					stage.classList.add(config.type);
+				},
+				tearDown: function(stage) {
+					stage.classList.remove(config.type);
+				}
+			});
+		};
 		
-		scene0.play();
+		var acts = [];
+
+		// Login act
+		acts.push(new n.Act({
+			stage: document.getElementById('login-stage'),
+			scenes: [
+				// Load the conversation on start click (stupid iOS)
+				function(stage, next) {
+					stage.querySelector('.start-button').addEventListener('click', function(e) {
+						// var loading = 0, done = function() { if (--loading === 0) next(); };
+						// acts.forEach(function(act) { ++loading; act.load(done); });
+						next();
+					});
+				}
+			]
+		}));
+
+		loadConfiguration(function(config) {
+			config.configurations.forEach(function(config) { console.log(config); });
+			config.configurations.map(createAct).forEach(function(act) { acts.push(act); });
+			new Sequence(acts.map(function(act) { console.log(act.play); return act.play.bind(act); })).play();
+		});
 
 		</script>
 	</body>
