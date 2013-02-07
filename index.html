@@ -37,6 +37,10 @@
 
 				<button class="next-button">Ga verder</button>
 			</div>
+
+			<div id="end-stage" class="stage">
+				<p class="done">Klaar!</p>
+			</div>
 		</div>
 		<script src="lib/sequence.js"></script>
 		<script>
@@ -248,7 +252,7 @@
 					stage.classList.remove('object-dropped-on-option-1');
 					stage.classList.remove('object-dropped-on-option-2');
 					stage.classList.remove('object-dropped-on-option-3');
-					next();
+					setTimeout(next, 100);
 				},
 				character_1_2_come_together: function(stage, next) {
 					stage.classList.add('character-1-2-together');
@@ -363,25 +367,37 @@
 			});
 		};
 		
-		var acts = [];
-
-		// Login act
-		acts.push(new n.Act({
-			stage: document.getElementById('login-stage'),
-			scenes: [
-				// Load the conversation on start click (stupid iOS)
-				function(stage, next) {
-					stage.querySelector('.start-button').addEventListener('click', function(e) {
-						// var loading = 0, done = function() { if (--loading === 0) next(); };
-						// acts.forEach(function(act) { ++loading; act.load(done); });
-						next();
-					});
-				}
-			]
-		}));
-
 		loadConfiguration(function(config) {
+			var acts = [];
+
+			// Login act
+			acts.push(new n.Act({
+				stage: document.getElementById('login-stage'),
+				scenes: [
+					// Load the conversation on start click (stupid iOS)
+					function(stage, next) {
+						stage.querySelector('.start-button').addEventListener('click', function(e) {
+							// var loading = 0, done = function() { if (--loading === 0) next(); };
+							// acts.forEach(function(act) { ++loading; act.load(done); });
+							next();
+						});
+					}
+				]
+			}));
+
+			// Game acts
 			config.configurations.map(createAct).forEach(function(act) { acts.push(act); });
+			
+			// Thank you! act
+			acts.push(new n.Act({
+				stage: document.getElementById('end-stage'),
+				scenes: [
+					function(stage, next) {
+						// that's it :)
+					}
+				]
+			}));
+
 			new Sequence(acts.map(function(act) { return act.play.bind(act); })).play();
 		});
 

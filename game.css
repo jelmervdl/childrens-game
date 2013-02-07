@@ -88,7 +88,7 @@ html, body {
 }
 
 .object-dropped-on-option-1 .object {
-	left: 15%;
+	left: 11%;
 }
 
 .object-dropped-on-option-2 .object {
@@ -96,19 +96,25 @@ html, body {
 }
 
 .object-dropped-on-option-3 .object {
-	left: 75%;
+	left: 78%;
 }
 
 /* Scene 0 */
 
 .start-button,
-.next-button {
+.next-button,
+.done {
 	width: 40%;
 	height: 20%;
 	top: 40%;
 	left: 30%;
 	z-index: 10;
 	font-size: 200%;
+}
+
+.done {
+	text-align: center;
+	font: 4em sans-serif;
 }
 
 .next-button {
