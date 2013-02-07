@@ -107,9 +107,7 @@
 
 		n.Audio.prototype.load = function(next)
 		{
-			console.log('loading', this);
 			this.audio.addEventListener('loadeddata', function(e) { next(); });
-			this.audio.addEventListener('error', function(e) { console.log("Could not load ", this.src); });
 			this.audio.load();
 		};
 
@@ -134,9 +132,7 @@
 
 		n.Image.prototype.load = function(next)
 		{
-			console.log('loading', this);
 			this.img.onload = function() { next(); };
-			this.img.onerror = function() { console.log("Could not load ", this.src); };
 			this.img.src = this.url;
 		};
 
@@ -150,6 +146,8 @@
 		n.Act = function(data)
 		{
 			var self = this;
+
+			this.id = data.id || undefined;
 
 			this.stage = data.stage;
 
@@ -183,11 +181,10 @@
 
 		n.Act.prototype.load = function(next)
 		{
-			var loading = 0;
-			console.log('loading', this);
-
+			var loading = 1;
+			
 			var progress = function() {
-				if (--loading <= 0)
+				if (--loading == 0)
 					next();
 			};
 
@@ -206,12 +203,14 @@
 
 			this.load(function() {
 				self.bindResources(self);
-			
+				
+				console.log("adding class current", self);
 				self.stage.classList.add('current');
 
 				self.setUp.call(self, self.stage);
 
 				self.scenes.play(function() {
+					console.log("removing class current", self);
 					self.stage.classList.remove('current');
 					self.tearDown.call(self, self.stage);
 					next();
@@ -246,6 +245,9 @@
 				clear: function(stage, next) {
 					stage.classList.remove('show-object');
 					stage.classList.remove('show-baskets');
+					stage.classList.remove('object-dropped-on-option-1');
+					stage.classList.remove('object-dropped-on-option-2');
+					stage.classList.remove('object-dropped-on-option-3');
 					next();
 				},
 				character_1_2_come_together: function(stage, next) {
@@ -307,7 +309,10 @@
 					// Todo: clean up after task.
 					var btn = stage.querySelector('.next-button');
 					btn.classList.add('visible');
-					clickOnce([btn], next);
+					clickOnce([btn], function() {
+						btn.classList.remove('visible');
+						next();
+					});
 				}
 			};
 
@@ -330,9 +335,22 @@
 						templates.next_button
 					];
 					break;
+
+				case 'talking-left':
+					scenes = [
+						templates.clear,
+						templates.character_1_2_come_together,
+						templates.character_1_2_talk,
+						templates.character_1_2_walk_back,
+						templates.que,
+						templates.task,
+						templates.next_button
+					];
+					break;
 			}
 
 			return new n.Act({
+				id: config.id,
 				stage: document.getElementById('game-stage'),
 				resources: resources,
 				scenes: scenes,
@@ -363,9 +381,8 @@
 		}));
 
 		loadConfiguration(function(config) {
-			config.configurations.forEach(function(config) { console.log(config); });
 			config.configurations.map(createAct).forEach(function(act) { acts.push(act); });
-			new Sequence(acts.map(function(act) { console.log(act.play); return act.play.bind(act); })).play();
+			new Sequence(acts.map(function(act) { return act.play.bind(act); })).play();
 		});
 
 		</script>
