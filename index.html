@@ -356,15 +356,17 @@
 				scenes: scenes,
 				setUp: function(stage) {
 					stage.classList.add(config.type);
+					stage.querySelector('.object').classList.add(config.object);
 
 					for (var i = 1; i <= 3; ++i)
-						stage.querySelector('.character-' + i).classList.add('character-' + config['character_' + i]);
+						stage.querySelector('.character-' + i).classList.add(config['character_' + i]);
 				},
 				tearDown: function(stage) {
 					stage.classList.remove(config.type);
+					stage.querySelector('.object').classList.remove(config.object);
 
 					for (var i = 1; i <= 3; ++i)
-						stage.querySelector('.character-' + i).classList.remove('character-' + config['character_' + i]);
+						stage.querySelector('.character-' + i).classList.remove(config['character_' + i]);
 				}
 			});
 		};
