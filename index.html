@@ -191,13 +191,11 @@
 			this.load(function() {
 				self.bindResources(self);
 				
-				console.log("adding class current", self);
 				self.stage.classList.add('current');
 
 				self.setUp.call(self, self.stage);
 
 				self.scenes.play(function() {
-					console.log("removing class current", self);
 					self.stage.classList.remove('current');
 					self.tearDown.call(self, self.stage);
 					next();
