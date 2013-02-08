@@ -19,21 +19,21 @@
 
 			<div id="game-stage" class="stage">
 				<div id="option-1" class="option option-1">
-					<img data-resource-id="character_1" class="character character-1">
+					<div id="character_1" class="character character-1 character-dog"></div>
 					<img class="basket basket-1" src="assets/basket.svg">
 				</div>
 					
 				<div id="option-2" class="option option-2">
-					<img data-resource-id="character_2" class="character character-2">
+					<div id="character_2" class="character character-2 character-elephant"></div>
 					<img class="basket basket-2" src="assets/basket.svg">
 				</div>
 				
 				<div id="option-3" class="option option-3">
-					<img data-resource-id="character_3" class="character character-3">
+					<div id="character_3" class="character character-3 character-monkey"></div>
 					<img class="basket basket-3" src="assets/basket.svg">
 				</div>
 
-				<img data-resource-id="object" class="object">
+				<div id="object" class="object"></div>
 
 				<button class="next-button">Ga verder</button>
 			</div>
@@ -237,10 +237,6 @@
 			var scenes = [];
 
 			var resources = {
-				'character_1': new n.Image('assets/characters/' + config.character_1 + '.svg'),
-				'character_2': new n.Image('assets/characters/' + config.character_2 + '.svg'),
-				'character_3': new n.Image('assets/characters/' + config.character_3 + '.svg'),
-				'object': new n.Image('assets/objects/' + config.object + '.svg'),
 				'conversation': new n.Audio('assets/audio/' + conversation + '.m4a'),
 				'cue': new n.Audio('assets/audio/' + audio_que + '.m4a')
 			};
@@ -360,9 +356,15 @@
 				scenes: scenes,
 				setUp: function(stage) {
 					stage.classList.add(config.type);
+
+					for (var i = 1; i <= 3; ++i)
+						stage.querySelector('.character-' + i).classList.add('character-' + config['character_' + i]);
 				},
 				tearDown: function(stage) {
 					stage.classList.remove(config.type);
+
+					for (var i = 1; i <= 3; ++i)
+						stage.querySelector('.character-' + i).classList.remove('character-' + config['character_' + i]);
 				}
 			});
 		};

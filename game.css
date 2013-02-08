@@ -46,10 +46,23 @@ html, body {
 
 .character {
 	display: inline-block;
-	max-height: 100%;
-	max-width: 100%;
+	height: 100%;
+	width: 100%;
 	z-index: 2;
 }
+
+.character-dog {
+	background: url(assets/characters/dog-front.svg) center bottom no-repeat;
+}
+
+.character-elephant {
+	background: url(assets/characters/elephant-front.svg) center bottom no-repeat;
+}
+
+.character-monkey {
+	background: url(assets/characters/monkey-front.svg) center bottom no-repeat;
+}
+
 
 .basket {
 	position: absolute;
@@ -156,16 +169,64 @@ html, body {
 	left: 15%;
 }
 
+#game-stage.character-1-2-together .option-1 .character-dog {
+	background-image: url(assets/characters/dog-right.svg);
+}
+
+#game-stage.character-1-2-together .option-1 .character-elephant {
+	background-image: url(assets/characters/elephant-right.svg);
+}
+
+#game-stage.character-1-2-together .option-1 .character-monkey {
+	background-image: url(assets/characters/monkey-right.svg);
+}
+
 #game-stage.character-1-2-together .option-2 {
 	left: 25%;
+}
+
+#game-stage.character-1-2-together .option-2 .character-dog {
+	background-image: url(assets/characters/dog-left.svg);
+}
+
+#game-stage.character-1-2-together .option-2 .character-elephant {
+	background-image: url(assets/characters/elephant-left.svg);
+}
+
+#game-stage.character-1-2-together .option-2 .character-monkey {
+	background-image: url(assets/characters/monkey-left.svg);
 }
 
 #game-stage.character-2-3-together .option-2 {
 	left: 45%;
 }
 
+#game-stage.character-2-3-together .option-2 .character-dog {
+	background-image: url(assets/characters/dog-right.svg);
+}
+
+#game-stage.character-2-3-together .option-2 .character-elephant {
+	background-image: url(assets/characters/elephant-right.svg);
+}
+
+#game-stage.character-2-3-together .option-2 .character-monkey {
+	background-image: url(assets/characters/monkey-right.svg);
+}
+
 #game-stage.character-2-3-together .option-3 {
 	left: 65%;
+}
+
+#game-stage.character-2-3-together .option-3 .character-dog {
+	background-image: url(assets/characters/dog-left.svg);
+}
+
+#game-stage.character-2-3-together .option-3 .character-elephant {
+	background-image: url(assets/characters/elephant-left.svg);
+}
+
+#game-stage.character-2-3-together .option-3 .character-monkey {
+	background-image: url(assets/characters/monkey-left.svg);
 }
 
 /* Animations ftw! */
