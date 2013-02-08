@@ -258,11 +258,13 @@ html, body {
 
 @-webkit-keyframes glow {
 	0% {
-		box-shadow: 0 0 1px #00F;
-		-webkit-box-shadow: 0 0 1px #00F;
+		background: rgba(255, 255, 0, 0);
+		box-shadow: 0 0 1px #FF0;
+		-webkit-box-shadow: 0 0 1px #FF0;
 	}
 	100% {
-		box-shadow: 0 0 25px #00F;
-		-webkit-box-shadow: 0 0 25px #00F;
+		background: rgba(255, 255, 0, 1.0);
+		box-shadow: 0 0 25px #FF0;
+		-webkit-box-shadow: 0 0 25px #FF0;
 	}
 }
