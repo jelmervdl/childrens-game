@@ -52,15 +52,15 @@ html, body {
 	z-index: 2;
 }
 
-.dog {
+.hond {
 	background: url(assets/characters/dog-front.svg) center bottom no-repeat;
 }
 
-.elephant {
+.olifant {
 	background: url(assets/characters/elephant-front.svg) center bottom no-repeat;
 }
 
-.monkey {
+.aap {
 	background: url(assets/characters/monkey-front.svg) center bottom no-repeat;
 }
 
@@ -183,39 +183,39 @@ html, body {
 	left: 25%;
 }
 
-#game-stage.character-1-2-together .option-1 .dog {
+#game-stage.character-1-2-together .option-1 .hond {
 	background-image: url(assets/characters/dog-right.svg);
 }
 
-#game-stage.character-1-2-together .option-1 .elephant {
+#game-stage.character-1-2-together .option-1 .olifant {
 	background-image: url(assets/characters/elephant-right.svg);
 }
 
-#game-stage.character-1-2-together .option-1 .monkey {
+#game-stage.character-1-2-together .option-1 .aap {
 	background-image: url(assets/characters/monkey-right.svg);
 }
 
-#game-stage.character-1-2-together .option-2 .dog {
+#game-stage.character-1-2-together .option-2 .hond {
 	background-image: url(assets/characters/dog-left.svg);
 }
 
-#game-stage.character-1-2-together .option-2 .elephant {
+#game-stage.character-1-2-together .option-2 .olifant {
 	background-image: url(assets/characters/elephant-left.svg);
 }
 
-#game-stage.character-1-2-together .option-2 .monkey {
+#game-stage.character-1-2-together .option-2 .aap {
 	background-image: url(assets/characters/monkey-left.svg);
 }
 
-#game-stage.character-1-2-together .option-3 .dog {
+#game-stage.character-1-2-together .option-3 .hond {
 	background-image: url(assets/characters/dog-right.svg);
 }
 
-#game-stage.character-1-2-together .option-3 .elephant {
+#game-stage.character-1-2-together .option-3 .olifant {
 	background-image: url(assets/characters/elephant-right.svg);
 }
 
-#game-stage.character-1-2-together .option-3 .monkey {
+#game-stage.character-1-2-together .option-3 .aap {
 	background-image: url(assets/characters/monkey-right.svg);
 }
 
@@ -227,39 +227,39 @@ html, body {
 	left: 65%;
 }
 
-#game-stage.character-2-3-together .option-1 .dog {
+#game-stage.character-2-3-together .option-1 .hond {
 	background-image: url(assets/characters/dog-left.svg);
 }
 
-#game-stage.character-2-3-together .option-1 .elephant {
+#game-stage.character-2-3-together .option-1 .olifant {
 	background-image: url(assets/characters/elephant-left.svg);
 }
 
-#game-stage.character-2-3-together .option-1 .monkey {
+#game-stage.character-2-3-together .option-1 .aap {
 	background-image: url(assets/characters/monkey-left.svg);
 }
 
-#game-stage.character-2-3-together .option-2 .dog {
+#game-stage.character-2-3-together .option-2 .hond {
 	background-image: url(assets/characters/dog-right.svg);
 }
 
-#game-stage.character-2-3-together .option-2 .elephant {
+#game-stage.character-2-3-together .option-2 .olifant {
 	background-image: url(assets/characters/elephant-right.svg);
 }
 
-#game-stage.character-2-3-together .option-2 .monkey {
+#game-stage.character-2-3-together .option-2 .aap {
 	background-image: url(assets/characters/monkey-right.svg);
 }
 
-#game-stage.character-2-3-together .option-3 .dog {
+#game-stage.character-2-3-together .option-3 .hond {
 	background-image: url(assets/characters/dog-left.svg);
 }
 
-#game-stage.character-2-3-together .option-3 .elephant {
+#game-stage.character-2-3-together .option-3 .olifant {
 	background-image: url(assets/characters/elephant-left.svg);
 }
 
-#game-stage.character-2-3-together .option-3 .monkey {
+#game-stage.character-2-3-together .option-3 .aap {
 	background-image: url(assets/characters/monkey-left.svg);
 }
 

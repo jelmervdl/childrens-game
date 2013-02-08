@@ -74,27 +74,10 @@
 		};
 
 		var loadConfiguration = function(callback) {
-			callback({
-				"version": 1.0,
-				"configurations": [
-					{
-						"id": "wdem",
-						"type": "wispering-left",
-						"character_1": "dog",
-						"character_2": "elephant",
-						"character_3": "monkey",
-						"object": "spoon"
-					},
-					{
-						"id": "tmed",
-						"type": "talking-left",
-						"character_1": "monkey",
-						"character_2": "elephant",
-						"character_3": "dog",
-						"object": "car"
-					}
-				]
-			});
+			window.callback = callback;
+			var el = document.createElement('script');
+			el.src = 'configuration.json';
+			document.body.appendChild(el);
 		};
 
 		// Today, n is my namespace.
@@ -224,21 +207,11 @@
 
 		var createAct = function(config)
 		{
-			// e.g. talking-dog-elephant-monkey.m4a
-			var conversation = [
-				config.type.substr(0, config.type.indexOf('-')),
-				config.character_1,
-				config.character_2,
-				config.character_3].join('-');
-
-			// e.g. que-car.m4a
-			var audio_que = ['que', config.object].join('-');
-
 			var scenes = [];
 
 			var resources = {
-				'conversation': new n.Audio('assets/audio/' + conversation + '.m4a'),
-				'cue': new n.Audio('assets/audio/' + audio_que + '.m4a')
+				'conversation': new n.Audio('assets/audio/conversations/' + config.audio_file_name + '.wav'),
+				'cue': new n.Audio('assets/audio/cues/' + config.object + '.wav')
 			};
 
 			var templates = {
@@ -316,57 +289,100 @@
 				}
 			};
 
+			scenes.push(templates.clear);
+
 			switch (config.type)
 			{
 				case 'wispering-left':
 					// Wispering acts also need a wisper audio resource
 					resources.wisper = new n.Audio('assets/audio/wispering.m4a');
 
-					scenes = [
-						templates.clear,
+					scenes.push(
 						templates.character_1_2_come_together,
 						templates.character_1_2_wisper,
 						templates.character_1_2_walk_back,
 						templates.character_2_3_come_together,
 						templates.character_2_3_talk,
+						templates.character_2_3_walk_back
+					);
+					break;
+
+				case 'wispering-right':
+					// Wispering acts also need a wisper audio resource
+					resources.wisper = new n.Audio('assets/audio/wispering.m4a');
+
+					scenes.push(
+						templates.character_2_3_come_together,
+						templates.character_2_3_wisper,
 						templates.character_2_3_walk_back,
-						templates.que,
-						templates.task,
-						templates.next_button
-					];
+						templates.character_1_2_come_together,
+						templates.character_1_2_talk,
+						templates.character_1_2_walk_back
+					);
 					break;
 
 				case 'talking-left':
-					scenes = [
-						templates.clear,
+					scenes.push(
 						templates.character_1_2_come_together,
 						templates.character_1_2_talk,
-						templates.character_1_2_walk_back,
-						templates.que,
-						templates.task,
-						templates.next_button
-					];
+						templates.character_1_2_walk_back
+					);
+					break;
+
+				case 'talking-right':
+					scenes.push(
+						templates.character_2_3_come_together,
+						templates.character_2_3_talk,
+						templates.character_2_3_walk_back
+					);
 					break;
 			}
 
+			scenes.push(
+				templates.que,
+				templates.task,
+				templates.next_button);
+
 			return new n.Act({
-				id: config.id,
+				id: config.code,
 				stage: document.getElementById('game-stage'),
 				resources: resources,
 				scenes: scenes,
 				setUp: function(stage) {
 					stage.classList.add(config.type);
 					stage.querySelector('.object').classList.add(config.object);
+					stage.querySelector('.character-2').classList.add(config.speaker);
 
-					for (var i = 1; i <= 3; ++i)
-						stage.querySelector('.character-' + i).classList.add(config['character_' + i]);
+					// Which character is the remaining character?
+					var characters = ['aap', 'hond', 'olifant'];
+					characters.splice(characters.indexOf(config.speaker), 1);
+					characters.splice(characters.indexOf(config.addressee), 1);
+					var spare = characters[0];
+					
+					// Assign character to one of the three options/places
+					switch (config.type) {
+						case 'talking-left':
+						case 'wispering-right':
+							stage.querySelector('.character-1').classList.add(config.addressee);
+							stage.querySelector('.character-3').classList.add(spare);
+							break;
+
+						case 'talking-right':
+						case 'wispering-left':
+							stage.querySelector('.character-1').classList.add(spare);
+							stage.querySelector('.character-3').classList.add(config.addressee);
+							break;
+					}
 				},
 				tearDown: function(stage) {
 					stage.classList.remove(config.type);
 					stage.querySelector('.object').classList.remove(config.object);
 
-					for (var i = 1; i <= 3; ++i)
-						stage.querySelector('.character-' + i).classList.remove(config['character_' + i]);
+					// Remove the characters from the options/places.
+					['aap', 'hond', 'olifant'].forEach(function(character) {
+						for (var i = 1; i <= 3; ++i)
+							stage.querySelector('.character-' + i).classList.remove(character);
+					});
 				}
 			});
 		};
@@ -390,7 +406,7 @@
 			}));
 
 			// Game acts
-			config.configurations.map(createAct).forEach(function(act) { acts.push(act); });
+			config.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
 			
 			// Thank you! act
 			acts.push(new n.Act({
