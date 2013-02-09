@@ -42,6 +42,11 @@
 				<p class="done">Klaar!</p>
 			</div>
 		</div>
+
+		<div id="notification-area" class="notification-area">
+			Mededeling ;)
+		</div>
+
 		<script src="configuration.js"></script>
 		<script src="lib/sequence.js"></script>
 		<script>
@@ -53,6 +58,19 @@
 
 		// Todo: implement offline cache control
 		// see http://blogs.adobe.com/cantrell/archives/2011/11/building-an-offline-mobile-web-application.html
+
+		var Timer = function() 
+		{
+			this.interval = null;
+		};
+
+		Timer.prototype.once = function(callback, delay)
+		{
+			if (this.interval)
+				clearInterval(this.interval);
+
+			this.interval = setTimeout(callback, delay);
+		};
 
 		var $ = function(id) {
 			return document.getElementById(id);
@@ -476,19 +494,39 @@
 		}));
 
 		var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }));
-		main.play();
+		
+		var notify = function(message)
+		{
+			var area = document.getElementById('notification-area');
+
+			area.innerText = message;
+			area.classList.add('visible');
+
+			if (!notify.timer) notify.timer = new Timer();
+			notify.timer.once(function() { area.classList.remove('visible'); }, 2000);
+		};
 
 		function checkForUpdate()
 		{
 			if (window.applicationCache)
 			{
+				window.applicationCache.addEventListener('checking', function(e) {
+					notify('Checking for update…');
+				});
+
+				window.applicationCache.addEventListener('noupdate', function(e) {
+					notify('You have the latest version');
+				})
+
 				window.applicationCache.addEventListener('obsolete', function(e) {
-					alert('Er is een nieuwere versie beschikbaar! Wacht even…');
+					notify('Er is een nieuwere versie beschikbaar! Wacht even…');
 				});
 
 				window.applicationCache.addEventListener('updateready', function(e) {
 					if (window.applicationCache.status != 4)
 						return;
+
+					notify("Updaten…");
 
 					window.applicationCache.swapCache();
 					window.location.reload();
@@ -497,6 +535,8 @@
 		}
 
 		checkForUpdate();
+
+		main.play();
 
 		</script>
 	</body>
