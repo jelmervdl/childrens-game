@@ -189,7 +189,7 @@
 		{
 			var self = this;
 
-			this.load(function() {
+			// this.load(function() {
 				self.bindResources(self);
 					
 				self.stage.classList.add('current');
@@ -201,7 +201,7 @@
 					self.tearDown.call(self, self.stage);
 					next();
 				});
-			});
+			// });
 		};
 
 		var createAct = function(config)
