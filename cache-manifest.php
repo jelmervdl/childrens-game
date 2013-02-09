@@ -6,7 +6,14 @@ $files = array_merge(
 	array('assets/audio/wispering.m4a'),
 	glob('assets/characters/*.svg'),
 	glob('assets/objects/*.png'),
-	array('assets/basket.svg', 'assets/meadow.svg')
+	array(
+		'assets/basket.svg',
+		'assets/meadow.svg'),
+	array(
+		'game.css',
+		'configuration.css',
+		'index.html',
+		'lib/sequence.js')
 );
 
 $latest_change = 0;
@@ -19,10 +26,7 @@ CACHE MANIFEST
 # Version: <?=$latest_change?>
 
 NETWORK:
-index.html
-configuration.js
-game.css
-lib/sequence.js
+report.php
 
 CACHE:
 <?=implode("\n", $files)?>
