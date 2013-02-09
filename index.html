@@ -290,7 +290,7 @@
 			{
 				case 'whispering-left':
 					// Wispering acts also need a whisper audio resource
-					resources.whisper = new n.Audio('assets/audio/whispering.m4a');
+					resources.whisper = new n.Audio('assets/audio/whispering.wav');
 
 					scenes.push(
 						templates.character_1_2_come_together,
@@ -304,7 +304,7 @@
 
 				case 'whispering-right':
 					// Wispering acts also need a whisper audio resource
-					resources.whisper = new n.Audio('assets/audio/whispering.m4a');
+					resources.whisper = new n.Audio('assets/audio/whispering.wav');
 
 					scenes.push(
 						templates.character_2_3_come_together,
@@ -485,6 +485,7 @@
 				window.applicationCache.addEventListener('obsolete', function(e) {
 					alert('Er is een nieuwere versie beschikbaar! Wacht even…');
 				});
+
 				window.applicationCache.addEventListener('updateready', function(e) {
 					if (window.applicationCache.status != 4)
 						return;

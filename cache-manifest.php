@@ -3,7 +3,7 @@
 $files = array_merge(
 	glob('assets/audio/conversations/*.wav'),
 	glob('assets/audio/cues/*.wav'),
-	array('assets/audio/wispering.m4a'),
+	glob('assets/audio/*.wav'),
 	glob('assets/characters/*.svg'),
 	glob('assets/objects/*.png'),
 	array(
