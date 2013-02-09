@@ -17,13 +17,19 @@ $files = array_merge(
 );
 
 $latest_change = 0;
+$cache_size = 0;
 foreach ($files as $file)
+{
 	$latest_change = max(filemtime($file), $latest_change);
+	$cache_size += filesize($file);
+}
 
 header('Content-type: text/cache-manifest');
 ?>
 CACHE MANIFEST
 # Version: <?=$latest_change?>
+
+# Total size: <?=number_format($cache_size / (1024 * 1024), 2)?>MB
 
 NETWORK:
 report.php
