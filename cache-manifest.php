@@ -11,7 +11,7 @@ $files = array_merge(
 		'assets/meadow.svg'),
 	array(
 		'game.css',
-		'configuration.css',
+		'configuration.js',
 		'index.html',
 		'lib/sequence.js')
 );
