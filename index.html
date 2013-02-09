@@ -189,16 +189,18 @@
 		{
 			var self = this;
 
-			self.bindResources(self);
-				
-			self.stage.classList.add('current');
+			this.load(function() {
+				self.bindResources(self);
+					
+				self.stage.classList.add('current');
 
-			self.setUp.call(self, self.stage);
+				self.setUp.call(self, self.stage);
 
-			self.sequence.play(function() {
-				self.stage.classList.remove('current');
-				self.tearDown.call(self, self.stage);
-				next();
+				self.sequence.play(function() {
+					self.stage.classList.remove('current');
+					self.tearDown.call(self, self.stage);
+					next();
+				});
 			});
 		};
 
@@ -392,31 +394,12 @@
 		
 		var acts = [];
 
-		var preloadActs = function(next, update) {
-			var loading = acts.length,
-				progress = function() {
-					if (--loading === 0)
-						next();
-					else
-						update(loading);
-				};
-
-			acts.forEach(function(act) {
-				act.load(progress);
-			});
-		};
-
 		// Login act
 		acts.push(new n.Act({
 			stage: document.getElementById('login-stage'),
 			scenes: [
-				// Load the conversation on start click (stupid iOS)
 				function(stage, next) {
-					clickOnce([stage.querySelector('.start-button')], function() {
-						preloadActs(next, function(loading) {
-							stage.querySelector('.start-button').innerText = loading;
-						});
-					});
+					clickOnce([stage.querySelector('.start-button')], next);
 				}
 			]
 		}));
