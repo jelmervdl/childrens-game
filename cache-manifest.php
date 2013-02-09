@@ -5,7 +5,8 @@ $files = array_merge(
 	glob('assets/audio/cues/*.wav'),
 	array('assets/audio/wispering.m4a'),
 	glob('assets/characters/*.svg'),
-	glob('assets/objects/*.png')
+	glob('assets/objects/*.png'),
+	array('assets/basket.svg', 'assets/meadow.svg')
 );
 
 $latest_change = 0;
@@ -21,6 +22,7 @@ NETWORK:
 index.html
 configuration.js
 game.css
+lib/sequence.js
 
 CACHE:
 <?=implode("\n", $files)?>
