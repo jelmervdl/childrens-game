@@ -17,7 +17,10 @@ html, body {
 
 .clickable {
 	cursor: pointer;
-	-webkit-animation: glow 1s ease-in-out 0 infinite alternate;
+	/*-webkit-animation: glow 1s ease-in-out 0 infinite alternate;*/
+	background: rgba(255, 255, 0, 1.0);
+	box-shadow: 0 0 25px #FF0;
+	-webkit-box-shadow: 0 0 25px #FF0;
 }
 
 .stage {
