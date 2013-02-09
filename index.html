@@ -42,6 +42,7 @@
 				<p class="done">Klaar!</p>
 			</div>
 		</div>
+		<script src="configuration.js"></script>
 		<script src="lib/sequence.js"></script>
 		<script>
 
@@ -71,13 +72,6 @@
 					return false;
 				};
 			});
-		};
-
-		var loadConfiguration = function(callback) {
-			window.callback = callback;
-			var el = document.createElement('script');
-			el.src = 'configuration.json';
-			document.body.appendChild(el);
 		};
 
 		// Today, n is my namespace.
@@ -386,39 +380,34 @@
 			});
 		};
 		
-		loadConfiguration(function(config) {
-			var acts = [];
+		var acts = [];
 
-			// Login act
-			acts.push(new n.Act({
-				stage: document.getElementById('login-stage'),
-				scenes: [
-					// Load the conversation on start click (stupid iOS)
-					function(stage, next) {
-						stage.querySelector('.start-button').addEventListener('click', function(e) {
-							// var loading = 0, done = function() { if (--loading === 0) next(); };
-							// acts.forEach(function(act) { ++loading; act.load(done); });
-							next();
-						});
-					}
-				]
-			}));
+		// Login act
+		acts.push(new n.Act({
+			stage: document.getElementById('login-stage'),
+			scenes: [
+				// Load the conversation on start click (stupid iOS)
+				function(stage, next) {
+					clickOnce([stage.querySelector('.start-button')], next);
+				}
+			]
+		}));
 
-			// Game acts
-			config.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
-			
-			// Thank you! act
-			acts.push(new n.Act({
-				stage: document.getElementById('end-stage'),
-				scenes: [
-					function(stage, next) {
-						// that's it :)
-					}
-				]
-			}));
+		// Game acts
+		configuration.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
+		
+		// Thank you! act
+		acts.push(new n.Act({
+			stage: document.getElementById('end-stage'),
+			scenes: [
+				function(stage, next) {
+					// that's it :)
+				}
+			]
+		}));
 
-			new Sequence(acts.map(function(act) { return act.play.bind(act); })).play();
-		});
+		var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }))
+		main.play();
 
 		</script>
 	</body>

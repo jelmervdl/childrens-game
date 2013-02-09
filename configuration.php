@@ -74,4 +74,4 @@ foreach ($configurations as $section => &$section_configurations)
 	}
 
 header('Content-type: application/json');
-printf('window.callback(%s);', json_encode($configurations));
+printf('window.configuration = %s;', json_encode($configurations));
