@@ -53,18 +53,21 @@ html, body {
 	height: 100%;
 	width: 100%;
 	z-index: 2;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 .hond {
-	background: url(assets/characters/dog-front.svg) center bottom no-repeat;
+	background-image: url(assets/characters/dog-front.svg);
 }
 
 .olifant {
-	background: url(assets/characters/elephant-front.svg) center bottom no-repeat;
+	background-image: url(assets/characters/elephant-front.svg);
 }
 
 .aap {
-	background: url(assets/characters/monkey-front.svg) center bottom no-repeat;
+	background-image: url(assets/characters/monkey-front.svg);
 }
 
 
