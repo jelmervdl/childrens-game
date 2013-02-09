@@ -388,11 +388,13 @@
 		
 		var acts = [];
 
-		var preloadActs = function(next) {
+		var preloadActs = function(next, update) {
 			var loading = acts.length,
 				progress = function() {
 					if (--loading === 0)
 						next();
+					else
+						update(loading);
 				};
 
 			acts.forEach(function(act) {
@@ -407,7 +409,9 @@
 				// Load the conversation on start click (stupid iOS)
 				function(stage, next) {
 					clickOnce([stage.querySelector('.start-button')], function() {
-						preloadActs(next);
+						preloadActs(next, function(loading) {
+							stage.querySelector('.start-button').innerText = loading;
+						});
 					});
 				}
 			]
