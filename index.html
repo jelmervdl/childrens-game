@@ -208,13 +208,8 @@
 			};
 
 			var templates = {
-				clear: function(stage, next) {
-					stage.classList.remove('show-object');
-					stage.classList.remove('show-baskets');
-					stage.classList.remove('object-dropped-on-option-1');
-					stage.classList.remove('object-dropped-on-option-2');
-					stage.classList.remove('object-dropped-on-option-3');
-					setTimeout(next, 100);
+				pause: function(stage, next) {
+					setTimeout(next, 200);
 				},
 				character_1_2_come_together: function(stage, next) {
 					stage.classList.add('character-1-2-together');
@@ -282,7 +277,8 @@
 				}
 			};
 
-			scenes.push(templates.clear);
+			// Start with a little pause to put more focus on the come-together animation
+			scenes.push(templates.pause);
 
 			switch (config.type)
 			{
@@ -368,7 +364,17 @@
 					}
 				},
 				tearDown: function(stage) {
+					// Clear the type
 					stage.classList.remove(config.type);
+
+					// Clear all the scenarios.
+					stage.classList.remove('show-object');
+					stage.classList.remove('show-baskets');
+					stage.classList.remove('object-dropped-on-option-1');
+					stage.classList.remove('object-dropped-on-option-2');
+					stage.classList.remove('object-dropped-on-option-3');
+					
+					// Remove the configured object
 					stage.querySelector('.object').classList.remove(config.object);
 
 					// Remove the characters from the options/places.
