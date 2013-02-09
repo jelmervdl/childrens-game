@@ -412,7 +412,12 @@
 			]
 		}));
 
-		var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }))
+		//var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }))
+		var main = new Sequence(acts.map(function(act) {
+			return function(next) {
+				act.play(next);
+			};
+		}));
 		main.play();
 
 		</script>
