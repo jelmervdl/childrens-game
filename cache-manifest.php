@@ -20,6 +20,7 @@ CACHE MANIFEST
 NETWORK:
 index.html
 configuration.js
+game.css
 
 CACHE:
 <?=implode("\n", $files)?>
