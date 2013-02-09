@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="game.manifest">
+<html manifest="cache-manifest.php">
 	<head>
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -436,6 +436,24 @@
 
 		var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }));
 		main.play();
+
+		function checkForUpdate()
+		{
+			if (window.applicationCache)
+				window.applicationCache.addEventListener('updateready', updateApplication);
+		}
+
+		function updateApplication(event)
+		{
+		    if (window.applicationCache.status != 4)
+		    		return;
+
+			window.applicationCache.removeEventListener('updateready', updateApplication);
+			window.applicationCache.swapCache();
+			window.location.reload();
+		}
+
+		checkForUpdate();
 
 		</script>
 	</body>
