@@ -88,7 +88,11 @@
 
 		n.Audio.prototype.load = function(next)
 		{
-			this.audio.addEventListener('loadeddata', function(e) { next(); });
+			console.log('loading', this.audio.src);
+			this.audio.addEventListener('loadeddata', function(e) { 
+				console.log('finished loading', this.audio.src);
+				next(); 
+			});
 			this.audio.addEventListener('error', function(e) { console.log("n.Audio error", e); });
 			this.audio.load();
 		};
