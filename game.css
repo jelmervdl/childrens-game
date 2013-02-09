@@ -85,6 +85,9 @@ html, body {
 	left: 45%;
 	bottom: -100%;
 	display: none;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
 	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
 }
 
@@ -93,12 +96,76 @@ html, body {
 	bottom: 10%;
 }
 
-.spoon {
-	background: red;
+.auto {
+	background-image: url(assets/objects/auto.png);
 }
 
-.car {
-	background: green;
+.boek {
+	background-image: url(assets/objects/boek.png);
+}
+
+.gitaar {
+	background-image: url(assets/objects/gitaar.png);
+}
+
+.hamer {
+	background-image: url(assets/objects/hamer.png);
+}
+
+.hoed {
+	background-image: url(assets/objects/hoed.png);
+}
+
+.kop {
+	background-image: url(assets/objects/kop.png);
+}
+
+.lepel {
+	background-image: url(assets/objects/lepel.png);
+}
+
+.paraplu {
+	background-image: url(assets/objects/paraplu.png);
+}
+
+.pen {
+	background-image: url(assets/objects/pen.png);
+}
+
+.roos {
+	background-image: url(assets/objects/roos.png);
+}
+
+.schaar {
+	background-image: url(assets/objects/schaar.png);
+}
+
+.sjaal {
+	background-image: url(assets/objects/sjaal.png);
+}
+
+.sleutel {
+	background-image: url(assets/objects/sleutel.png);
+}
+
+.tandenborstel {
+	background-image: url(assets/objects/tandenborstel.png);
+}
+
+.vlag {
+	background-image: url(assets/objects/vlag.png);
+}
+
+.vliegtuig {
+	background-image: url(assets/objects/vliegtuig.png);
+}
+
+.voetbal {
+	background-image: url(assets/objects/voetbal.png);
+}
+
+.zonnebril {
+	background-image: url(assets/objects/zonnebril.png);
 }
 
 .object-dropped-on-option-1 .object,
