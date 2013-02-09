@@ -225,10 +225,10 @@
 					stage.classList.remove('character-1-2-together');
 					setTimeout(next, 1000);
 				},
-				character_1_2_wisper: function(stage, next) {
-					stage.classList.add('character-1-2-wisper');
-					this.get('wisper').play(function() {
-						stage.classList.remove('character-1-2-wisper');
+				character_1_2_whisper: function(stage, next) {
+					stage.classList.add('character-1-2-whisper');
+					this.get('whisper').play(function() {
+						stage.classList.remove('character-1-2-whisper');
 						next();
 					});
 				},
@@ -247,10 +247,10 @@
 					stage.classList.remove('character-2-3-together');
 					setTimeout(next, 1000);
 				},
-				character_2_3_wisper: function(stage, next) {
-					stage.classList.add('character-2-3-wisper');
-					this.get('wisper').play(function() {
-						stage.classList.remove('character-2-3-wisper');
+				character_2_3_whisper: function(stage, next) {
+					stage.classList.add('character-2-3-whisper');
+					this.get('whisper').play(function() {
+						stage.classList.remove('character-2-3-whisper');
 						next();
 					});
 				},
@@ -288,13 +288,13 @@
 
 			switch (config.type)
 			{
-				case 'wispering-left':
-					// Wispering acts also need a wisper audio resource
-					resources.wisper = new n.Audio('assets/audio/wispering.m4a');
+				case 'whispering-left':
+					// Wispering acts also need a whisper audio resource
+					resources.whisper = new n.Audio('assets/audio/whispering.m4a');
 
 					scenes.push(
 						templates.character_1_2_come_together,
-						templates.character_1_2_wisper,
+						templates.character_1_2_whisper,
 						templates.character_1_2_walk_back,
 						templates.character_2_3_come_together,
 						templates.character_2_3_talk,
@@ -302,13 +302,13 @@
 					);
 					break;
 
-				case 'wispering-right':
-					// Wispering acts also need a wisper audio resource
-					resources.wisper = new n.Audio('assets/audio/wispering.m4a');
+				case 'whispering-right':
+					// Wispering acts also need a whisper audio resource
+					resources.whisper = new n.Audio('assets/audio/whispering.m4a');
 
 					scenes.push(
 						templates.character_2_3_come_together,
-						templates.character_2_3_wisper,
+						templates.character_2_3_whisper,
 						templates.character_2_3_walk_back,
 						templates.character_1_2_come_together,
 						templates.character_1_2_talk,
@@ -357,13 +357,13 @@
 					// Assign character to one of the three options/places
 					switch (config.type) {
 						case 'talking-left':
-						case 'wispering-right':
+						case 'whispering-right':
 							stage.querySelector('.character-1').classList.add(config.addressee);
 							stage.querySelector('.character-3').classList.add(spare);
 							break;
 
 						case 'talking-right':
-						case 'wispering-left':
+						case 'whispering-left':
 							stage.querySelector('.character-1').classList.add(spare);
 							stage.querySelector('.character-3').classList.add(config.addressee);
 							break;
@@ -405,8 +405,66 @@
 		}));
 
 		// Game acts
-		configuration.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
-		
+		// configuration.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
+
+		// Test olifant speaking left, right
+		acts.push(createAct({
+			"audio_file_name":"12.olif.jij",
+			"code":"12",
+			"speaker":"olifant",
+			"addressee":"aap",
+			"spatial_position":"addresse (left)",
+			"reported_speaker":"none",
+			"condition":"no-jij",
+			"object":"kop",
+			"correct_recipient_of_object":"aap",
+			"sentence":"Jij krijgt de kop.",
+			"type":"talking-left"
+		}));
+
+		acts.push(createAct({
+			"audio_file_name":"13.olif.hij",
+			"code":"13",
+			"speaker":"olifant",
+			"addressee":"aap",
+			"spatial_position":"addresse (right)",
+			"reported_speaker":"none",
+			"condition":"no-hij",
+			"object":"boek",
+			"correct_recipient_of_object":"hond",
+			"sentence":"Hij krijgt het boek.",
+			"type":"talking-right"
+		}));
+    	
+		// Test dog whispering left, right
+		acts.push(createAct({
+			"audio_file_name":"28.hond.dirjij",
+			"code":"28",
+			"speaker":"hond",
+			"addressee":"olifant",
+			"spatial_position":"addresse (left)",
+			"reported_speaker":"aap",
+			"condition":"dir-jij",
+			"object":"roos",
+			"correct_recipient_of_object":"hond",
+			"sentence":null,
+			"type":"whispering-left"
+		}));
+
+		acts.push(createAct({
+			"audio_file_name":"29.hond.dirhij",
+			"code":"29",
+			"speaker":"hond",
+			"addressee":"olifant",
+			"spatial_position":"addresse (right)",
+			"reported_speaker":"aap",
+			"condition":"dir-hij",
+			"object":"auto",
+			"correct_recipient_of_object":"olifant",
+			"sentence":null,
+			"type":"whispering-right"
+		}));
+
 		// Thank you! act
 		acts.push(new n.Act({
 			stage: document.getElementById('end-stage'),

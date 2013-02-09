@@ -336,6 +336,22 @@ html, body {
 	background-image: url(assets/characters/monkey-left.svg);
 }
 
+.character-1-2-talk .option-2 .olifant {
+	-webkit-animation: elephant-left-speaking .4s linear 0 infinite;
+}
+
+.character-2-3-talk .option-2 .olifant {
+	-webkit-animation: elephant-right-speaking .4s linear 0 infinite;
+}
+
+.character-1-2-whisper .option-2 .hond {
+	background-image: url(assets/characters/dog-left-whispering.svg);
+}
+
+.character-2-3-whisper .option-2 .hond {
+	background-image: url(assets/characters/dog-right-whispering.svg);
+}
+
 /* Animations ftw! */
 
 @-webkit-keyframes move-into-basket {
@@ -369,5 +385,23 @@ html, body {
 		background: rgba(255, 255, 0, 1.0);
 		box-shadow: 0 0 25px #FF0;
 		-webkit-box-shadow: 0 0 25px #FF0;
+	}
+}
+
+@-webkit-keyframes elephant-left-speaking {
+	0% {
+		background-image: url(assets/characters/elephant-left-speaking-1.svg);
+	}
+	50% {
+		background-image: url(assets/characters/elephant-left-speaking-2.svg);	
+	}
+}
+
+@-webkit-keyframes elephant-right-speaking {
+	0% {
+		background-image: url(assets/characters/elephant-right-speaking-1.svg);
+	}
+	50% {
+		background-image: url(assets/characters/elephant-right-speaking-2.svg);	
 	}
 }
