@@ -28,7 +28,7 @@ function parse_spatial_position($spatial_position, $section)
 		return 'talking-' . $match[1];
 }
 
-$f = fopen('./configurations.csv', 'r');
+$f = fopen('./configuration.csv', 'r');
 
 $headers = fgetcsv($f);
 
