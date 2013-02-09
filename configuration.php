@@ -57,6 +57,7 @@ while ($row = fgetcsv($f))
 	// Actual data
 	else
 	{
+		$row = array_map('trim', $row);
 		$configurations[$current][] = array_combine($headers, $row);
 	}
 }
@@ -70,7 +71,7 @@ foreach ($configurations as $section => &$section_configurations)
 	foreach ($section_configurations as &$configuration)
 	{
 		$configuration['type'] = parse_spatial_position($configuration['spatial_position'], $section);
-		$configuration['object'] = preg_replace('/^de\s+/', '', $configuration['object']);
+		$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
 	}
 
 header('Content-type: application/json');
