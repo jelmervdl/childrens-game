@@ -86,12 +86,12 @@ html, body {
 
 .object {
 	z-index: 4;
-	width: 10em;
-	height: 10em;
+	width: 10%;
+	height: 30%; /* Enough space so the width determines the real height */
 	left: 45%;
 	bottom: -100%;
 	display: none;
-	background-position: center center;
+	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-size: contain;
 	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
@@ -184,15 +184,15 @@ html, body {
 }
 
 .object-dropped-on-option-1 .object {
-	left: 11%;
+	left: 13%;
 }
 
 .object-dropped-on-option-2 .object {
-	left: 45%;
+	left: 49%;
 }
 
 .object-dropped-on-option-3 .object {
-	left: 78%;
+	left: 81%;
 }
 
 /* Scene 0 */
@@ -244,8 +244,8 @@ html, body {
 .character-1-2-together .option-2,
 .character-2-3-together .option-2,
 .character-2-3-together .option-3 {
+	height: 70%;
 	bottom: 20%;
-	width: 30%;
 }
 
 .character-1-2-together .option-1 {
@@ -339,7 +339,11 @@ html, body {
 /* Animations ftw! */
 
 @-webkit-keyframes move-into-basket {
+	50% {
+		width: 9%;
+	}
 	75% {
+		width: 8%;
 		bottom: 60%;
 		z-index: 4; 
 		-webkit-filter: drop-shadow(5px 5px 25px #000);
@@ -348,6 +352,7 @@ html, body {
 		z-index: 2;
 	} /* Make sure it moves in front of it upwards, and in the back of it downwards */
 	100% {
+		width: 7%;
 		bottom: 36%;
 		z-index: 2;
 		-webkit-filter: drop-shadow(0 0 0 #000);
