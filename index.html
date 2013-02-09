@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html manifest="game.manifest">
 	<head>
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -90,7 +90,7 @@
 		{
 			console.log('loading', this.audio.src);
 			this.audio.addEventListener('loadeddata', function(e) { 
-				console.log('finished loading', this.audio.src);
+				console.log('finished loading', e.srcElement.src);
 				next(); 
 			});
 			this.audio.addEventListener('error', function(e) { console.log("n.Audio error", e); });
