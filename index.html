@@ -140,7 +140,9 @@
 			this.tearDown = data.tearDown || function() {};
 
 			// Bind stage to each of the callbacks
-			this.scenes = new Sequence(data.scenes.map(function(scene) {
+			this.scenes = data.scenes;
+
+			this.sequence = new Sequence(data.scenes.map(function(scene) {
 				return function(next) {
 					scene.call(self, self.stage, next);
 				};
@@ -190,7 +192,7 @@
 
 				self.setUp.call(self, self.stage);
 
-				self.scenes.play(function() {
+				self.sequence.play(function() {
 					self.stage.classList.remove('current');
 					self.tearDown.call(self, self.stage);
 					next();
