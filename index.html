@@ -88,20 +88,42 @@
 			return document.getElementById(id);
 		};
 
-		var clickOnce = function(elements, callback) {
-			Array.prototype.forEach.call(elements, function(element) {
-				element.classList.add('clickable');
-				element.onclick = function() {
-					for (var j = 0; j < elements.length; ++j) {
-						elements[j].classList.remove('clickable');
-						elements[j].onclick = null;
-					}
+		var clickOnce = function(elements, callback)
+		{
+			var listener = function(e) {
+				removeListeners();
+				e.preventDefault();
+				callback(e.target);
+			};
 
-					callback(element);
-					
-					return false;
+			var listeners = Array.prototype.map.call(elements, function(element) {
+				return {
+					element: element,
+					callback: function(e) {
+						e.preventDefault();
+						removeListeners();
+						callback(element);
+					}
 				};
 			});
+
+			var addListeners = function() {
+				listeners.forEach(function(listener) {
+					listener.element.classList.add('clickable');
+					listener.element.addEventListener('touchend', listener.callback, false);
+					listener.element.addEventListener('click', listener.callback, false);
+				});
+			};
+
+			var removeListeners = function() {
+				listeners.forEach(function(listener) {
+					listener.element.classList.remove('clickable');
+					listener.element.removeEventListener('touchend', listener.callback, false);
+					listener.element.removeEventListener('click', listener.callback, false);
+				});
+			}
+
+			addListeners();
 		};
 
 		// Today, n is my namespace.
