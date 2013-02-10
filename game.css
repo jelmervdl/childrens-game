@@ -74,7 +74,7 @@ html, body {
 	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-size: contain;
-	-webkit-transition: bottom .5s ease-in-out, height .5s ease-in-out;
+	-webkit-transition: bottom .5s ease-in-out, height .5s ease-in-out, background-position .5s ease-in-out;
 }
 
 .option-1,
@@ -162,6 +162,7 @@ html, body {
 	background-repeat: no-repeat;
 	background-size: contain;
 	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
+	pointer-events: none;
 }
 
 .show-object .object {
@@ -309,11 +310,16 @@ html, body {
 	background-image: url(assets/characters/monkey_front.svg);
 }
 
-.character-1-2-together .option-1,
-.character-1-2-together .option-3,
-.character-2-3-together .option-2 {
+.character-1-2-together .option-1 .character,
+.character-1-2-together .option-3 .character,
+.character-2-3-together .option-2 .character {
 	-webkit-transform: scaleX(-1);
 	transform: scaleX(-1);
+}
+
+.character-1-2-together .character,
+.character-2-3-together .character {
+	background-position: left bottom;
 }
 
 .character-1-2-together .hond,
