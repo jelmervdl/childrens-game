@@ -59,50 +59,100 @@ html, body {
 	position: absolute;
 	z-index: 1;
 	width: 20%;
-	height: 60%;
-	bottom: 35%;
+	height: 70%;
+	bottom: 25%;
 	-webkit-transition: bottom .5s ease-in-out, left .5s ease-in-out;
-	text-align: center;
 }
 
 .character {
-	display: inline-block;
-	height: 100%;
+	display: block;
+	position: absolute;
+	bottom: 10%;
+	height: 90%;
 	width: 100%;
 	z-index: 2;
 	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-size: contain;
+	-webkit-transition: bottom .5s ease-in-out, height .5s ease-in-out;
 }
 
-.hond {
-	background-image: url(assets/characters/dog_front.svg);
+.option-1,
+.basket-1 {
+	left: 6%;
 }
 
-.olifant {
-	background-image: url(assets/characters/elephant_front.svg);
+.option-2,
+.basket-2 {
+	left: 40%;
 }
 
-.aap {
-	background-image: url(assets/characters/monkey_front.svg);
+.option-3,
+.basket-3 {
+	left: 73%;
 }
 
-
-.basket {
-	position: absolute;
-	z-index: 3;
-	left: 0;
-	width: 100%;
-	bottom: -150%;
-	-webkit-transition: bottom .5s ease-in-out;
-}
-
-.show-baskets .basket {
+.character-1-2-together .option-1 .character,
+.character-1-2-together .option-2 .character,
+.character-2-3-together .option-2 .character,
+.character-2-3-together .option-3 .character {
+	height: 100%;
 	bottom: 0;
 }
 
+.character-1-2-together .option-1 {
+	left: 15%;
+}
+
+.character-1-2-together .option-2 {
+	left: 25%;
+}
+
+.character-2-3-together .option-2 {
+	left: 45%;
+}
+
+.character-2-3-together .option-3 {
+	left: 65%;
+}
+
+.basket {
+	position: absolute;
+	width: 20%;
+	height: 55%;
+	bottom: -150%;
+	-webkit-transition: bottom .5s ease-in-out;
+	pointer-events: none;
+}
+
+.show-baskets .basket {
+	bottom: 30%;
+}
+
+.basket-front,
+.basket-back {
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 60%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 20%;
+}
+
+.basket-front {
+	z-index: 5;
+	background-image: url(assets/basket_front.svg);
+}
+
+.basket-back {
+	z-index: 3;
+	background-image: url(assets/basket_back.svg);
+}
+
 .object {
-	z-index: 4;
+	z-index: 6;
 	width: 10%;
 	height: 30%; /* Enough space so the width determines the real height */
 	left: 45%;
@@ -245,40 +295,18 @@ html, body {
 	background-position: center bottom;
 }
 
-.option-1 {
-	left: 6%;
+/* Standing */
+
+.hond {
+	background-image: url(assets/characters/dog_front.svg);
 }
 
-.option-2 {
-	left: 40%;
+.olifant {
+	background-image: url(assets/characters/elephant_front.svg);
 }
 
-.option-3 {
-	left: 73%;
-}
-
-.character-1-2-together .option-1,
-.character-1-2-together .option-2,
-.character-2-3-together .option-2,
-.character-2-3-together .option-3 {
-	height: 70%;
-	bottom: 20%;
-}
-
-.character-1-2-together .option-1 {
-	left: 15%;
-}
-
-.character-1-2-together .option-2 {
-	left: 25%;
-}
-
-.character-2-3-together .option-2 {
-	left: 45%;
-}
-
-.character-2-3-together .option-3 {
-	left: 65%;
+.aap {
+	background-image: url(assets/characters/monkey_front.svg);
 }
 
 .character-1-2-together .option-1,
@@ -287,8 +315,6 @@ html, body {
 	-webkit-transform: scaleX(-1);
 	transform: scaleX(-1);
 }
-
-/* Staning */
 
 .character-1-2-together .hond,
 .character-2-3-together .hond {
@@ -348,16 +374,16 @@ html, body {
 	75% {
 		width: 8%;
 		bottom: 60%;
-		z-index: 4; 
+		z-index: 6; 
 		-webkit-filter: drop-shadow(5px 5px 25px #000);
 	}
 	76% {
-		z-index: 2;
+		z-index: 4;
 	} /* Make sure it moves in front of it upwards, and in the back of it downwards */
 	100% {
 		width: 7%;
 		bottom: 36%;
-		z-index: 2;
+		z-index: 4;
 		-webkit-filter: drop-shadow(0 0 0 #000);
 	}
 }
