@@ -374,14 +374,14 @@
 					
 					// Assign character to one of the three options/places
 					switch (config.type) {
-						case 'talking-left':
 						case 'whispering-right':
+						case 'talking-left':
 							stage.querySelector('.character-1').classList.add(config.addressee);
 							stage.querySelector('.character-3').classList.add(spare);
 							break;
 
-						case 'talking-right':
 						case 'whispering-left':
+						case 'talking-right':
 							stage.querySelector('.character-1').classList.add(spare);
 							stage.querySelector('.character-3').classList.add(config.addressee);
 							break;
