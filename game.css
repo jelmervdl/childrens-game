@@ -341,17 +341,17 @@ html, body {
 
 .character-1-2-talk .option-2 .hond,
 .character-2-3-talk .option-2 .hond {
-	-webkit-animation: dog-speaking .4s linear 0 infinite;
+	-webkit-animation: dog-speaking .4s steps(1, end) 0 infinite;
 }
 
 .character-1-2-talk .option-2 .olifant,
 .character-2-3-talk .option-2 .olifant {
-	-webkit-animation: elephant-speaking .4s linear 0 infinite;
+	-webkit-animation: elephant-speaking .4s steps(1, end) 0 infinite;
 }
 
 .character-2-3-talk .option-2 .aap,
 .character-2-3-talk .option-2 .aap {
-	-webkit-animation: monkey-speaking .4s linear 0 infinite;
+	-webkit-animation: monkey-speaking .4s steps(1, end) 0 infinite;
 }
 
 /* Whispering */
