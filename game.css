@@ -197,7 +197,7 @@ html, body {
 }
 
 .hoed {
-	background-image: url(assets/objects/hoed.png);
+	background-image: url(assets/objects/hoed.svg);
 }
 
 .kop {
@@ -209,7 +209,7 @@ html, body {
 }
 
 .paraplu {
-	background-image: url(assets/objects/paraplu.png);
+	background-image: url(assets/objects/paraplu.svg);
 }
 
 .pen {
