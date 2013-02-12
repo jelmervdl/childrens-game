@@ -118,12 +118,15 @@ html, body {
 
 .character-1-2-whisper .option-1 {
 	left: 20%;
+}
+
+.character-1-2-whisper .option-2,
+.character-2-3-whisper .option-2 {
 	z-index: 3;
 }
 
 .character-2-3-whisper .option-3 {
-	left: 60%;
-	z-index: 3;
+	left: 55%;
 }
 
 .basket {
