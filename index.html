@@ -241,19 +241,17 @@
 		{
 			var self = this;
 
-			// this.load(function() {
-				self.bindResources(self);
+			self.bindResources(self);
 					
-				self.stage.classList.add('current');
+			self.stage.classList.add('current');
 
-				self.setUp.call(self, self.stage);
+			self.setUp.call(self, self.stage);
 
-				self.sequence.play(function() {
-					self.stage.classList.remove('current');
-					self.tearDown.call(self, self.stage);
-					next();
-				});
-			// });
+			self.sequence.play(function() {
+				self.stage.classList.remove('current');
+				self.tearDown.call(self, self.stage);
+				next();
+			});
 		};
 
 		var createAct = function(config)
@@ -269,13 +267,17 @@
 				pause: function(stage, next) {
 					setTimeout(next, 200);
 				},
+				show_object: function(stage, next) {
+					stage.classList.add('show-object');
+					next();
+				},
 				character_1_2_come_together: function(stage, next) {
 					stage.classList.add('character-1-2-together');
 					setTimeout(next, 1000);
 				},
 				character_1_2_walk_back: function(stage, next) {
 					stage.classList.remove('character-1-2-together');
-					setTimeout(next, 1000);
+					next();
 				},
 				character_1_2_whisper: function(stage, next) {
 					stage.classList.add('character-1-2-whisper');
@@ -297,7 +299,7 @@
 				},
 				character_2_3_walk_back: function(stage, next) {
 					stage.classList.remove('character-2-3-together');
-					setTimeout(next, 1000);
+					next();
 				},
 				character_2_3_whisper: function(stage, next) {
 					stage.classList.add('character-2-3-whisper');
@@ -315,14 +317,15 @@
 				},
 				que: function(stage, next) {
 					stage.classList.add('show-baskets');
-					this.get('cue').play(next);
+					this.get('cue').play();
+					setTimeout(next, 500); // about 500 ms after the speaking.
 				},
 				task: function(stage, next) {
-					stage.classList.add('show-object');
 					clickOnce(stage.querySelectorAll('.option'), function(option) {
 						stage.classList.add('object-dropped-on-' + option.id);
 						setTimeout(next, 1000);
 					});
+					// after 30 seconds, also show a "opnieuw" button to repeat the previous scene
 				},
 				next_button: function(stage, next) {
 					// Todo: clean up after task.
@@ -335,8 +338,11 @@
 				}
 			};
 
-			// Start with a little pause to put more focus on the come-together animation
-			scenes.push(templates.pause);
+			// Start with a little pause to put more focus on the come-together animation,
+			// and then show the object.
+			scenes.push(
+				templates.show_object,
+				templates.pause);
 
 			switch (config.type)
 			{
