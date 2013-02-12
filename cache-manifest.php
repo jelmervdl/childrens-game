@@ -6,6 +6,7 @@ $files = array_merge(
 	glob('assets/audio/*.wav'),
 	glob('assets/characters/*.svg'),
 	glob('assets/objects/*.png'),
+	glob('assets/objects/*.svg'),
 	glob('assets/*.svg'),
 	array(
 		'game.css',
