@@ -462,6 +462,20 @@
 			]
 		}));
 
+		// "Nu gaan we naar het volgende level:""
+		acts.push(new n.Act({
+			id: 'instruction-2',
+			stage: document.getElementById('game-stage'),
+			resources: {
+				'instruction': new n.Audio('assets/audio/instructions/instruction2.wav')
+			},
+			scenes: [
+				function(stage, next) {
+					this.get('instruction').play(next);
+				}
+			]
+		}));
+
 		// Game acts
 		// configuration.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
 
@@ -492,6 +506,20 @@
 			"correct_recipient_of_object":"hond",
 			"sentence":"Hij krijgt het boek.",
 			"type":"talking-right"
+		}));
+
+		// "Nu gaat het een klein beetje anders"
+		acts.push(new n.Act({
+			id: 'instruction-3',
+			stage: document.getElementById('game-stage'),
+			resources: {
+				'instruction': new n.Audio('assets/audio/instructions/instruction3.wav')
+			},
+			scenes: [
+				function(stage, next) {
+					this.get('instruction').play(next);
+				}
+			]
 		}));
     	
 		// Test dog whispering left, right
