@@ -202,9 +202,12 @@
 
 			this.sequence = new Sequence(data.scenes.map(function(scene) {
 				return function(next) {
+					self.resetTimers();
 					scene.call(self, self.stage, next);
 				};
 			}));
+
+			this.timers = [];
 		};
 
 		n.Act.prototype.get = function(id)
@@ -239,6 +242,17 @@
 			progress();
 		};
 
+		n.Act.prototype.resetTimers = function()
+		{
+			this.timers.forEach(clearTimeout);
+			this.timers = [];
+		};
+
+		n.Act.prototype.setTimeout = function(callback, delay)
+		{
+			this.timers.push(setTimeout(callback, delay));
+		};
+
 		n.Act.prototype.play = function(next)
 		{
 			var self = this;
@@ -256,6 +270,85 @@
 			});
 		};
 
+		var templates = {
+			pause: function(stage, next) {
+				setTimeout(next, 200);
+			},
+			show_object: function(stage, next) {
+				stage.classList.add('show-object');
+				next();
+			},
+			character_1_2_come_together: function(stage, next) {
+				stage.classList.add('character-1-2-together');
+				setTimeout(next, 1000);
+			},
+			character_1_2_walk_back: function(stage, next) {
+				stage.classList.remove('character-1-2-together');
+				next();
+			},
+			character_1_2_whisper: function(stage, next) {
+				stage.classList.add('character-1-2-whisper');
+				this.get('whisper').play(function() {
+					stage.classList.remove('character-1-2-whisper');
+					next();
+				});
+			},
+			character_1_2_talk: function(stage, next) {
+				stage.classList.add('character-1-2-talk');
+				this.get('conversation').play(function() {
+					stage.classList.remove('character-1-2-talk');
+					next();
+				});
+			},
+			character_2_3_come_together: function(stage, next) {
+				stage.classList.add('character-2-3-together');
+				setTimeout(next, 1000);
+			},
+			character_2_3_walk_back: function(stage, next) {
+				stage.classList.remove('character-2-3-together');
+				next();
+			},
+			character_2_3_whisper: function(stage, next) {
+				stage.classList.add('character-2-3-whisper');
+				this.get('whisper').play(function() {
+					stage.classList.remove('character-2-3-whisper');
+					next();
+				});
+			},
+			character_2_3_talk: function(stage, next) {
+				stage.classList.add('character-2-3-talk');
+				this.get('conversation').play(function() {
+					stage.classList.remove('character-2-3-talk');
+					next();
+				});
+			},
+			que: function(stage, next) {
+				stage.classList.add('show-baskets');
+				this.get('cue').play();
+				setTimeout(next, 500); // about 500 ms after the speaking.
+			},
+			task: function(stage, next) {
+				clickOnce(stage.querySelectorAll('.option'), function(option) {
+					stage.classList.add('object-dropped-on-' + option.id);
+					setTimeout(next, 1000);
+				});
+
+				// after 30 seconds, also show a "opnieuw" button to repeat the previous scene
+				this.setTimeout(function() {
+					alert('hoi!');
+				}, 5000);
+			},
+			next_button: function(stage, next) {
+				// Todo: clean up after task.
+				var btn = stage.querySelector('.next-button');
+				btn.classList.add('visible');
+				clickOnce([btn], function() {
+					btn.classList.remove('visible');
+					next();
+				});
+			}
+		};
+
 		var createAct = function(config)
 		{
 			var scenes = [];
@@ -263,81 +356,6 @@
 			var resources = {
 				'conversation': new n.Audio('assets/audio/conversations/' + config.audio_file_name + '.wav'),
 				'cue': new n.Audio('assets/audio/cues/' + config.object + '.wav')
-			};
-
-			var templates = {
-				pause: function(stage, next) {
-					setTimeout(next, 200);
-				},
-				show_object: function(stage, next) {
-					stage.classList.add('show-object');
-					next();
-				},
-				character_1_2_come_together: function(stage, next) {
-					stage.classList.add('character-1-2-together');
-					setTimeout(next, 1000);
-				},
-				character_1_2_walk_back: function(stage, next) {
-					stage.classList.remove('character-1-2-together');
-					next();
-				},
-				character_1_2_whisper: function(stage, next) {
-					stage.classList.add('character-1-2-whisper');
-					this.get('whisper').play(function() {
-						stage.classList.remove('character-1-2-whisper');
-						next();
-					});
-				},
-				character_1_2_talk: function(stage, next) {
-					stage.classList.add('character-1-2-talk');
-					this.get('conversation').play(function() {
-						stage.classList.remove('character-1-2-talk');
-						next();
-					});
-				},
-				character_2_3_come_together: function(stage, next) {
-					stage.classList.add('character-2-3-together');
-					setTimeout(next, 1000);
-				},
-				character_2_3_walk_back: function(stage, next) {
-					stage.classList.remove('character-2-3-together');
-					next();
-				},
-				character_2_3_whisper: function(stage, next) {
-					stage.classList.add('character-2-3-whisper');
-					this.get('whisper').play(function() {
-						stage.classList.remove('character-2-3-whisper');
-						next();
-					});
-				},
-				character_2_3_talk: function(stage, next) {
-					stage.classList.add('character-2-3-talk');
-					this.get('conversation').play(function() {
-						stage.classList.remove('character-2-3-talk');
-						next();
-					});
-				},
-				que: function(stage, next) {
-					stage.classList.add('show-baskets');
-					this.get('cue').play();
-					setTimeout(next, 500); // about 500 ms after the speaking.
-				},
-				task: function(stage, next) {
-					clickOnce(stage.querySelectorAll('.option'), function(option) {
-						stage.classList.add('object-dropped-on-' + option.id);
-						setTimeout(next, 1000);
-					});
-					// after 30 seconds, also show a "opnieuw" button to repeat the previous scene
-				},
-				next_button: function(stage, next) {
-					// Todo: clean up after task.
-					var btn = stage.querySelector('.next-button');
-					btn.classList.add('visible');
-					clickOnce([btn], function() {
-						btn.classList.remove('visible');
-						next();
-					});
-				}
 			};
 
 			// Start with a little pause to put more focus on the come-together animation,
