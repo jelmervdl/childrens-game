@@ -35,9 +35,9 @@ html, body {
 .clickable {
 	cursor: pointer;
 	/*-webkit-animation: glow 1s ease-in-out 0 infinite alternate;*/
-	background: rgb(255, 235, 0);
-	box-shadow: 0 0 25px rgb(255, 235, 0);
-	-webkit-box-shadow: 0 0 25px rgb(255, 235, 0);
+	background: #FF0;
+	box-shadow: 0 0 25px #FF0;
+	-webkit-box-shadow: 0 0 25px #FF0;
 }
 
 .stage {
@@ -303,7 +303,8 @@ html, body {
 
 #game-stage {
 	background: #FFF7E7 url(assets/meadow.svg) repeat-x;
-	background-position: center bottom;
+	background-position: center 80%;
+	background-size: cover;
 }
 
 /* Standing */
@@ -406,14 +407,12 @@ html, body {
 
 @-webkit-keyframes glow {
 	0% {
-		background: rgba(255, 255, 0, 0);
-		box-shadow: 0 0 1px #FF0;
-		-webkit-box-shadow: 0 0 1px #FF0;
+		box-shadow: 0 0 1px #FFCE0D;
+		-webkit-box-shadow: 0 0 1px #FFCE0D;
 	}
 	100% {
-		background: rgba(255, 255, 0, 1.0);
-		box-shadow: 0 0 25px #FF0;
-		-webkit-box-shadow: 0 0 25px #FF0;
+		box-shadow: 0 0 25px #FFCE0D;
+		-webkit-box-shadow: 0 0 25px #FFCE0D;
 	}
 }
 
