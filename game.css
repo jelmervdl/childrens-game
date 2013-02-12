@@ -35,9 +35,9 @@ html, body {
 .clickable {
 	cursor: pointer;
 	/*-webkit-animation: glow 1s ease-in-out 0 infinite alternate;*/
-	background: #FF0;
-	box-shadow: 0 0 25px #FF0;
-	-webkit-box-shadow: 0 0 25px #FF0;
+	background: rgb(255, 235, 0);
+	box-shadow: 0 0 25px rgb(255, 235, 0);
+	-webkit-box-shadow: 0 0 25px rgb(255, 235, 0);
 }
 
 .stage {
@@ -105,7 +105,7 @@ html, body {
 }
 
 .character-1-2-together .option-2 {
-	left: 25%;
+	left: 30%;
 }
 
 .character-2-3-together .option-2 {
@@ -114,6 +114,16 @@ html, body {
 
 .character-2-3-together .option-3 {
 	left: 65%;
+}
+
+.character-1-2-whisper .option-1 {
+	left: 20%;
+	z-index: 3;
+}
+
+.character-2-3-whisper .option-3 {
+	left: 60%;
+	z-index: 3;
 }
 
 .basket {
