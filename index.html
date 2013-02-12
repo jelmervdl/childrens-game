@@ -660,10 +660,28 @@
 					window.location.reload();
 				});
 			}
-		}
+		};
 
+		function preloadImages()
+		{
+			var animals = ['dog', 'elephant', 'monkey'],
+				poses = ['front', 'front_speaking_a', 'front_speaking_b', 'walking', 'whispering'];
+
+			animals.forEach(function(animal) {
+				poses.forEach(function(pose) {
+					var image = new Image();
+					image.src = 'assets/characters/' + animal + '_' + pose + '.svg';
+				});
+			});
+		};
+
+		// Force an update of the manifest file
 		checkForUpdate();
 
+		// Load the images at least once to reduce flickering
+		preloadImages();
+
+		// Play the opening act!
 		main.play();
 
 		</script>
