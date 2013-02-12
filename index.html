@@ -151,7 +151,9 @@
 
 		n.Audio.prototype.play = function(next)
 		{
-			this.audio.addEventListener('ended', function() { next(); });
+			if (next)
+				this.audio.addEventListener('ended', function() { next(); });
+			
 			this.audio.play();
 		};
 
