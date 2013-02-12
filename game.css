@@ -298,7 +298,20 @@ html, body {
 	display: none;
 }
 
-.next-button.visible {
+.next-button.clickable {
+	display: block;
+}
+
+.replay-button {
+    bottom: 1%;
+    left: 1%;
+    width: 20%;
+    height: 10%;
+    font-size: 150%;
+    display: none;
+}
+
+.replay-button.clickable {
 	display: block;
 }
 

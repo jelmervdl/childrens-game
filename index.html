@@ -50,6 +50,7 @@
 				<div id="object" class="object"></div>
 
 				<button class="next-button">Ga verder</button>
+				<button class="replay-button">Opnieuw</button>
 			</div>
 
 			<div id="end-stage" class="stage">
@@ -121,9 +122,13 @@
 					listener.element.removeEventListener('touchend', listener.callback, false);
 					listener.element.removeEventListener('click', listener.callback, false);
 				});
+
+				listeners = []; // To make sure you can only call removeListeners effectively once.
 			}
 
 			addListeners();
+
+			return removeListeners;
 		};
 
 		// Today, n is my namespace.
@@ -153,7 +158,7 @@
 		{
 			if (next)
 				this.audio.addEventListener('ended', function() { next(); });
-			
+
 			this.audio.play();
 		};
 
@@ -202,12 +207,14 @@
 
 			this.sequence = new Sequence(data.scenes.map(function(scene) {
 				return function(next) {
-					self.resetTimers();
+					self.resetStage();
 					scene.call(self, self.stage, next);
 				};
 			}));
 
-			this.timers = [];
+			this.bookmarks = {};
+
+			this.sceneDestructors = [];
 		};
 
 		n.Act.prototype.get = function(id)
@@ -242,35 +249,68 @@
 			progress();
 		};
 
-		n.Act.prototype.resetTimers = function()
+		n.Act.prototype.resetStage = function()
 		{
-			this.timers.forEach(clearTimeout);
-			this.timers = [];
+			this.sceneDestructors.forEach(function(destructor) {
+				destructor();
+			});
+
+			this.sceneDestructors = [];
 		};
 
 		n.Act.prototype.setTimeout = function(callback, delay)
 		{
-			this.timers.push(setTimeout(callback, delay));
+			var timeout = setTimeout(callback, delay);
+
+			this.sceneDestructors.push(function() {
+				clearTimeout(timeout);
+			});
+		};
+
+		n.Act.prototype.clickOnce = function(elements, callback)
+		{
+			var destructor = clickOnce(elements, callback);
+			this.sceneDestructors.push(destructor);
 		};
 
 		n.Act.prototype.play = function(next)
 		{
-			var self = this;
+			var act = this;
 
-			self.bindResources(self);
+			this.bindResources(this);
 					
-			self.stage.classList.add('current');
+			this.stage.classList.add('current');
 
-			self.setUp.call(self, self.stage);
+			this.setUp.call(this, this.stage);
 
-			self.sequence.play(function() {
-				self.stage.classList.remove('current');
-				self.tearDown.call(self, self.stage);
+			this.callback = function() {
+				act.stage.classList.remove('current');
+				act.tearDown.call(act, act.stage);
 				next();
-			});
+			};
+
+			this.sequence.play(this.callback);
+		};
+
+		n.Act.prototype.mark = function(name)
+		{
+			this.bookmarks[name] = this.sequence.step;
+		};
+
+		n.Act.prototype.jump = function(name)
+		{
+			this.resetStage();
+
+			this.sequence.playStep(this.bookmarks[name], this.callback);
 		};
 
 		var templates = {
+			mark: function(name) {
+				return function(stage, next) {
+					this.mark(name);
+					next();
+				};
+			},
 			pause: function(stage, next) {
 				setTimeout(next, 200);
 			},
@@ -280,7 +320,7 @@
 			},
 			character_1_2_come_together: function(stage, next) {
 				stage.classList.add('character-1-2-together');
-				setTimeout(next, 1000);
+				this.setTimeout(next, 1000);
 			},
 			character_1_2_walk_back: function(stage, next) {
 				stage.classList.remove('character-1-2-together');
@@ -302,7 +342,7 @@
 			},
 			character_2_3_come_together: function(stage, next) {
 				stage.classList.add('character-2-3-together');
-				setTimeout(next, 1000);
+				this.setTimeout(next, 1000);
 			},
 			character_2_3_walk_back: function(stage, next) {
 				stage.classList.remove('character-2-3-together');
@@ -325,27 +365,26 @@
 			que: function(stage, next) {
 				stage.classList.add('show-baskets');
 				this.get('cue').play();
-				setTimeout(next, 500); // about 500 ms after the speaking.
+				this.setTimeout(next, 500); // about 500 ms after the speaking.
 			},
 			task: function(stage, next) {
-				clickOnce(stage.querySelectorAll('.option'), function(option) {
+				var act = this;
+
+				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
 					stage.classList.add('object-dropped-on-' + option.id);
-					setTimeout(next, 1000);
+					act.setTimeout(next, 1000);
 				});
 
 				// after 30 seconds, also show a "opnieuw" button to repeat the previous scene
 				this.setTimeout(function() {
-					alert('hoi!');
+					act.clickOnce(stage.querySelectorAll('.replay-button'), function() {
+						stage.classList.remove('show-baskets');
+						act.jump('begin-conversation');
+					});
 				}, 5000);
 			},
 			next_button: function(stage, next) {
-				// Todo: clean up after task.
-				var btn = stage.querySelector('.next-button');
-				btn.classList.add('visible');
-				clickOnce([btn], function() {
-					btn.classList.remove('visible');
-					next();
-				});
+				this.clickOnce(stage.querySelectorAll('.next-button'), next);
 			}
 		};
 
@@ -362,7 +401,8 @@
 			// and then show the object.
 			scenes.push(
 				templates.show_object,
-				templates.pause);
+				templates.pause,
+				templates.mark('begin-conversation'));
 
 			switch (config.type)
 			{
