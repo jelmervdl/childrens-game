@@ -366,7 +366,8 @@
 				var request = new XMLHttpRequest();
 				request.open('POST', 'post-measurements.php', true);
 				request.onload = function() {
-					delete localStorage.measurementsSubmitQueue;
+					if (request.status == 200)
+						delete localStorage.measurementsSubmitQueue;
 				};
 				request.send(localStorage.measurementsSubmitQueue);
 
