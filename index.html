@@ -471,7 +471,7 @@
 				if (!act.measurement)
 					act.measurement = new n.Measurement(this.id);
 
-				measurement.start();
+				act.measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
 					act.measurement.stop(option.id);
 					stage.classList.add('object-dropped-on-' + option.id);
