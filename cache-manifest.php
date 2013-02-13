@@ -32,7 +32,7 @@ CACHE MANIFEST
 # Total size: <?=number_format($cache_size / (1024 * 1024), 2)?>MB
 
 NETWORK:
-report.php
+post-measurements.php
 
 CACHE:
 <?=implode("\n", $files)?>
