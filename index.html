@@ -384,13 +384,19 @@
 
 		n.Measurement.prototype.start = function()
 		{
-			this.startTime = new Date();
+			if (this.startTime)
+				return;
+			
+			this.startTime = new Date().getTime();
 		};
 
 		n.Measurement.prototype.stop = function(choice)
 		{
+			if (this.stopTime)
+				return;
+
 			this.choice = choice;
-			this.stopTime = new Date();
+			this.stopTime = new Date().getTime();
 			n.Measurements.push(this);
 		};
 
@@ -461,11 +467,13 @@
 			},
 			task: function(stage, next) {
 				var act = this,
-					measurement = new n.Measurement(this.id);
+				
+				if (!act.measurement)
+					act.measurement = new n.Measurement(this.id);
 
 				measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
-					measurement.stop(option.id);
+					act.measurement.stop(option.id);
 					stage.classList.add('object-dropped-on-' + option.id);
 					act.setTimeout(next, 1000);
 				});
