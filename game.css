@@ -4,6 +4,16 @@ html, body {
 	height: 100%;
 }
 
+/* Show buttons only when a clickOnce event listener is attached */
+
+button {
+	display: none;
+}
+
+button.clickable {
+	display: block;
+}
+
 .screen {
 	position: absolute;
 	top: 0;
@@ -280,7 +290,7 @@ html, body {
 
 .start-button,
 .next-button,
-.done {
+.thank-you {
 	width: 40%;
 	height: 20%;
 	top: 40%;
@@ -289,30 +299,12 @@ html, body {
 	font-size: 200%;
 }
 
-.done {
-	text-align: center;
-	font: 4em sans-serif;
-}
-
-.next-button {
-	display: none;
-}
-
-.next-button.clickable {
-	display: block;
-}
-
 .replay-button {
     bottom: 1%;
     left: 1%;
     width: 20%;
     height: 10%;
     font-size: 150%;
-    display: none;
-}
-
-.replay-button.clickable {
-	display: block;
 }
 
 /* Scene 1 */
@@ -457,4 +449,74 @@ html, body {
 	50% {
 		background-image: url(assets/characters/monkey_speaking_b.svg);	
 	}
+}
+
+/* Thank you stage and form */
+.thank-you {
+	text-align: center;
+	font: 4em sans-serif;
+	display: none;
+}
+
+.personal-details {
+	font: 200% sans-serif;
+	line-height: 1.5em;
+	max-width: 30em;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	margin: auto;
+}
+
+.personal-details p {
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+.personal-details p > * {
+	display: inline-block;
+	margin-left: 10em;
+	width: 20em;
+}
+
+.personal-details label:first-child {
+	position: absolute;
+	margin-left: 0;
+	width: 10em;
+}
+
+.personal-details label.other {
+	text-indent: 1em;
+}
+
+.personal-details input[name=age] {
+	width: 3em;
+}
+
+.personal-details input {
+	height: 1.5em;
+	line-height: inherit;
+	font: inherit;
+}
+
+.personal-details input[type=checkbox],
+.personal-details input[type=radio] {
+	margin: 0.5em 0 0 0;
+	width: 1em;
+	height: 1em;
+}
+
+.personal-details button {
+	font-size: inherit;
+	margin: 1em auto;
+}
+
+.done .thank-you {
+	display: block;
+}
+
+.done .personal-details {
+	display: none;
 }

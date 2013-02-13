@@ -54,7 +54,29 @@
 			</div>
 
 			<div id="end-stage" class="stage">
-				<p class="done">Klaar!</p>
+				<div class="personal-details">
+					<h2>Persoonlijke gegevens</h2>
+					<p>
+						<label>Leeftijd:</label>
+						<input type="number" name="age">
+					</p>
+					<p>
+						<label>Geslacht:</label>
+
+						<label><input type="radio" name="sex" value="mannelijk">Mannelijk</label>
+						<label><input type="radio" name="sex" value="vrouwelijk">Vrouwelijk</label>
+					</p>
+					<p>
+						<label>Moedertaal/talen:</label>
+						<label><input type="checkbox" name="native_tongue" value="Nederlands">Nederlands</label>
+						<label><input type="checkbox" name="native_tongue" value="Fries">Fries</label>
+						<label class="other">Anders: <input type="text" name="native_tongue_other"></label>
+					</p>
+
+					<button class="clickable">Verstuur</button>
+
+				</div>
+				<p class="thank-you">Bedankt!</p>
 			</div>
 		</div>
 
@@ -89,6 +111,10 @@
 			return document.getElementById(id);
 		};
 
+		var s4 = function() {
+			return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+		};
+
 		var clickOnce = function(elements, callback)
 		{
 			var listener = function(e) {
@@ -101,9 +127,10 @@
 				return {
 					element: element,
 					callback: function(e) {
-						e.preventDefault();
-						removeListeners();
-						callback(element);
+						if (callback(element) !== false) {
+							e.preventDefault();
+							removeListeners();
+						}
 					}
 				};
 			});
@@ -145,12 +172,7 @@
 
 		n.Audio.prototype.load = function(next)
 		{
-			console.log('loading', this.audio.src);
-			this.audio.addEventListener('loadeddata', function(e) { 
-				console.log('finished loading', e.srcElement.src);
-				next(); 
-			});
-			this.audio.addEventListener('error', function(e) { console.log("n.Audio error", e); });
+			this.audio.addEventListener('loadeddata', next);
 			this.audio.load();
 		};
 
@@ -304,6 +326,76 @@
 			this.sequence.playStep(this.bookmarks[name], this.callback);
 		};
 
+
+
+		n.Measurements = {
+			subjectId: s4(),
+			measurements: []
+		};
+
+		n.Measurements.push = function(measurement)
+		{
+			this.measurements.push(measurement);
+		};
+
+		n.Measurements.submit = function(personalData)
+		{
+			var queue = JSON.parse(localStorage.measurementsSubmitQueue || '[]') || [];
+			
+			queue.push({
+				subject_id: this.subjectId,
+				personal_data: personalData,
+				measurements: this.measurements 
+			});
+
+			localStorage.measurementsSubmitQueue = JSON.stringify(queue);
+
+			// Reset
+			this.subjectId = s4();
+			this.measurements = [];
+
+			this.sync();
+		}
+
+		n.Measurements.sync = function()
+		{
+			if (!localStorage.measurementsSubmitQueue)
+				return true;
+
+			try {
+				var request = new XMLHttpRequest();
+				request.open('POST', 'post-measurements.php', true);
+				request.onload = function() {
+					delete localStorage.measurementsSubmitQueue;
+				};
+				request.send(localStorage.measurementsSubmitQueue);
+
+				return true;
+			} catch (e) {
+				// Fail silently. We'll retry another time.
+				return false;
+			}
+		};
+
+		n.Measurement = function(id)
+		{
+			this.id = id;
+		};
+
+		n.Measurement.prototype.start = function()
+		{
+			this.startTime = new Date();
+		};
+
+		n.Measurement.prototype.stop = function(choice)
+		{
+			this.choice = choice;
+			this.stopTime = new Date();
+			n.Measurements.push(this);
+		};
+
+
+
 		var templates = {
 			mark: function(name) {
 				return function(stage, next) {
@@ -368,9 +460,12 @@
 				this.setTimeout(next, 500); // about 500 ms after the speaking.
 			},
 			task: function(stage, next) {
-				var act = this;
+				var act = this,
+					measurement = new n.Measurement(this.id);
 
+				measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
+					measurement.stop(option.id);
 					stage.classList.add('object-dropped-on-' + option.id);
 					act.setTimeout(next, 1000);
 				});
@@ -611,12 +706,44 @@
 			"type":"whispering-right"
 		}));
 
-		// Thank you! act
+		// Thank you! act, show a form
 		acts.push(new n.Act({
 			stage: document.getElementById('end-stage'),
 			scenes: [
 				function(stage, next) {
 					// that's it :)
+					this.clickOnce(stage.querySelectorAll('button'), function() {
+						var age, sex, native_tongue = [];
+
+						age = stage.querySelector('input[name=age]').value;
+						
+						Array.prototype.forEach.call(stage.querySelectorAll('input[name=sex]'), function(option) {
+							if (option.checked)
+								sex = option.value;
+						});
+
+						Array.prototype.forEach.call(stage.querySelectorAll('input[name=native_tongue]'), function(option) {
+							if (option.checked)
+								native_tongue.push(option.value);
+						});
+
+						if (stage.querySelector('input[name=native_tongue_other]').value.trim())
+							native_tongue.push(stage.querySelector('input[name=native_tongue_other]').value.trim());
+
+						if (!age || !sex || native_tongue.length === 0)
+							return false;
+						
+						n.Measurements.submit({
+							'age': age,
+							'sex': sex,
+							'native_tongue': native_tongue
+						});
+						
+						next();
+					});
+				},
+				function(stage, next) {
+					stage.classList.add('done');
 				}
 			]
 		}));
@@ -680,6 +807,9 @@
 
 		// Load the images at least once to reduce flickering
 		preloadImages();
+
+		// There may be unsubmitted data, let's see/sync:
+		n.Measurements.sync();
 
 		// Play the opening act!
 		main.play();
