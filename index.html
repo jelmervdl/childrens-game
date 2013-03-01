@@ -94,6 +94,10 @@
 
 			if (!window.JSON.parse)
 				alert('JSON.parse not supported');
+
+			window.onerror = function(e) {
+				alert(e);
+			};
 		</script>
 
 		<script src="configuration.js"></script>
