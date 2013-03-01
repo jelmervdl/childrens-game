@@ -82,6 +82,9 @@
 
 		<div id="notification-area" class="notification-area"></div>
 
+		<script src="configuration.js"></script>
+		<script src="lib/sequence.js"></script>
+
 		<script>
 			if (!document.querySelector)
 				alert('querySelector is not supported');
@@ -89,19 +92,23 @@
 			if (!document.body.classList)
 				alert('classList is not supported');
 
-			if (!window.Audio)
+			if (!Audio)
 				alert('Audio is not supported');
 
-			if (!window.JSON.parse)
-				alert('JSON.parse not supported');
+			if (!JSON.parse)
+				alert('JSON.parse is not supported');
+
+			if (!JSON.stringify)
+				alert('JSON.stringify is not supported');
+
+			if (!Sequence)
+				alert('Sequence is not loaded');
 
 			window.onerror = function(desc, file, line, chr) {
 				alert(file + ':' + line + ' ' + chr);
 			};
 		</script>
 
-		<script src="configuration.js"></script>
-		<script src="lib/sequence.js"></script>
 		<script>
 
 		// Disable scrolling altogether
