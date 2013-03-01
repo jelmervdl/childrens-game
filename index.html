@@ -95,8 +95,8 @@
 			if (!window.JSON.parse)
 				alert('JSON.parse not supported');
 
-			window.onerror = function(e) {
-				alert(e);
+			window.onerror = function(desc, file, line, chr) {
+				alert(file + ':' + line + ' ' + chr);
 			};
 		</script>
 
