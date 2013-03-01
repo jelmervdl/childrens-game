@@ -82,6 +82,14 @@
 
 		<div id="notification-area" class="notification-area"></div>
 
+		<script>
+			if (!document.querySelector)
+				alert('querySelector is not supported');
+
+			if (!document.body.classList)
+				alert('classList is not supported');
+		</script>
+
 		<script src="configuration.js"></script>
 		<script src="lib/sequence.js"></script>
 		<script>
