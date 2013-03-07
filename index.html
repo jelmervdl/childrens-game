@@ -17,17 +17,6 @@
 			<div id="character-introduction-stage" class="stage">
 				<!-- Show the three characters to the subject, and introduce them with audio files -->
 				<!-- Next, ask the subject to identify the correct character by name -->
-				<div class="option option-1">
-					<div class="character character-1 character-dog"></div>
-				</div>
-
-				<div class="option option-2">
-					<div class="character character-2 character-elephant"></div>
-				</div>
-
-				<div class="option option-3">
-					<div class="character character-3 character-monkey"></div>
-				</div>
 			</div>
 
 			<div id="game-stage" class="stage">
@@ -119,9 +108,9 @@
 				alert(file + ':' + line + ' ' + chr);
 			};
 
-			window.onload = function() {
-				alert('Loaded');
-			};
+			// window.onload = function() {
+			// 	alert('Loaded');
+			// };
 		</script>
 
 		<script>
@@ -662,69 +651,6 @@
 			scenes: [
 				function(stage, next) {
 					clickOnce([stage.querySelector('.start-button')], next);
-				}
-			]
-		}));
-
-		acts.push(new n.Act({
-			stage: document.getElementById('character-introduction-stage'),
-			resources: {
-				'who_are_you': new n.Audio('assets/audio/instructions/m3.wav'),
-				'intro.aap': new n.Audio('assets/audio/instructions/intro.aap.wav'),
-				'intro.hond': new n.Audio('assets/audio/instructions/intro.hond.wav'),
-				'intro.olif': new n.Audio('assets/audio/instructions/intro.olif.wav'),
-				'query.olif': new n.Audio('assets/audio/instructions/m4.wav'),
-				'query.olif.wrong': new n.Audio('assets/audio/instructions/m4n.wav')
-			},
-			scenes: [
-				// Hey there animals, who are you?
-				function(stage, next) {
-					this.get('who_are_you').play(next);
-				},
-
-				// Hi, I'm the dog
-				function(stage, next) {
-					stage.classList.add('introduce-character-1');
-					this.get('intro.hond').play(function() {
-						stage.classList.remove('introduce-character-1');
-						next();	
-					});
-				},
-
-				// Hi, I'm the elephant
-				function(stage, next) {
-					stage.classList.add('introduce-character-2');
-					this.get('intro.olif').play(function() {
-						stage.classList.remove('introduce-character-2');
-						next();	
-					});	
-				},
-				
-				// Hi, I'm the monkey
-				function(stage, next) {
-					stage.classList.add('introduce-character-3');
-						this.get('intro.aap').play(function() {
-							stage.classList.remove('introduce-character-3');
-							next();	
-					});
-				},
-				
-				// Who is the elephant?
-				function(stage, next) {
-					this.get('query.olif').play(next);
-				},
-				function(stage, next) {
-					var act = this;
-					this.mark('query.olif');
-					
-					clickOnce(stage.querySelectorAll('.option'), function(option) {
-						if (option.classList.contains('option-2'))
-							next();
-						else
-							act.get('query.olif.wrong').play(function() {
-								act.jump('query.olif');
-							});
-					});
 				}
 			]
 		}));
