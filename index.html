@@ -674,7 +674,11 @@
 				'intro.hond': new n.Audio('assets/audio/instructions/intro.hond.wav'),
 				'intro.olif': new n.Audio('assets/audio/instructions/intro.olif.wav'),
 				'query.olif': new n.Audio('assets/audio/instructions/m4.wav'),
-				'query.olif.wrong': new n.Audio('assets/audio/instructions/m4n.wav')
+				'query.olif.wrong': new n.Audio('assets/audio/instructions/m4n.wav'),
+				'query.hond': new n.Audio('assets/audio/instructions/m5.wav'),
+				'query.hond.wrong': new n.Audio('assets/audio/instructions/m5n.wav'),
+				'query.aap': new n.Audio('assets/audio/instructions/m6.wav'),
+				'query.aap.wrong': new n.Audio('assets/audio/instructions/m6n.wav')
 			},
 			scenes: [
 				// Hey there animals, who are you?
@@ -723,6 +727,42 @@
 						else
 							act.get('query.olif.wrong').play(function() {
 								act.jump('query.olif');
+							});
+					});
+				},
+
+				// Who is the monkey?
+				function(stage, next) {
+					this.get('query.aap').play(next);
+				},
+				function(stage, next) {
+					var act = this;
+					this.mark('query.aap');
+					
+					clickOnce(stage.querySelectorAll('.option'), function(option) {
+						if (option.classList.contains('aap'))
+							next();
+						else
+							act.get('query.aap.wrong').play(function() {
+								act.jump('query.aap');
+							});
+					});
+				},
+
+				// Who is the dog?
+				function(stage, next) {
+					this.get('query.hond').play(next);
+				},
+				function(stage, next) {
+					var act = this;
+					this.mark('query.hond');
+					
+					clickOnce(stage.querySelectorAll('.option'), function(option) {
+						if (option.classList.contains('hond'))
+							next();
+						else
+							act.get('query.hond.wrong').play(function() {
+								act.jump('query.hond');
 							});
 					});
 				}

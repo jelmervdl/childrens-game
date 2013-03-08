@@ -451,6 +451,33 @@ button.clickable {
 	}
 }
 
+@-webkit-keyframes dog-speaking-front {
+	0% {
+		background-image: url(assets/characters/dog_front_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/dog_front_speaking_b.svg);	
+	}
+}
+
+@-webkit-keyframes elephant-speaking-front {
+	0% {
+		background-image: url(assets/characters/elephant_front_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/elephant_front_speaking_b.svg);	
+	}
+}
+
+@-webkit-keyframes monkey-speaking-front {
+	0% {
+		background-image: url(assets/characters/monkey_front_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/monkey_front_speaking_b.svg);	
+	}
+}
+
 /* Thank you stage and form */
 .thank-you {
 	text-align: center;
@@ -519,4 +546,36 @@ button.clickable {
 
 .done .personal-details {
 	display: none;
+}
+
+/* Character introduction scene */
+
+.introduce-character-1 .character,
+.introduce-character-2 .character,
+.introduce-character-3 .character {
+	opacity: 0.2;
+}
+
+.introduce-character-1 .character-1,
+.introduce-character-2 .character-2,
+.introduce-character-3 .character-3 {
+	opacity: 1.0;
+}
+
+.introduce-character-1 .option-1.hond .character,
+.introduce-character-2 .option-2.hond .character,
+.introduce-character-3 .option-3.hond .character {
+	-webkit-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
+}
+
+.introduce-character-1 .option-1.aap .character,
+.introduce-character-2 .option-2.aap .character,
+.introduce-character-3 .option-3.aap .character {
+	-webkit-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
+}
+
+.introduce-character-1 .option-1.olifant .character,
+.introduce-character-2 .option-2.olifant .character,
+.introduce-character-3 .option-3.olifant .character {
+	-webkit-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
 }
