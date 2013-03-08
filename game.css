@@ -317,15 +317,15 @@ button.clickable {
 
 /* Standing */
 
-.hond {
+.hond .character {
 	background-image: url(assets/characters/dog_front.svg);
 }
 
-.olifant {
+.olifant .character {
 	background-image: url(assets/characters/elephant_front.svg);
 }
 
-.aap {
+.aap .character {
 	background-image: url(assets/characters/monkey_front.svg);
 }
 
@@ -341,52 +341,52 @@ button.clickable {
 	background-position: left bottom;
 }
 
-.character-1-2-together .hond,
-.character-2-3-together .hond {
+.character-1-2-together .hond .character,
+.character-2-3-together .hond .character {
 	background-image: url(assets/characters/dog_half-front.svg);
 }
 
-.character-1-2-together .olifant,
-.character-2-3-together .olifant {
+.character-1-2-together .olifant .character,
+.character-2-3-together .olifant .character{ 
 	background-image: url(assets/characters/elephant_half-front.svg);
 }
 
-.character-1-2-together .aap,
-.character-2-3-together .aap {
+.character-1-2-together .aap .character,
+.character-2-3-together .aap .character {
 	background-image: url(assets/characters/monkey_half-front.svg);
 }
 
 /* Talking */
 
-.character-1-2-talk .option-2 .hond,
-.character-2-3-talk .option-2 .hond {
+.character-1-2-talk .option-2.hond .character,
+.character-2-3-talk .option-2.hond .character {
 	-webkit-animation: dog-speaking .4s steps(1, end) 0 infinite;
 }
 
-.character-1-2-talk .option-2 .olifant,
-.character-2-3-talk .option-2 .olifant {
+.character-1-2-talk .option-2.olifant .character,
+.character-2-3-talk .option-2.olifant .character {
 	-webkit-animation: elephant-speaking .4s steps(1, end) 0 infinite;
 }
 
-.character-2-3-talk .option-2 .aap,
-.character-2-3-talk .option-2 .aap {
+.character-2-3-talk .option-2.aap .character,
+.character-2-3-talk .option-2.aap .character{
 	-webkit-animation: monkey-speaking .4s steps(1, end) 0 infinite;
 }
 
 /* Whispering */
 
-.character-1-2-whisper .option-1 .hond,
-.character-2-3-whisper .option-3 .hond {
+.character-1-2-whisper .option-1.hond .character,
+.character-2-3-whisper .option-3.hond .character {
 	background-image: url(assets/characters/dog_whispering.svg);
 }
 
-.character-1-2-whisper .option-1 .olifant,
-.character-2-3-whisper .option-3 .olifant {
+.character-1-2-whisper .option-1.olifant .character,
+.character-2-3-whisper .option-3.olifant .character {
 	background-image: url(assets/characters/elephant_whispering.svg);
 }
 
-.character-1-2-whisper .option-1 .aap,
-.character-2-3-whisper .option-3 .aap {
+.character-1-2-whisper .option-1.aap .character,
+.character-2-3-whisper .option-3.aap .character {
 	background-image: url(assets/characters/monkey_whispering.svg);
 }
 

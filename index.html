@@ -17,22 +17,22 @@
 			<div id="character-introduction-stage" class="stage">
 				<!-- Show the three characters to the subject, and introduce them with audio files -->
 				<!-- Next, ask the subject to identify the correct character by name -->
-				<div class="option option-1">
-					<div class="character character-1 character-dog"></div>
+				<div class="option option-1 hond">
+					<div class="character character-1"></div>
 				</div>
 
-				<div class="option option-2">
-					<div class="character character-2 character-elephant"></div>
+				<div class="option option-2 olifant">
+					<div class="character character-2"></div>
 				</div>
 
-				<div class="option option-3">
-					<div class="character character-3 character-monkey"></div>
+				<div class="option option-3 aap">
+					<div class="character character-3"></div>
 				</div>
 			</div>
 
 			<div id="game-stage" class="stage">
 				<div id="option-1" class="option option-1">
-					<div id="character_1" class="character character-1 character-dog"></div>
+					<div id="character_1" class="character character-1"></div>
 				</div>
 
 				<div class="basket basket-1">
@@ -41,7 +41,7 @@
 				</div>
 					
 				<div id="option-2" class="option option-2">
-					<div id="character_2" class="character character-2 character-elephant"></div>
+					<div id="character_2" class="character character-2"></div>
 				</div>
 
 				<div class="basket basket-2">
@@ -50,7 +50,7 @@
 				</div>
 				
 				<div id="option-3" class="option option-3">
-					<div id="character_3" class="character character-3 character-monkey"></div>
+					<div id="character_3" class="character character-3"></div>
 				</div>
 
 				<div class="basket basket-3">
@@ -608,7 +608,7 @@
 				setUp: function(stage) {
 					stage.classList.add(config.type);
 					stage.querySelector('.object').classList.add(config.object);
-					stage.querySelector('.character-2').classList.add(config.speaker);
+					stage.querySelector('.option-2').classList.add(config.speaker);
 
 					// Which character is the remaining character?
 					var characters = ['aap', 'hond', 'olifant'];
@@ -620,14 +620,14 @@
 					switch (config.type) {
 						case 'whispering-right':
 						case 'talking-left':
-							stage.querySelector('.character-1').classList.add(config.addressee);
-							stage.querySelector('.character-3').classList.add(spare);
+							stage.querySelector('.option-1').classList.add(config.addressee);
+							stage.querySelector('.option-3').classList.add(spare);
 							break;
 
 						case 'whispering-left':
 						case 'talking-right':
-							stage.querySelector('.character-1').classList.add(spare);
-							stage.querySelector('.character-3').classList.add(config.addressee);
+							stage.querySelector('.option-1').classList.add(spare);
+							stage.querySelector('.option-3').classList.add(config.addressee);
 							break;
 					}
 				},
@@ -718,7 +718,7 @@
 					this.mark('query.olif');
 					
 					clickOnce(stage.querySelectorAll('.option'), function(option) {
-						if (option.classList.contains('option-2'))
+						if (option.classList.contains('olifant'))
 							next();
 						else
 							act.get('query.olif.wrong').play(function() {
