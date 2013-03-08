@@ -309,7 +309,7 @@ button.clickable {
 
 /* Scene 1 */
 
-#game-stage {
+.stage {
 	background: #FFF7E7 url(assets/meadow.svg) repeat-x;
 	background-position: center 80%;
 	background-size: cover;
