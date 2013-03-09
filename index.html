@@ -235,17 +235,20 @@
 			this.audio.load();
 		};
 
+		n.Audio.prototype.free = function(next)
+		{
+			// I don't know how to implement this wisely
+
+			if (next)
+				next();
+		};
+
 		n.Audio.prototype.play = function(next)
 		{
 			if (next)
-				this.audio.addEventListener('ended', function() { next(); });
+				this.audio.addEventListener('ended', next);
 
 			this.audio.play();
-		};
-
-		n.Audio.prototype.bindToElement = function(el)
-		{
-			throw new Error("n.Audio.bindToElement is not implemented");
 		};
 
 		/* Image resource */
@@ -262,9 +265,10 @@
 			this.img.src = this.url;
 		};
 
-		n.Image.prototype.bindToElement = function(el)
+		n.Image.prototype.free = function(next)
 		{
-			el.src = this.img.src;
+			// Not really implemented, as it is isn't used anyway.
+			if (next) next();
 		};
 
 		/* Act */
@@ -472,6 +476,20 @@
 			pause: function(stage, next) {
 				setTimeout(next, 200);
 			},
+			load_resources: function(stage, next) {
+				var tasks = [];
+
+				for (var name in this.resources)
+					tasks.push(bind(this.resources[name], 'load'));
+
+				after(tasks, next);
+			},
+			free_resources: function(stage, next) {
+				for (var name in this.resources)
+					this.resources[name].free();
+
+				next();
+			},
 			show_object: function(stage, next) {
 				stage.classList.add('show-object');
 				next();
@@ -563,6 +581,7 @@
 			// Start with a little pause to put more focus on the come-together animation,
 			// and then show the object.
 			scenes.push(
+				templates.load_resources,
 				templates.show_object,
 				templates.pause,
 				templates.mark('begin-conversation'));
@@ -617,6 +636,7 @@
 			scenes.push(
 				templates.que,
 				templates.task,
+				templates.free_resources,
 				templates.next_button);
 
 			return new n.Act({
@@ -665,9 +685,10 @@
 					stage.querySelector('.object').classList.remove(config.object);
 
 					// Remove the characters from the options/places.
-					['aap', 'hond', 'olifant'].forEach(function(character) {
-						for (var i = 1; i <= 3; ++i)
-							stage.querySelector('.character-' + i).classList.remove(character);
+					Array.prototype.forEach.call(document.getElementsByClassName('option'), function(option) {
+						['aap', 'hond', 'olifant'].forEach(function(character) {
+							option.classList.remove(character);
+						});
 					});
 				}
 			});
