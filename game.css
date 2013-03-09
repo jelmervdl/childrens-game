@@ -269,8 +269,7 @@ button.clickable {
 .object-dropped-on-option-2 .object,
 .object-dropped-on-option-3 .object {
 	-webkit-transition: bottom .75s, left .75s ease-in-out;
-	-webkit-animation: move-into-basket .75s 1;
-	-webkit-animation-timing-function: ease-out;
+	-webkit-animation: move-into-basket .75s 1 ease-out;
 	-webkit-animation-fill-mode: forwards;
 }
 
@@ -368,7 +367,7 @@ button.clickable {
 	-webkit-animation: elephant-speaking .4s steps(1, end) 0 infinite;
 }
 
-.playing-audio .character-2-3-talk .option-2.aap .character,
+.playing-audio .character-1-2-talk .option-2.aap .character,
 .playing-audio .character-2-3-talk .option-2.aap .character{
 	-webkit-animation: monkey-speaking .4s steps(1, end) 0 infinite;
 }
@@ -421,6 +420,15 @@ button.clickable {
 	100% {
 		box-shadow: 0 0 25px #FFCE0D;
 		-webkit-box-shadow: 0 0 25px #FFCE0D;
+	}
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
 	}
 }
 

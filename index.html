@@ -131,6 +131,18 @@
 		// Todo: implement offline cache control
 		// see http://blogs.adobe.com/cantrell/archives/2011/11/building-an-offline-mobile-web-application.html
 
+		Array.prototype.shuffle = function ()
+		{
+			for (var i = this.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var tmp = this[i];
+				this[i] = this[j];
+				this[j] = tmp;
+			}
+
+			return this;
+		};
+
 		var Timer = function() 
 		{
 			this.interval = null;
@@ -212,8 +224,8 @@
 
 		var bind = function(object, method)
 		{
-			return function() {
-				return object[method].apply(object, arguments);
+			return function(arg) {
+				return object[method].call(object, arg);
 			};
 		};
 
@@ -713,7 +725,7 @@
 				}
 			]
 		}));
-
+		
 		acts.push(new n.Act({
 			stage: document.getElementById('character-introduction-stage'),
 			resources: {
@@ -844,36 +856,36 @@
 		}));
 
 		// Game acts
-		// configuration.no_report_items.map(createAct).forEach(function(act) { acts.push(act); });
+		configuration.no_report_items.shuffle().map(createAct).forEach(bind(acts, 'push'));
 
 		// Test olifant speaking left, right
-		acts.push(createAct({
-			"audio_file_name":"12.olif.jij",
-			"code":"12",
-			"speaker":"olifant",
-			"addressee":"aap",
-			"spatial_position":"addresse (left)",
-			"reported_speaker":"none",
-			"condition":"no-jij",
-			"object":"kop",
-			"correct_recipient_of_object":"aap",
-			"sentence":"Jij krijgt de kop.",
-			"type":"talking-left"
-		}));
+		// acts.push(createAct({
+		// 	"audio_file_name":"12.olif.jij",
+		// 	"code":"12",
+		// 	"speaker":"olifant",
+		// 	"addressee":"aap",
+		// 	"spatial_position":"addresse (left)",
+		// 	"reported_speaker":"none",
+		// 	"condition":"no-jij",
+		// 	"object":"kop",
+		// 	"correct_recipient_of_object":"aap",
+		// 	"sentence":"Jij krijgt de kop.",
+		// 	"type":"talking-left"
+		// }));
 
-		acts.push(createAct({
-			"audio_file_name":"13.olif.hij",
-			"code":"13",
-			"speaker":"olifant",
-			"addressee":"aap",
-			"spatial_position":"addresse (right)",
-			"reported_speaker":"none",
-			"condition":"no-hij",
-			"object":"boek",
-			"correct_recipient_of_object":"hond",
-			"sentence":"Hij krijgt het boek.",
-			"type":"talking-right"
-		}));
+		// acts.push(createAct({
+		// 	"audio_file_name":"13.olif.hij",
+		// 	"code":"13",
+		// 	"speaker":"olifant",
+		// 	"addressee":"aap",
+		// 	"spatial_position":"addresse (right)",
+		// 	"reported_speaker":"none",
+		// 	"condition":"no-hij",
+		// 	"object":"boek",
+		// 	"correct_recipient_of_object":"hond",
+		// 	"sentence":"Hij krijgt het boek.",
+		// 	"type":"talking-right"
+		// }));
 
 		// "Nu gaat het een klein beetje anders"
 		acts.push(new n.Act({
@@ -885,38 +897,44 @@
 			scenes: [
 				function(stage, next) {
 					this.get('instruction').play(next);
+				},
+				// Temporary solution for the audio won't start playing-problem
+				function(stage, next) {
+					clickOnce([stage.querySelector('.next-button')], next);
 				}
 			]
 		}));
-    	
+		
 		// Test dog whispering left, right
-		acts.push(createAct({
-			"audio_file_name":"28.hond.dirjij",
-			"code":"28",
-			"speaker":"hond",
-			"addressee":"olifant",
-			"spatial_position":"addresse (left)",
-			"reported_speaker":"aap",
-			"condition":"dir-jij",
-			"object":"roos",
-			"correct_recipient_of_object":"hond",
-			"sentence":null,
-			"type":"whispering-left"
-		}));
+		// acts.push(createAct({
+		// 	"audio_file_name":"28.hond.dirjij",
+		// 	"code":"28",
+		// 	"speaker":"hond",
+		// 	"addressee":"olifant",
+		// 	"spatial_position":"addresse (left)",
+		// 	"reported_speaker":"aap",
+		// 	"condition":"dir-jij",
+		// 	"object":"roos",
+		// 	"correct_recipient_of_object":"hond",
+		// 	"sentence":null,
+		// 	"type":"whispering-left"
+		// }));
 
-		acts.push(createAct({
-			"audio_file_name":"29.hond.dirhij",
-			"code":"29",
-			"speaker":"hond",
-			"addressee":"olifant",
-			"spatial_position":"addresse (right)",
-			"reported_speaker":"aap",
-			"condition":"dir-hij",
-			"object":"auto",
-			"correct_recipient_of_object":"olifant",
-			"sentence":null,
-			"type":"whispering-right"
-		}));
+		// acts.push(createAct({
+		// 	"audio_file_name":"29.hond.dirhij",
+		// 	"code":"29",
+		// 	"speaker":"hond",
+		// 	"addressee":"olifant",
+		// 	"spatial_position":"addresse (right)",
+		// 	"reported_speaker":"aap",
+		// 	"condition":"dir-hij",
+		// 	"object":"auto",
+		// 	"correct_recipient_of_object":"olifant",
+		// 	"sentence":null,
+		// 	"type":"whispering-right"
+		// }));
+
+		configuration.direct_and_indirect_speech_items.shuffle().map(createAct).forEach(bind(acts, 'push'));
 
 		// Thank you! act, show a form
 		acts.push(new n.Act({
