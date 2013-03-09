@@ -227,6 +227,14 @@
 			this.audio = new Audio();
 			this.audio.preload = 'none';
 			this.audio.src = url;
+
+			this.audio.addEventListener('play', function() {
+				document.body.classList.add('playing-audio');
+			});
+
+			this.audio.addEventListener('ended', function() {
+				document.body.classList.remove('playing-audio');
+			});
 		};
 
 		n.Audio.prototype.load = function(next)
