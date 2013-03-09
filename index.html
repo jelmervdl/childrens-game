@@ -827,6 +827,10 @@
 			scenes: [
 				function(stage, next) {
 					this.get('instruction').play(next);
+				},
+				// Temporary solution for the audio won't start playing-problem
+				function(stage, next) {
+					clickOnce([stage.querySelector('.next-button')], next);
 				}
 			]
 		}));
