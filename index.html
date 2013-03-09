@@ -115,9 +115,10 @@
 			if (!Sequence)
 				alert('Sequence is not loaded');
 
-			window.onerror = function(desc, file, line, chr) {
-				alert(file + ':' + line + ' ' + chr);
-			};
+			if (typeof console == 'undefined')
+				window.onerror = function(desc, file, line, chr) {
+					alert(file + ':' + line + ' ' + chr);
+				};
 		</script>
 
 		<script>
@@ -192,6 +193,28 @@
 			addListeners();
 
 			return removeListeners;
+		};
+
+		var after = function(tasks, callback)
+		{
+			var running = 0;
+			
+			var onfinish = function() {
+				if (--running === 0)
+					callback();
+			};
+
+			Array.prototype.forEach.call(tasks, function(task) {
+				++running;
+				task(onfinish);
+			});
+		};
+
+		var bind = function(object, method)
+		{
+			return function() {
+				return object[method].apply(object, arguments);
+			};
 		};
 
 		// Today, n is my namespace.
@@ -665,7 +688,7 @@
 		acts.push(new n.Act({
 			stage: document.getElementById('character-introduction-stage'),
 			resources: {
-				'who_are_you': new n.Audio('assets/audio/instructions/m3.wav'),
+				'hello': new n.Audio('assets/audio/instructions/m3.wav'),
 				'intro.aap': new n.Audio('assets/audio/instructions/intro.aap.wav'),
 				'intro.hond': new n.Audio('assets/audio/instructions/intro.hond.wav'),
 				'intro.olif': new n.Audio('assets/audio/instructions/intro.olif.wav'),
@@ -679,7 +702,15 @@
 			scenes: [
 				// Hey there animals, who are you?
 				function(stage, next) {
-					this.get('who_are_you').play(next);
+					var act = this;
+					after([
+						bind(this.get('hello'), 'play'),
+						bind(this.get('intro.aap'), 'load'),
+						bind(this.get('intro.hond'), 'load'),
+						bind(this.get('intro.olif'), 'load'),
+						bind(this.get('query.olif'), 'load')
+					],
+					next);
 				},
 
 				// Hi, I'm the dog

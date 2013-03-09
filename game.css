@@ -84,7 +84,7 @@ button.clickable {
 	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-size: contain;
-	-webkit-transition: bottom .5s ease-in-out, height .5s ease-in-out, background-position .5s ease-in-out;
+	-webkit-transition: bottom .5s ease-in-out, height .5s ease-in-out, background-position .5s ease-in-out, opacity .2s ease-in-out;
 }
 
 .option-1,
