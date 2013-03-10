@@ -591,3 +591,32 @@ button.clickable {
 .playing-audio .introduce-character-3 .option-3.olifant .character {
 	-webkit-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
 }
+
+/* Update dialog */
+#update-dialog {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -200px;
+
+	width: 400px;
+	height: 100px;
+
+	padding: 20px;
+
+	font: 40px sans-serif;
+	border: 1px solid black;
+	background: white;
+	display: none;
+}
+
+#update-dialog.visible {
+	display: block;
+}
+
+#update-dialog progress {
+	margin-top: 20px;
+	width: 390px;
+}
+

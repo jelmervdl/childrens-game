@@ -9,6 +9,11 @@
 		<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 	</head>
 	<body>
+		<div id="update-dialog">
+			<span>Loading…</span>
+			<progress id="update-progress"></progress>
+		</div>
+
 		<div id="screen" class="screen">
 			<div id="login-stage" class="stage">
 				<button class="start-button">Start</button>
@@ -141,19 +146,6 @@
 			}
 
 			return this;
-		};
-
-		var Timer = function() 
-		{
-			this.interval = null;
-		};
-
-		Timer.prototype.once = function(callback, delay)
-		{
-			if (this.interval)
-				clearInterval(this.interval);
-
-			this.interval = setTimeout(callback, delay);
 		};
 
 		var $ = function(id) {
@@ -982,69 +974,61 @@
 
 		var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }));
 		
-		var notify = function(message)
+		function checkForUpdate(next)
 		{
-			var area = document.getElementById('notification-area');
-
-			area.innerText = message;
-			area.classList.add('visible');
-
-			if (!notify.timer) notify.timer = new Timer();
-			notify.timer.once(function() { area.classList.remove('visible'); }, 2000);
-		};
-
-		function checkForUpdate()
-		{
-			if (window.applicationCache)
-			{
-				window.applicationCache.addEventListener('checking', function(e) {
-					notify('Checking for update…');
-				});
-
-				window.applicationCache.addEventListener('noupdate', function(e) {
-					notify('You have the latest version');
-				})
-
-				window.applicationCache.addEventListener('obsolete', function(e) {
-					notify('Er is een nieuwere versie beschikbaar! Wacht even…');
-				});
-
-				window.applicationCache.addEventListener('updateready', function(e) {
-					if (window.applicationCache.status != 4)
-						return;
-
-					notify("Updaten…");
-
-					window.applicationCache.swapCache();
-					window.location.reload();
-				});
+			if (!window.applicationCache) {
+				next();
+				return;
 			}
-		};
 
-		function preloadImages()
-		{
-			var animals = ['dog', 'elephant', 'monkey'],
-				poses = ['front', 'front_speaking_a', 'front_speaking_b', 'walking', 'whispering'];
+			var dialog = document.getElementById('update-dialog');
+			dialog.classList.add('visible');
 
-			animals.forEach(function(animal) {
-				poses.forEach(function(pose) {
-					var image = new Image();
-					image.src = 'assets/characters/' + animal + '_' + pose + '.svg';
-				});
+			// When checking, show some indication of doing so
+			window.applicationCache.addEventListener('checking', function(e) {
+				dialog.querySelector('span').innerHTML = 'Checking…';
+				dialog.classList.add('visible');
+			});
+
+			// If there is no update, just run.
+			window.applicationCache.addEventListener('noupdate', function(e) {
+				dialog.classList.remove('visible');
+				next();
+			});
+
+			// Continue to run as normal on error.
+			window.applicationCache.addEventListener('error', function(e) {
+				dialog.classList.remove('visible');
+				next();
+			})
+
+			// Show that we are downloading
+			window.applicationCache.addEventListener('downloading', function(e) {
+				dialog.querySelector('span').innerHTML = 'Downloading…';
+			});
+
+			// Show how much we have downloaded
+			window.applicationCache.addEventListener('progress', function(e) {
+				var progress = dialog.querySelector('progress');
+				progress.max = e.total;
+				progress.value = e.loaded;
+			});
+
+			// When we are done downloading, swap the cache.
+			window.applicationCache.addEventListener('updateready', function(e) {
+				// if (window.applicationCache.status != 4)
+				// 	return;
+
+				window.applicationCache.swapCache();
+				window.location.reload();
 			});
 		};
 
 		// Force an update of the manifest file
-		checkForUpdate();
-
-		// Load the images at least once to reduce flickering
-		preloadImages();
+		checkForUpdate(bind(main, 'play'));
 
 		// There may be unsubmitted data, let's see/sync:
 		n.Measurements.sync();
-
-		// Play the opening act!
-		main.play();
 
 		</script>
 	</body>
