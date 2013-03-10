@@ -572,6 +572,7 @@
 				act.measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
 					act.measurement.stop(option.id);
+					act.get('magic').play();
 					stage.classList.add('object-dropped-on-' + option.id);
 					act.setTimeout(next, 1000);
 				});
@@ -595,7 +596,8 @@
 
 			var resources = {
 				'conversation': new n.Audio('assets/audio/conversations/' + config.audio_file_name + '.wav'),
-				'cue': new n.Audio('assets/audio/cues/' + config.object + '.wav')
+				'cue': new n.Audio('assets/audio/cues/' + config.object + '.wav'),
+				'magic': new n.Audio('assets/audio/magic-' + Math.ceil(Math.random() * 3, 10) + '.wav')
 			};
 
 			// Start with a little pause to put more focus on the come-together animation,
