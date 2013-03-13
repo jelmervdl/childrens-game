@@ -2,25 +2,35 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Creator: CorelDRAW X6 -->
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="39.4227mm" height="36.4187mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 3924 3625"
+viewBox="0 0 39241 36251"
  xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
   <style type="text/css">
    <![CDATA[
-    .str1 {stroke:black;stroke-width:52.6759;stroke-linecap:round;stroke-linejoin:round}
-    .str0 {stroke:black;stroke-width:105.342;stroke-linecap:round;stroke-linejoin:round}
+    .str1 {stroke:black;stroke-width:526.759;stroke-linecap:round;stroke-linejoin:round}
+    .str0 {stroke:black;stroke-width:1053.42;stroke-linecap:round;stroke-linejoin:round}
     .fil0 {fill:none}
     .fil1 {fill:#0833B0}
+    .fil2 {fill:url(#id0)}
    ]]>
   </style>
+  <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="3916.95" y1="3983.84" x2="36350.7" y2="31065.6">
+   <stop offset="0" style="stop-color:#001861"/>
+   <stop offset="0.419608" style="stop-color:#1B3C9E"/>
+   <stop offset="1" style="stop-color:#3760DB"/>
+  </linearGradient>
  </defs>
- <g id="Layer_x0020_1">
+ <g id="Colours">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <g id="_162657072">
-   <path class="fil0 str0" d="M1742 2087l-868 1029c-144,171 -302,235 -412,122 -89,-92 -33,-159 80,-287"/>
-   <line class="fil0 str1" x1="3281" y1="263" x2="2926" y2= "683" />
-   <path class="fil1 str1" d="M2926 683c924,777 1074,1615 918,2916 -51,-238 -450,-437 -678,-567 -388,-220 -739,-300 -868,-198 52,-226 -1505,-1784 -1833,-1673 108,-178 44,-317 -39,-519 -87,-212 -265,-386 -399,-468 819,-235 1977,-267 2900,510z"/>
-   <path class="fil0 str1" d="M2297 2834c518,-766 777,-1491 629,-2151 -604,-342 -1642,-150 -2462,477"/>
-  </g>
+  <path class="fil0 str0" d="M17418 20870l-8681 10288c-1444,1711 -3022,2352 -4116,1218 -888,-921 -334,-1591 802,-2871"/>
+  <path class="fil1" d="M22973 28337c5183,-7660 7768,-14906 6291,-21506 -6039,-3416 -16416,-1498 -24617,4773 1930,-649 8114,4476 12771,9266 3259,3351 5770,6537 5554,7467z"/>
+  <path class="fil1" d="M4648 11604c8201,-6270 18578,-8189 24617,-4773 -9236,-7769 -20809,-7452 -29001,-5097 1340,823 3118,2563 3992,4680 832,2016 1477,3414 393,5190z"/>
+  <path class="fil1" d="M29264 6831c1476,6600 -1108,13846 -6291,21506 1290,-1025 4808,-223 8683,1980 2284,1298 6280,3292 6785,5671 1564,-13002 60,-21388 -9176,-29156z"/>
+ </g>
+ <g id="lineart">
+  <metadata id="CorelCorpID_1Corel-Layer"/>
+  <line class="fil0 str1" x1="32809" y1="2630" x2="29264" y2= "6831" />
+  <path class="fil2 str1" d="M29264 6831c9236,7769 10740,16155 9176,29156 -505,-2379 -4501,-4373 -6785,-5671 -3875,-2202 -7392,-3004 -8683,-1980 524,-2258 -15045,-17836 -18325,-16733 1084,-1775 439,-3174 -393,-5190 -874,-2117 -2652,-3857 -3992,-4680 8192,-2355 19765,-2672 29001,5097z"/>
+  <path class="fil0 str1" d="M22973 28337c5183,-7660 7768,-14906 6291,-21506 -6039,-3416 -16416,-1498 -24617,4773"/>
  </g>
 </svg>
