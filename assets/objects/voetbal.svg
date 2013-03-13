@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X6 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="39.6874mm" height="39.6874mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 39687 39687"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:black;stroke-width:793.7}
+    .fil2 {fill:none}
+    .fil1 {fill:black}
+    .fil0 {fill:url(#id0)}
+   ]]>
+  </style>
+  <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="24718.4" y1="38658.7" x2="14969" y2="1028.7">
+   <stop offset="0" style="stop-color:#CCCCCC"/>
+   <stop offset="0.45098" style="stop-color:white"/>
+   <stop offset="1" style="stop-color:#FEFEFE"/>
+  </linearGradient>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_861943856">
+   <circle class="fil0 str0" cx="19844" cy="19844" r="19447"/>
+   <path class="fil1" d="M31929 4608c3710,2947 6320,7222 7110,12106l-2674 272 -4498 -7393 62 -4985z"/>
+   <path class="fil1" d="M571 17239c544,-4061 2340,-7725 4989,-10590l-163 3221 -4040 7314 -786 54z"/>
+   <path class="fil1" d="M19844 397c1241,0 2454,118 3630,340l-4576 838 -2772 -821c1204,-233 2447,-357 3718,-357z"/>
+   <polygon class="fil1" points="10926,9578 18403,5186 25165,9510 21990,17522 13561,17317 "/>
+   <polygon class="fil1" points="26388,24076 33469,24031 34222,30337 26802,35741 21904,31395 "/>
+   <polygon class="fil1" points="3571,23460 9642,23917 13907,31454 10710,35333 4647,30318 "/>
+   <line class="fil2 str0" x1="18934" y1="1189" x2="18453" y2= "5652" />
+   <line class="fil2 str0" x1="24079" y1="9718" x2="32067" y2= "9506" />
+   <line class="fil2 str0" x1="4934" y1="9721" x2="11786" y2= "9760" />
+   <line class="fil2 str0" x1="9575" y1="24374" x2="13902" y2= "16761" />
+   <line class="fil2 str0" x1="21739" y1="17083" x2="26576" y2= "24650" />
+   <line class="fil2 str0" x1="32349" y1="5820" x2="28800" y2= "2578" />
+   <line class="fil2 str0" x1="36562" y1="16628" x2="33209" y2= "24622" />
+   <line class="fil2 str0" x1="1195" y1="16808" x2="4121" y2= "24155" />
+   <line class="fil2 str0" x1="4809" y1="30215" x2="3768" y2= "30789" />
+   <line class="fil2 str0" x1="13441" y1="31427" x2="22415" y2= "31332" />
+   <line class="fil2 str0" x1="10584" y1="34437" x2="11333" y2= "37334" />
+   <line class="fil2 str0" x1="26874" y1="34881" x2="26258" y2= "38208" />
+   <line class="fil2 str0" x1="33787" y1="30217" x2="35993" y2= "30681" />
+  </g>
+ </g>
+</svg>
