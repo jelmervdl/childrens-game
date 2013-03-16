@@ -958,7 +958,13 @@
 			window.applicationCache.addEventListener('error', function(e) {
 				dialog.classList.remove('visible');
 				next();
-			})
+			});
+
+			// Continue to run as normal when caching has finished
+			window.applicationCache.addEventListener('cached', function(e) {
+				dialog.classList.remove('visible');
+				next();
+			});
 
 			// Show that we are downloading
 			window.applicationCache.addEventListener('downloading', function(e) {
