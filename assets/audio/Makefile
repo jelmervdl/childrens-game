@@ -4,7 +4,7 @@ CUE_FILES = $(shell ls ./cues/*.wav)
 
 INSTRUCTION_FILES = $(shell ls ./instructions/*.wav)
 
-DECORATION_FILES = magic-1.wav magic-2.wav magic-3.wav whispering.wav
+DECORATION_FILES = $(shell ls ./decorations/*.wav)
 
 AUDIO_FILES = $(CONVERSATION_FILES) $(CUE_FILES) $(INSTRUCTION_FILES) $(DECORATION_FILES)
 
