@@ -11,7 +11,7 @@ $files = array_merge(
 	glob('assets/*.svg'),
 	array(
 		'game.css',
-		'configuration.js',
+		'configuration.php',
 		'index.html',
 		'lib/sequence.js')
 );
