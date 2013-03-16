@@ -552,8 +552,8 @@
 			},
 			que: function(stage, next) {
 				stage.classList.add('show-baskets');
-				this.get('cue').play();
-				this.setTimeout(next, 500); // about 500 ms after the speaking.
+				// this.setTimeout(next, 500); // about 500 ms after the speaking.
+				next();
 			},
 			task: function(stage, next) {
 				var act = this;
@@ -588,7 +588,6 @@
 
 			var resources = {
 				'conversation': new n.Audio('assets/audio/conversations/' + config.audio_file_name + '.wav'),
-				'cue': new n.Audio('assets/audio/cues/' + config.object + '.wav'),
 				'magic': new n.Audio('assets/audio/magic-' + Math.ceil(Math.random() * 3, 10) + '.wav')
 			};
 
