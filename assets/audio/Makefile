@@ -1,18 +1,17 @@
-CHARACTER_INTRO_FILES = instructions/m3.wav \
-	instructions/intro.aap.wav \
-	instructions/intro.hond.wav \
-	instructions/intro.olif.wav \
-	instructions/m4.wav \
-	instructions/m4n.wav \
-	instructions/m5.wav \
-	instructions/m5n.wav \
-	instructions/m6.wav \
-	instructions/m6n.wav
+CONVERSATION_FILES = $(shell ls ./conversations/*.wav)
 
-sprites/character-introduction.m4a: $(CHARACTER_INTRO_FILES)
-	audiosprite --output sprites/character-introduction --export m4a $(CHARACTER_INTRO_FILES)
+CUE_FILES = $(shell ls ./cues/*.wav)
 
-all: sprites/character-introduction.m4a
+INSTRUCTION_FILES = $(shell ls ./instructions/*.wav)
+
+DECORATION_FILES = magic-1.wav magic-2.wav magic-3.wav whispering.wav
+
+AUDIO_FILES = $(CONVERSATION_FILES) $(CUE_FILES) $(INSTRUCTION_FILES) $(DECORATION_FILES)
+
+sprites.m4a: $(AUDIO_FILES)
+	audiosprite --output sprites --export m4a $(AUDIO_FILES)
+
+all: sprites.m4a
 
 clean:
-	rm -f sprites/character-introduction.{m4a,json}
+	rm -f sprites.m4a sprites.json
