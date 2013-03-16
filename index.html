@@ -711,268 +711,226 @@
 		var acts = [];
 
 		// Login act
-		acts.push(new n.Act({
-			stage: document.getElementById('login-stage'),
-			scenes: [
-				function(stage, next) {
-					clickOnce([stage.querySelector('.start-button')], next);
-				}
-			]
-		}));
+		acts.push(function(next) {
+			new n.Act({
+				stage: document.getElementById('login-stage'),
+				scenes: [
+					function(stage, next) {
+						clickOnce([stage.querySelector('.start-button')], next);
+					}
+				]
+			}).play(next);
+		});
 		
-		acts.push(new n.Act({
-			stage: document.getElementById('character-introduction-stage'),
-			resources: {
-				'hello': new n.Audio('assets/audio/instructions/m3.wav'),
-				'intro.aap': new n.Audio('assets/audio/instructions/intro.aap.wav'),
-				'intro.hond': new n.Audio('assets/audio/instructions/intro.hond.wav'),
-				'intro.olif': new n.Audio('assets/audio/instructions/intro.olif.wav'),
-				'query.olif': new n.Audio('assets/audio/instructions/m4.wav'),
-				'query.olif.wrong': new n.Audio('assets/audio/instructions/m4n.wav'),
-				'query.hond': new n.Audio('assets/audio/instructions/m5.wav'),
-				'query.hond.wrong': new n.Audio('assets/audio/instructions/m5n.wav'),
-				'query.aap': new n.Audio('assets/audio/instructions/m6.wav'),
-				'query.aap.wrong': new n.Audio('assets/audio/instructions/m6n.wav')
-			},
-			scenes: [
-				// Hey there animals, who are you?
-				function(stage, next) {
-					var act = this;
-					after([
-						bind(this.get('hello'), 'play'),
-						bind(this.get('intro.aap'), 'load'),
-						bind(this.get('intro.hond'), 'load'),
-						bind(this.get('intro.olif'), 'load'),
-						bind(this.get('query.olif'), 'load')
-					],
-					next);
+		// Character introduction
+		acts.push(function(next) {
+			new n.Act({
+				stage: document.getElementById('character-introduction-stage'),
+				resources: {
+					'hello': new n.Audio('assets/audio/instructions/m3.wav'),
+					'intro.aap': new n.Audio('assets/audio/instructions/intro.aap.wav'),
+					'intro.hond': new n.Audio('assets/audio/instructions/intro.hond.wav'),
+					'intro.olif': new n.Audio('assets/audio/instructions/intro.olif.wav'),
+					'query.olif': new n.Audio('assets/audio/instructions/m4.wav'),
+					'query.olif.wrong': new n.Audio('assets/audio/instructions/m4n.wav'),
+					'query.hond': new n.Audio('assets/audio/instructions/m5.wav'),
+					'query.hond.wrong': new n.Audio('assets/audio/instructions/m5n.wav'),
+					'query.aap': new n.Audio('assets/audio/instructions/m6.wav'),
+					'query.aap.wrong': new n.Audio('assets/audio/instructions/m6n.wav')
 				},
+				scenes: [
+					// Hey there animals, who are you?
+					function(stage, next) {
+						var act = this;
+						after([
+							bind(this.get('hello'), 'play'),
+							bind(this.get('intro.aap'), 'load'),
+							bind(this.get('intro.hond'), 'load'),
+							bind(this.get('intro.olif'), 'load'),
+							bind(this.get('query.olif'), 'load')
+						],
+						next);
+					},
 
-				// Hi, I'm the dog
-				function(stage, next) {
-					stage.classList.add('introduce-character-1');
-					this.get('intro.hond').play(function() {
-						stage.classList.remove('introduce-character-1');
-						next();	
-					});
-				},
-
-				// Hi, I'm the elephant
-				function(stage, next) {
-					stage.classList.add('introduce-character-2');
-					this.get('intro.olif').play(function() {
-						stage.classList.remove('introduce-character-2');
-						next();	
-					});	
-				},
-				
-				// Hi, I'm the monkey
-				function(stage, next) {
-					stage.classList.add('introduce-character-3');
-						this.get('intro.aap').play(function() {
-							stage.classList.remove('introduce-character-3');
+					// Hi, I'm the dog
+					function(stage, next) {
+						stage.classList.add('introduce-character-1');
+						this.get('intro.hond').play(function() {
+							stage.classList.remove('introduce-character-1');
 							next();	
-					});
-				},
-				
-				// Who is the elephant?
-				function(stage, next) {
-					this.get('query.olif').play(next);
-				},
-				function(stage, next) {
-					var act = this;
-					this.mark('query.olif');
-					
-					clickOnce(stage.querySelectorAll('.option'), function(option) {
-						if (option.classList.contains('olifant'))
-							next();
-						else
-							act.get('query.olif.wrong').play(function() {
-								act.jump('query.olif');
-							});
-					});
-				},
+						});
+					},
 
-				// Who is the monkey?
-				function(stage, next) {
-					this.get('query.aap').play(next);
-				},
-				function(stage, next) {
-					var act = this;
-					this.mark('query.aap');
+					// Hi, I'm the elephant
+					function(stage, next) {
+						stage.classList.add('introduce-character-2');
+						this.get('intro.olif').play(function() {
+							stage.classList.remove('introduce-character-2');
+							next();	
+						});	
+					},
 					
-					clickOnce(stage.querySelectorAll('.option'), function(option) {
-						if (option.classList.contains('aap'))
-							next();
-						else
-							act.get('query.aap.wrong').play(function() {
-								act.jump('query.aap');
-							});
-					});
-				},
+					// Hi, I'm the monkey
+					function(stage, next) {
+						stage.classList.add('introduce-character-3');
+							this.get('intro.aap').play(function() {
+								stage.classList.remove('introduce-character-3');
+								next();	
+						});
+					},
+					
+					// Who is the elephant?
+					function(stage, next) {
+						this.get('query.olif').play(next);
+					},
+					function(stage, next) {
+						var act = this;
+						this.mark('query.olif');
+						
+						clickOnce(stage.querySelectorAll('.option'), function(option) {
+							if (option.classList.contains('olifant'))
+								next();
+							else
+								act.get('query.olif.wrong').play(function() {
+									act.jump('query.olif');
+								});
+						});
+					},
 
-				// Who is the dog?
-				function(stage, next) {
-					this.get('query.hond').play(next);
-				},
-				function(stage, next) {
-					var act = this;
-					this.mark('query.hond');
-					
-					clickOnce(stage.querySelectorAll('.option'), function(option) {
-						if (option.classList.contains('hond'))
-							next();
-						else
-							act.get('query.hond.wrong').play(function() {
-								act.jump('query.hond');
-							});
-					});
-				}
-			]
-		}));
+					// Who is the monkey?
+					function(stage, next) {
+						this.get('query.aap').play(next);
+					},
+					function(stage, next) {
+						var act = this;
+						this.mark('query.aap');
+						
+						clickOnce(stage.querySelectorAll('.option'), function(option) {
+							if (option.classList.contains('aap'))
+								next();
+							else
+								act.get('query.aap.wrong').play(function() {
+									act.jump('query.aap');
+								});
+						});
+					},
+
+					// Who is the dog?
+					function(stage, next) {
+						this.get('query.hond').play(next);
+					},
+					function(stage, next) {
+						var act = this;
+						this.mark('query.hond');
+						
+						clickOnce(stage.querySelectorAll('.option'), function(option) {
+							if (option.classList.contains('hond'))
+								next();
+							else
+								act.get('query.hond.wrong').play(function() {
+									act.jump('query.hond');
+								});
+						});
+					}
+				]
+			}).play(next);
+		});
 
 		// "Nu gaan we naar het volgende level:""
-		acts.push(new n.Act({
-			id: 'instruction-2',
-			stage: document.getElementById('game-stage'),
-			resources: {
-				'instruction': new n.Audio('assets/audio/instructions/instruction2.wav')
-			},
-			scenes: [
-				function(stage, next) {
-					this.get('instruction').play(next);
+		acts.push(function(next) {
+			new n.Act({
+				id: 'instruction-2',
+				stage: document.getElementById('game-stage'),
+				resources: {
+					'instruction': new n.Audio('assets/audio/instructions/instruction2.wav')
 				},
-				// Temporary solution for the audio won't start playing-problem
-				function(stage, next) {
-					clickOnce([stage.querySelector('.next-button')], next);
-				}
-			]
-		}));
+				scenes: [
+					function(stage, next) {
+						this.get('instruction').play(next);
+					},
+					// Temporary solution for the audio won't start playing-problem
+					function(stage, next) {
+						clickOnce([stage.querySelector('.next-button')], next);
+					}
+				]
+			}).play(next);
+		});
 
-		// Game acts
-		configuration.no_report_items.shuffle().map(createAct).forEach(bind(acts, 'push'));
-
-		// Test olifant speaking left, right
-		// acts.push(createAct({
-		// 	"audio_file_name":"12.olif.jij",
-		// 	"code":"12",
-		// 	"speaker":"olifant",
-		// 	"addressee":"aap",
-		// 	"spatial_position":"addresse (left)",
-		// 	"reported_speaker":"none",
-		// 	"condition":"no-jij",
-		// 	"object":"kop",
-		// 	"correct_recipient_of_object":"aap",
-		// 	"sentence":"Jij krijgt de kop.",
-		// 	"type":"talking-left"
-		// }));
-
-		// acts.push(createAct({
-		// 	"audio_file_name":"13.olif.hij",
-		// 	"code":"13",
-		// 	"speaker":"olifant",
-		// 	"addressee":"aap",
-		// 	"spatial_position":"addresse (right)",
-		// 	"reported_speaker":"none",
-		// 	"condition":"no-hij",
-		// 	"object":"boek",
-		// 	"correct_recipient_of_object":"hond",
-		// 	"sentence":"Hij krijgt het boek.",
-		// 	"type":"talking-right"
-		// }));
+		// Non-whispering acts
+		configuration.no_report_items.shuffle().map(function(act) {
+			return bind(createAct(act), 'play');
+		}).forEach(bind(acts, 'push'));
 
 		// "Nu gaat het een klein beetje anders"
-		acts.push(new n.Act({
-			id: 'instruction-3',
-			stage: document.getElementById('game-stage'),
-			resources: {
-				'instruction': new n.Audio('assets/audio/instructions/instruction3.wav')
-			},
-			scenes: [
-				function(stage, next) {
-					this.get('instruction').play(next);
+		acts.push(function(next) {
+			new n.Act({
+				id: 'instruction-3',
+				stage: document.getElementById('game-stage'),
+				resources: {
+					'instruction': new n.Audio('assets/audio/instructions/instruction3.wav')
 				},
-				// Temporary solution for the audio won't start playing-problem
-				function(stage, next) {
-					clickOnce([stage.querySelector('.next-button')], next);
-				}
-			]
-		}));
+				scenes: [
+					function(stage, next) {
+						this.get('instruction').play(next);
+					},
+					// Temporary solution for the audio won't start playing-problem
+					function(stage, next) {
+						clickOnce([stage.querySelector('.next-button')], next);
+					}
+				]
+			}).play(next);
+		});
 		
-		// Test dog whispering left, right
-		// acts.push(createAct({
-		// 	"audio_file_name":"28.hond.dirjij",
-		// 	"code":"28",
-		// 	"speaker":"hond",
-		// 	"addressee":"olifant",
-		// 	"spatial_position":"addresse (left)",
-		// 	"reported_speaker":"aap",
-		// 	"condition":"dir-jij",
-		// 	"object":"roos",
-		// 	"correct_recipient_of_object":"hond",
-		// 	"sentence":null,
-		// 	"type":"whispering-left"
-		// }));
-
-		// acts.push(createAct({
-		// 	"audio_file_name":"29.hond.dirhij",
-		// 	"code":"29",
-		// 	"speaker":"hond",
-		// 	"addressee":"olifant",
-		// 	"spatial_position":"addresse (right)",
-		// 	"reported_speaker":"aap",
-		// 	"condition":"dir-hij",
-		// 	"object":"auto",
-		// 	"correct_recipient_of_object":"olifant",
-		// 	"sentence":null,
-		// 	"type":"whispering-right"
-		// }));
-
-		configuration.direct_and_indirect_speech_items.shuffle().map(createAct).forEach(bind(acts, 'push'));
+		// Whispering acts
+		configuration.direct_and_indirect_speech_items.shuffle().map(function(act) {
+			return bind(createAct(act), 'play');
+		}).forEach(bind(acts, 'push'));
 
 		// Thank you! act, show a form
-		acts.push(new n.Act({
-			stage: document.getElementById('end-stage'),
-			scenes: [
-				function(stage, next) {
-					// that's it :)
-					this.clickOnce(stage.querySelectorAll('button'), function() {
-						var age, sex, native_tongue = [];
+		acts.push(function(next) {
+			new n.Act({
+				stage: document.getElementById('end-stage'),
+				scenes: [
+					function(stage, next) {
+						// that's it :)
+						this.clickOnce(stage.querySelectorAll('button'), function() {
+							var age, sex, native_tongue = [];
 
-						age = stage.querySelector('input[name=age]').value;
-						
-						Array.prototype.forEach.call(stage.querySelectorAll('input[name=sex]'), function(option) {
-							if (option.checked)
-								sex = option.value;
+							age = stage.querySelector('input[name=age]').value;
+							
+							Array.prototype.forEach.call(stage.querySelectorAll('input[name=sex]'), function(option) {
+								if (option.checked)
+									sex = option.value;
+							});
+
+							Array.prototype.forEach.call(stage.querySelectorAll('input[name=native_tongue]'), function(option) {
+								if (option.checked)
+									native_tongue.push(option.value);
+							});
+
+							if (stage.querySelector('input[name=native_tongue_other]').value.trim())
+								native_tongue.push(stage.querySelector('input[name=native_tongue_other]').value.trim());
+
+							if (!age || !sex || native_tongue.length === 0)
+								return false;
+							
+							n.Measurements.submit({
+								'age': age,
+								'sex': sex,
+								'native_tongue': native_tongue
+							});
+							
+							next();
 						});
+					},
+					function(stage, next) {
+						stage.classList.add('done');
+					}
+				]
+			}).play(next);
+		});
 
-						Array.prototype.forEach.call(stage.querySelectorAll('input[name=native_tongue]'), function(option) {
-							if (option.checked)
-								native_tongue.push(option.value);
-						});
-
-						if (stage.querySelector('input[name=native_tongue_other]').value.trim())
-							native_tongue.push(stage.querySelector('input[name=native_tongue_other]').value.trim());
-
-						if (!age || !sex || native_tongue.length === 0)
-							return false;
-						
-						n.Measurements.submit({
-							'age': age,
-							'sex': sex,
-							'native_tongue': native_tongue
-						});
-						
-						next();
-					});
-				},
-				function(stage, next) {
-					stage.classList.add('done');
-				}
-			]
-		}));
-
-		var main = new Sequence(acts.map(function(act) { return act.play.bind(act); }));
+		var main = new Sequence(acts);
 		
 		function checkForUpdate(next)
 		{
