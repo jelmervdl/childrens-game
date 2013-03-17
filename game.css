@@ -230,7 +230,7 @@ button.clickable {
 }
 
 .pen {
-	background-image: url(assets/objects/pen.png);
+	background-image: url(assets/objects/pen.svg);
 }
 
 .roos {
@@ -242,19 +242,19 @@ button.clickable {
 }
 
 .sjaal {
-	background-image: url(assets/objects/sjaal.png);
+	background-image: url(assets/objects/sjaal.svg);
 }
 
 .sleutel {
-	background-image: url(assets/objects/sleutel.png);
+	background-image: url(assets/objects/sleutel.svg);
 }
 
 .tandenborstel {
-	background-image: url(assets/objects/tandenborstel.png);
+	background-image: url(assets/objects/tandenborstel.svg);
 }
 
 .vlag {
-	background-image: url(assets/objects/vlag.png);
+	background-image: url(assets/objects/vlag.svg);
 }
 
 .vliegtuig {
@@ -266,7 +266,7 @@ button.clickable {
 }
 
 .zonnebril {
-	background-image: url(assets/objects/zonnebril.png);
+	background-image: url(assets/objects/zonnebril.svg);
 }
 
 .object-dropped-on-option-1 .object,
