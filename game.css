@@ -205,7 +205,7 @@ button.clickable {
 }
 
 .lepel {
-	background-image: url(assets/objects/lepel.png);
+	background-image: url(assets/objects/lepel.svg);
 }
 
 .paraplu {
@@ -241,7 +241,7 @@ button.clickable {
 }
 
 .vliegtuig {
-	background-image: url(assets/objects/vliegtuig.png);
+	background-image: url(assets/objects/vliegtuig.svg);
 }
 
 .voetbal {
