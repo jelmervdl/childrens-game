@@ -1,6 +1,7 @@
 {
   "resources": [
-    "sprites.m4a"
+    "sprites.m4a",
+    "sprites.ogg"
   ],
   "spritemap": {
     "1.aap.ik": {

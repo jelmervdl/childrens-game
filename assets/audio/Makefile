@@ -8,10 +8,14 @@ DECORATION_FILES = $(shell ls ./decorations/*.wav)
 
 AUDIO_FILES = $(CONVERSATION_FILES) $(CUE_FILES) $(INSTRUCTION_FILES) $(DECORATION_FILES)
 
-sprites.m4a: $(AUDIO_FILES)
-	audiosprite --output sprites --export m4a $(AUDIO_FILES)
+.PHONY: all
 
-all: sprites.m4a
+.DEFAULT: all
+
+sprites.json: $(AUDIO_FILES)
+	audiosprite --output sprites --export m4a,ogg $(AUDIO_FILES)
+
+all: sprites.json
 
 clean:
-	rm -f sprites.m4a sprites.json
+	rm -f sprites.json sprites.m4a sprites.ogg

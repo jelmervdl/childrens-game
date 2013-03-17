@@ -267,9 +267,17 @@
 					};
 				},
 				function(next) {
-					sprite.audio.addEventListener('loadeddata', next);
-					sprite.audio.src = sprite.src + '.m4a';
-					sprite.audio.load();
+					var extensions = ['m4a', 'ogg'];
+					var extension;
+
+					while (extension = extensions.pop()) {
+						if (sprite.audio.canPlayType('audio/' + extension)) {
+							sprite.audio.addEventListener('loadeddata', next);
+							sprite.audio.src = sprite.src + '.' + extension;
+							sprite.audio.load();
+							break;
+						}
+					}
 				}
 			], next);
 		};
