@@ -1,0 +1,48 @@
+{
+  "resources": [
+    "practise_items.m4a",
+    "practise_items.ogg"
+  ],
+  "spritemap": {
+    "instruction1": {
+      "start": 0,
+      "end": 22,
+      "loop": false
+    },
+    "p1.olif": {
+      "start": 23,
+      "end": 25,
+      "loop": false
+    },
+    "p2.aap": {
+      "start": 26,
+      "end": 27.33451247165533,
+      "loop": false
+    },
+    "p3.hond": {
+      "start": 29,
+      "end": 30.371768707482993,
+      "loop": false
+    },
+    "magic-1": {
+      "start": 32,
+      "end": 33,
+      "loop": false
+    },
+    "magic-2": {
+      "start": 34,
+      "end": 35,
+      "loop": false
+    },
+    "magic-3": {
+      "start": 36,
+      "end": 36.901972789115646,
+      "loop": false
+    },
+    "whispering": {
+      "start": 38,
+      "end": 40.73995464852608,
+      "loop": false
+    }
+  }
+}

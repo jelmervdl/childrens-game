@@ -24,6 +24,8 @@ function parse_spatial_position($spatial_position, $section)
 
 	if ($section == 'direct_and_indirect_speech_items')
 		return 'whispering-' . $match[1];
+	else if ($section == 'practise_items')
+		return 'speaking-' . $match[1];
 	else
 		return 'talking-' . $match[1];
 }

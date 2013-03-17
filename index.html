@@ -557,6 +557,13 @@
 					next();
 				});
 			},
+			character_2_speaks: function(stage, next) {
+				stage.classList.add('character-2-speaks');
+				audio.play(this.get('conversation'), function() {
+					stage.classList.remove('character-2-speaks');
+					next();
+				});
+			},
 			que: function(stage, next) {
 				stage.classList.add('show-baskets');
 				// this.setTimeout(next, 500); // about 500 ms after the speaking.
@@ -643,6 +650,12 @@
 						templates.character_2_3_walk_back
 					);
 					break;
+
+				case 'speaking-left':
+				case 'speaking-right':
+					scenes.push(
+						templates.character_2_speaks
+					);
 			}
 
 			scenes.push(
@@ -670,12 +683,14 @@
 					switch (config.type) {
 						case 'whispering-right':
 						case 'talking-left':
+						case 'speaking-left':
 							stage.querySelector('.option-1').classList.add(config.addressee);
 							stage.querySelector('.option-3').classList.add(spare);
 							break;
 
 						case 'whispering-left':
 						case 'talking-right':
+						case 'speaking-right':
 							stage.querySelector('.option-1').classList.add(spare);
 							stage.querySelector('.option-3').classList.add(config.addressee);
 							break;
@@ -819,6 +834,32 @@
 				]
 			}).play(next);
 		});
+
+		// "Nu gaan we naar een spelletje spelen:""
+		acts.push(function(next) {
+			new n.Act({
+				id: 'instruction-1',
+				stage: document.getElementById('game-stage'),
+				scenes: [
+					function(stage, next) {
+						audio = new n.AudioSprite('assets/audio/sprites/practise_items');
+						audio.load(next);
+					},
+					function(stage, next) {
+						audio.play('instruction1', next);
+					},
+					// Temporary solution for the audio won't start playing-problem
+					function(stage, next) {
+						clickOnce([stage.querySelector('.next-button')], next);
+					}
+				]
+			}).play(next);
+		});
+
+		// Practise acts
+		configuration.practise_items.shuffle().map(function(act) {
+			return bind(createAct(act), 'play');
+		}).forEach(bind(acts, 'push'));
 
 		// "Nu gaan we naar het volgende level:""
 		acts.push(function(next) {

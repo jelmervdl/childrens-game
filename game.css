@@ -676,21 +676,24 @@ button.clickable {
 
 .playing-audio .introduce-character-1 .option-1.hond .character,
 .playing-audio .introduce-character-2 .option-2.hond .character,
-.playing-audio .introduce-character-3 .option-3.hond .character {
+.playing-audio .introduce-character-3 .option-3.hond .character,
+.playing-audio .character-2-speaks .option-2.hond .character {
 	-webkit-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
 	-moz-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
 }
 
 .playing-audio .introduce-character-1 .option-1.aap .character,
 .playing-audio .introduce-character-2 .option-2.aap .character,
-.playing-audio .introduce-character-3 .option-3.aap .character {
+.playing-audio .introduce-character-3 .option-3.aap .character,
+.playing-audio .character-2-speaks .option-2.aap .character {
 	-webkit-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
 	-moz-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
 }
 
 .playing-audio .introduce-character-1 .option-1.olifant .character,
 .playing-audio .introduce-character-2 .option-2.olifant .character,
-.playing-audio .introduce-character-3 .option-3.olifant .character {
+.playing-audio .introduce-character-3 .option-3.olifant .character,
+.playing-audio .character-2-speaks .option-2.olifant .character {
 	-webkit-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
 	-moz-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
 }
