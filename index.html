@@ -713,6 +713,9 @@
 					},
 					function(stage, next) {
 						audio.load(next);
+					},
+					function(stage, next) {
+						clickOnce([stage.querySelector('.start-button')], next);
 					}
 				]
 			}).play(next);
