@@ -238,7 +238,7 @@ button.clickable {
 }
 
 .schaar {
-	background-image: url(assets/objects/schaar.png);
+	background-image: url(assets/objects/schaar.svg);
 }
 
 .sjaal {
@@ -262,7 +262,7 @@ button.clickable {
 }
 
 .voetbal {
-	background-image: url(assets/objects/voetbal.png);
+	background-image: url(assets/objects/voetbal.svg);
 }
 
 .zonnebril {
