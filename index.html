@@ -750,6 +750,16 @@
 				scenes: [
 					function(stage, next) {
 						clickOnce([stage.querySelector('.start-button')], next);
+					},
+					function(stage, next) {
+						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
+						audio.load(next);
+					},
+					// Hey, leuk dat je er bent
+					function(stage, next) {
+						audio.play('m1', function() {
+							setTimeout(next, 500);
+						});
 					}
 				]
 			}).play(next);
@@ -760,10 +770,6 @@
 			new n.Act({
 				stage: document.getElementById('character-introduction-stage'),
 				scenes: [
-					function(stage, next) {
-						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
-						audio.load(next);
-					},
 					// Hey there animals, who are you?
 					function(stage, next) {
 						var act = this;

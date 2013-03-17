@@ -16,7 +16,7 @@ INSTRUCTION_FILES = $(shell ls ../instructions/*.wav)
 DECORATION_FILES = $(shell ls ../decorations/*.wav)
 
 
-CHARACTER_INTRODUCTION_FILES = $(shell ls ../instructions/m{3,4,5,6}*.wav ../instructions/intro.*.wav)
+CHARACTER_INTRODUCTION_FILES = $(shell ls ../instructions/m{1,3,4,5,6}*.wav ../instructions/intro.*.wav)
 
 PRACTISE_FILES = ../instructions/instruction1.wav $(PRACTISE_CONVERSATION_FILES) $(DECORATION_FILES)
 
