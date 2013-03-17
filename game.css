@@ -29,23 +29,6 @@ button.clickable {
 	overflow: hidden;
 }
 
-.notification-area {
-	height: 3em;
-	font: 1em/3em sans-serif;
-	text-align: center;
-	position: fixed;
-	top: -3em;
-	left: 0;
-	right: 0;
-	background: rgba(0, 0, 0, 0.2);
-	transition: top .25s ease-in-out;
-	-webkit-transition: top .25s ease-in-out;
-}
-
-.notification-area.visible {
-	top: 0;
-}
-
 .clickable {
 	cursor: pointer;
 	/*-webkit-animation: glow 1s ease-in-out 0 infinite alternate;*/
