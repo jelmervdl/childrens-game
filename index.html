@@ -35,6 +35,27 @@
 				</div>
 			</div>
 
+			<div id="object-introduction-stage" class="stage">
+				<div id="object-1" class="object voetbal"></div>
+				<div id="object-2" class="object boek"></div>
+				<div id="object-3" class="object gitaar"></div>
+				<div id="object-4" class="object zonnebril"></div>
+				<div id="object-5" class="object pen"></div>
+				<div id="object-6" class="object sjaal"></div>
+				<div id="object-7" class="object paraplu"></div>
+				<div id="object-8" class="object kop"></div>
+				<div id="object-9" class="object auto"></div>
+				<div id="object-10" class="object vliegtuig"></div>
+				<div id="object-11" class="object lepel"></div>
+				<div id="object-12" class="object hamer"></div>
+				<div id="object-13" class="object vlag"></div>
+				<div id="object-14" class="object roos"></div>
+				<div id="object-15" class="object hoed"></div>
+				<div id="object-16" class="object tandenborstel"></div>
+				<div id="object-17" class="object schaar"></div>
+				<div id="object-18" class="object sleutel"></div>
+			</div>
+
 			<div id="game-stage" class="stage">
 				<div id="option-1" class="option option-1">
 					<div id="character_1" class="character character-1"></div>
@@ -830,6 +851,47 @@
 						});
 					}
 				]
+			}).play(next);
+		});
+
+		// Object introduction
+		acts.push(function(next) {
+			var scenes = [];
+
+			// load audio
+			scenes.push(function(stage, next) {
+				audio = new n.AudioSprite('assets/audio/sprites/object_introduction');
+				audio.load(next);
+			});
+
+			// "Hier zijn een paar dingen"
+			scenes.push(function(stage, next) {
+				audio.play('m2', next);
+			});
+
+			// Highlight each object and name it.
+			for (var i = 1; i <= 18; ++i) {
+				scenes.push(function(object_num) {
+					return function(stage, next) {
+						if (object_num > 1)
+							document.getElementById('object-' + (object_num - 1)).classList.remove('highlight');
+
+						document.getElementById('object-' + object_num).classList.add('highlight');
+						audio.play('o' + object_num, next);
+					};
+				}(i));
+			}
+
+			// Clean up.
+			scenes.push(function(stage, next) {
+				document.getElementById('object-18').classList.remove('highlight');
+				next();
+			});
+
+			// Lets make this a real act, not just a list of scenes.
+			new n.Act({
+				stage: document.getElementById('object-introduction-stage'),
+				scenes: scenes
 			}).play(next);
 		});
 

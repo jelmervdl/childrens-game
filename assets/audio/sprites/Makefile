@@ -1,3 +1,8 @@
+AUDIOSPRITE = audiosprite
+
+FORMATS = m4a
+
+
 PRACTISE_CONVERSATION_FILES = $(shell ls ../conversations/p{1,2,3}.*.wav)
 
 NO_REPORT_CONVERSATION_FILES = $(shell ls ../conversations/*.{ik,jij,hij}.wav)
@@ -19,6 +24,8 @@ NO_REPORT_FILES = ../instructions/instruction2.wav $(DECORATION_FILES) $(NO_REPO
 
 DIRECT_INDIRECT_FILES = ../instructions/instruction3.wav $(DECORATION_FILES) $(DIRECT_INDIRECT_CONVERSATION_FILES)
 
+OBJECT_INTRODUCTION_FILES = ../instructions/m2.wav $(shell ls ../instructions/o*.wav)
+
 
 AUDIO_FILES = $(PRACTISE_CONVERSATION_FILES) $(NO_REPORT_CONVERSATION_FILES) $(DIRECT_INDIRECT_CONVERSATION_FILES) $(INSTRUCTION_FILES) $(DECORATION_FILES)
 
@@ -27,21 +34,24 @@ AUDIO_FILES = $(PRACTISE_CONVERSATION_FILES) $(NO_REPORT_CONVERSATION_FILES) $(D
 .DEFAULT: all
 
 character_introduction.json: $(CHARACTER_INTRODUCTION_FILES)
-	audiosprite --output character_introduction --export m4a $(CHARACTER_INTRODUCTION_FILES)
+	$(AUDIOSPRITE) --output character_introduction --export $(FORMATS) $(CHARACTER_INTRODUCTION_FILES)
+
+object_introduction.json: $(OBJECT_INTRODUCTION_FILES)
+	$(AUDIOSPRITE) --output object_introduction --export $(FORMATS) $(OBJECT_INTRODUCTION_FILES)
 
 practise_items.json: $(PRACTISE_FILES)
-	audiosprite --output practise_items --export m4a $(PRACTISE_FILES)	
+	$(AUDIOSPRITE) --output practise_items --export $(FORMATS) $(PRACTISE_FILES)	
 
 no_report_items.json: $(NO_REPORT_FILES)
-	audiosprite --output no_report_items --export m4a $(NO_REPORT_FILES)
+	$(AUDIOSPRITE) --output no_report_items --export $(FORMATS) $(NO_REPORT_FILES)
 
 direct_and_indirect_speech_items.json: $(DIRECT_INDIRECT_FILES) 
-	audiosprite --output  direct_and_indirect_speech_items --export m4a $(DIRECT_INDIRECT_FILES)
+	$(AUDIOSPRITE) --output  direct_and_indirect_speech_items --export $(FORMATS) $(DIRECT_INDIRECT_FILES)
 
 sprites.json: $(AUDIO_FILES)
-	audiosprite --output sprites --export m4a $(AUDIO_FILES)
+	$(AUDIOSPRITE) --output sprites --export $(FORMATS) $(AUDIO_FILES)
 
-all: character_introduction.json practise_items.json no_report_items.json direct_and_indirect_speech_items.json
+all: character_introduction.json practise_items.json no_report_items.json direct_and_indirect_speech_items.json object_introduction.json
 
 clean:
-	rm -f *.{m4a,json}
+	rm -f *.{$(FORMATS),json}

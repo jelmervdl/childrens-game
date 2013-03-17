@@ -1,0 +1,102 @@
+{
+  "resources": [
+    "object_introduction.m4a"
+  ],
+  "spritemap": {
+    "m2": {
+      "start": 0,
+      "end": 2.6,
+      "loop": false
+    },
+    "o1": {
+      "start": 4,
+      "end": 4.7680272108843536,
+      "loop": false
+    },
+    "o10": {
+      "start": 6,
+      "end": 7,
+      "loop": false
+    },
+    "o11": {
+      "start": 8,
+      "end": 8.7,
+      "loop": false
+    },
+    "o12": {
+      "start": 10,
+      "end": 10.669773242630386,
+      "loop": false
+    },
+    "o13": {
+      "start": 12,
+      "end": 12.64,
+      "loop": false
+    },
+    "o14": {
+      "start": 14,
+      "end": 14.669705215419501,
+      "loop": false
+    },
+    "o15": {
+      "start": 16,
+      "end": 16.429614512471655,
+      "loop": false
+    },
+    "o16": {
+      "start": 18,
+      "end": 18.92907029478458,
+      "loop": false
+    },
+    "o17": {
+      "start": 20,
+      "end": 20.70498866213152,
+      "loop": false
+    },
+    "o18": {
+      "start": 22,
+      "end": 22.808095238095238,
+      "loop": false
+    },
+    "o2": {
+      "start": 24,
+      "end": 24.53095238095238,
+      "loop": false
+    },
+    "o3": {
+      "start": 26,
+      "end": 26.773174603174603,
+      "loop": false
+    },
+    "o4": {
+      "start": 28,
+      "end": 28.75,
+      "loop": false
+    },
+    "o5": {
+      "start": 30,
+      "end": 30.425215419501132,
+      "loop": false
+    },
+    "o6": {
+      "start": 32,
+      "end": 32.65621315192744,
+      "loop": false
+    },
+    "o7": {
+      "start": 34,
+      "end": 34.78956916099773,
+      "loop": false
+    },
+    "o8": {
+      "start": 36,
+      "end": 36.56,
+      "loop": false
+    },
+    "o9": {
+      "start": 38,
+      "end": 38.68077097505669,
+      "loop": false
+    }
+  }
+}

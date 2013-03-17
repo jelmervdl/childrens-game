@@ -162,20 +162,23 @@ button.clickable {
 }
 
 .object {
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+#game-stage .object {
 	z-index: 6;
 	width: 10%;
 	height: 30%; /* Enough space so the width determines the real height */
 	left: 45%;
 	bottom: -100%;
 	display: none;
-	background-position: center bottom;
-	background-repeat: no-repeat;
-	background-size: contain;
 	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
 	pointer-events: none;
 }
 
-.show-object .object {
+#game-stage.show-object .object {
 	display: block;
 	bottom: 10%;
 }
@@ -252,29 +255,6 @@ button.clickable {
 	background-image: url(assets/objects/zonnebril.svg);
 }
 
-.object-dropped-on-option-1 .object,
-.object-dropped-on-option-2 .object,
-.object-dropped-on-option-3 .object {
-	-webkit-transition: bottom .75s, left .75s ease-in-out;
-	-webkit-animation: move-into-basket .75s 1 ease-out;
-	-webkit-animation-fill-mode: forwards;
-	-moz-transition: bottom .75s, left .75s ease-in-out;
-	-moz-animation: move-into-basket .75s 1 ease-out;
-	-moz-animation-fill-mode: forwards;
-}
-
-.object-dropped-on-option-1 .object {
-	left: 13%;
-}
-
-.object-dropped-on-option-2 .object {
-	left: 47%;
-}
-
-.object-dropped-on-option-3 .object {
-	left: 81%;
-}
-
 /* Scene 0 */
 
 .start-button,
@@ -318,68 +298,91 @@ button.clickable {
 	background-image: url(assets/characters/monkey_front.svg);
 }
 
-.character-1-2-together .option-1 .character,
-.character-1-2-together .option-3 .character,
-.character-2-3-together .option-2 .character {
+#game-stage.object-dropped-on-option-1 .object,
+#game-stage.object-dropped-on-option-2 .object,
+#game-stage.object-dropped-on-option-3 .object {
+	-webkit-transition: bottom .75s, left .75s ease-in-out;
+	-webkit-animation: move-into-basket .75s 1 ease-out;
+	-webkit-animation-fill-mode: forwards;
+	-moz-transition: bottom .75s, left .75s ease-in-out;
+	-moz-animation: move-into-basket .75s 1 ease-out;
+	-moz-animation-fill-mode: forwards;
+}
+
+#game-stage.object-dropped-on-option-1 .object {
+	left: 13%;
+}
+
+#game-stage.object-dropped-on-option-2 .object {
+	left: 47%;
+}
+
+#game-stage.object-dropped-on-option-3 .object {
+	left: 81%;
+}
+
+#game-stage.character-1-2-together .option-1 .character,
+#game-stage.character-1-2-together .option-3 .character,
+#game-stage.character-2-3-together .option-2 .character {
 	-webkit-transform: scaleX(-1);
 	-moz-transform: scaleX(-1);
 	transform: scaleX(-1);
 }
 
-.character-1-2-together .character,
-.character-2-3-together .character {
+#game-stage.character-1-2-together .character,
+#game-stage.character-2-3-together .character {
 	background-position: left bottom;
 }
 
-.character-1-2-together .hond .character,
-.character-2-3-together .hond .character {
+#game-stage.character-1-2-together .hond .character,
+#game-stage.character-2-3-together .hond .character {
 	background-image: url(assets/characters/dog_half-front.svg);
 }
 
-.character-1-2-together .olifant .character,
-.character-2-3-together .olifant .character{ 
+#game-stage.character-1-2-together .olifant .character,
+#game-stage.character-2-3-together .olifant .character{ 
 	background-image: url(assets/characters/elephant_half-front.svg);
 }
 
-.character-1-2-together .aap .character,
-.character-2-3-together .aap .character {
+#game-stage.character-1-2-together .aap .character,
+#game-stage.character-2-3-together .aap .character {
 	background-image: url(assets/characters/monkey_half-front.svg);
 }
 
 /* Talking */
 
-.playing-audio .character-1-2-talk .option-2.hond .character,
-.playing-audio .character-2-3-talk .option-2.hond .character {
+.playing-audio #game-stage.character-1-2-talk .option-2.hond .character,
+.playing-audio #game-stage.character-2-3-talk .option-2.hond .character {
 	-webkit-animation: dog-speaking .4s steps(1, end) 0 infinite;
 	-moz-animation: dog-speaking .4s steps(1, end) 0 infinite;
 }
 
-.playing-audio .character-1-2-talk .option-2.olifant .character,
-.playing-audio .character-2-3-talk .option-2.olifant .character {
+.playing-audio #game-stage.character-1-2-talk .option-2.olifant .character,
+.playing-audio #game-stage.character-2-3-talk .option-2.olifant .character {
 	-webkit-animation: elephant-speaking .4s steps(1, end) 0 infinite;
 	-moz-animation: elephant-speaking .4s steps(1, end) 0 infinite;
 }
 
-.playing-audio .character-1-2-talk .option-2.aap .character,
-.playing-audio .character-2-3-talk .option-2.aap .character{
+.playing-audio #game-stage.character-1-2-talk .option-2.aap .character,
+.playing-audio #game-stage.character-2-3-talk .option-2.aap .character{
 	-webkit-animation: monkey-speaking .4s steps(1, end) 0 infinite;
 	-moz-animation: monkey-speaking .4s steps(1, end) 0 infinite;
 }
 
 /* Whispering */
 
-.character-1-2-whisper .option-1.hond .character,
-.character-2-3-whisper .option-3.hond .character {
+#game-stage.character-1-2-whisper .option-1.hond .character,
+#game-stage.character-2-3-whisper .option-3.hond .character {
 	background-image: url(assets/characters/dog_whispering.svg);
 }
 
-.character-1-2-whisper .option-1.olifant .character,
-.character-2-3-whisper .option-3.olifant .character {
+#game-stage.character-1-2-whisper .option-1.olifant .character,
+#game-stage.character-2-3-whisper .option-3.olifant .character {
 	background-image: url(assets/characters/elephant_whispering.svg);
 }
 
-.character-1-2-whisper .option-1.aap .character,
-.character-2-3-whisper .option-3.aap .character {
+#game-stage.character-1-2-whisper .option-1.aap .character,
+#game-stage.character-2-3-whisper .option-3.aap .character {
 	background-image: url(assets/characters/monkey_whispering.svg);
 }
 
@@ -709,3 +712,26 @@ button.clickable {
 	width: 390px;
 }
 
+/* Object introduction scenes */
+#object-introduction-stage {
+	padding-left: 1%;
+	padding-top: 1%;
+}
+
+#object-introduction-stage .object {
+	position: relative;
+	float: left;
+	display: block;
+	width: 10%;
+	margin: 3%;
+	height: 20%;
+	opacity: 0.2;
+	
+	transition: opacity .2s ease-in-out;
+	-webkit-transition: opacity .2s ease-in-out;
+	-moz-transition: opacity .2s ease-in-out;
+}
+
+#object-introduction-stage .object.highlight {
+	opacity: 0.99;
+}
