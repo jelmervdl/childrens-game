@@ -275,6 +275,9 @@ button.clickable {
 	-webkit-transition: bottom .75s, left .75s ease-in-out;
 	-webkit-animation: move-into-basket .75s 1 ease-out;
 	-webkit-animation-fill-mode: forwards;
+	-moz-transition: bottom .75s, left .75s ease-in-out;
+	-moz-animation: move-into-basket .75s 1 ease-out;
+	-moz-animation-fill-mode: forwards;
 }
 
 .object-dropped-on-option-1 .object {
@@ -336,6 +339,7 @@ button.clickable {
 .character-1-2-together .option-3 .character,
 .character-2-3-together .option-2 .character {
 	-webkit-transform: scaleX(-1);
+	-moz-transform: scaleX(-1);
 	transform: scaleX(-1);
 }
 
@@ -364,16 +368,19 @@ button.clickable {
 .playing-audio .character-1-2-talk .option-2.hond .character,
 .playing-audio .character-2-3-talk .option-2.hond .character {
 	-webkit-animation: dog-speaking .4s steps(1, end) 0 infinite;
+	-moz-animation: dog-speaking .4s steps(1, end) 0 infinite;
 }
 
 .playing-audio .character-1-2-talk .option-2.olifant .character,
 .playing-audio .character-2-3-talk .option-2.olifant .character {
 	-webkit-animation: elephant-speaking .4s steps(1, end) 0 infinite;
+	-moz-animation: elephant-speaking .4s steps(1, end) 0 infinite;
 }
 
 .playing-audio .character-1-2-talk .option-2.aap .character,
 .playing-audio .character-2-3-talk .option-2.aap .character{
 	-webkit-animation: monkey-speaking .4s steps(1, end) 0 infinite;
+	-moz-animation: monkey-speaking .4s steps(1, end) 0 infinite;
 }
 
 /* Whispering */
@@ -416,6 +423,25 @@ button.clickable {
 	}
 }
 
+@-moz-keyframes move-into-basket {
+	50% {
+		width: 9%;
+	}
+	75% {
+		width: 8%;
+		bottom: 60%;
+		z-index: 6; 
+	}
+	76% {
+		z-index: 4;
+	} /* Make sure it moves in front of it upwards, and in the back of it downwards */
+	100% {
+		width: 7%;
+		bottom: 36%;
+		z-index: 4;
+	}
+}
+
 @-webkit-keyframes glow {
 	0% {
 		box-shadow: 0 0 1px #FFCE0D;
@@ -427,12 +453,32 @@ button.clickable {
 	}
 }
 
+@-moz-keyframes glow {
+	0% {
+		box-shadow: 0 0 1px #FFCE0D;
+		-moz-box-shadow: 0 0 1px #FFCE0D;
+	}
+	100% {
+		box-shadow: 0 0 25px #FFCE0D;
+		-moz-box-shadow: 0 0 25px #FFCE0D;
+	}
+}
+
 @-webkit-keyframes spin {
 	0% {
 		-webkit-transform: rotate(0deg);
 	}
 	100% {
 		-webkit-transform: rotate(360deg);
+	}
+}
+
+@-moz-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(360deg);
 	}
 }
 
@@ -482,6 +528,60 @@ button.clickable {
 }
 
 @-webkit-keyframes monkey-speaking-front {
+	0% {
+		background-image: url(assets/characters/monkey_front_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/monkey_front_speaking_b.svg);	
+	}
+}
+
+@-moz-keyframes dog-speaking {
+	0% {
+		background-image: url(assets/characters/dog_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/dog_speaking_b.svg);	
+	}
+}
+
+@-moz-keyframes elephant-speaking {
+	0% {
+		background-image: url(assets/characters/elephant_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/elephant_speaking_b.svg);	
+	}
+}
+
+@-moz-keyframes monkey-speaking {
+	0% {
+		background-image: url(assets/characters/monkey_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/monkey_speaking_b.svg);	
+	}
+}
+
+@-moz-keyframes dog-speaking-front {
+	0% {
+		background-image: url(assets/characters/dog_front_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/dog_front_speaking_b.svg);	
+	}
+}
+
+@-moz-keyframes elephant-speaking-front {
+	0% {
+		background-image: url(assets/characters/elephant_front_speaking_a.svg);
+	}
+	50% {
+		background-image: url(assets/characters/elephant_front_speaking_b.svg);	
+	}
+}
+
+@-moz-keyframes monkey-speaking-front {
 	0% {
 		background-image: url(assets/characters/monkey_front_speaking_a.svg);
 	}
@@ -578,18 +678,21 @@ button.clickable {
 .playing-audio .introduce-character-2 .option-2.hond .character,
 .playing-audio .introduce-character-3 .option-3.hond .character {
 	-webkit-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
+	-moz-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
 }
 
 .playing-audio .introduce-character-1 .option-1.aap .character,
 .playing-audio .introduce-character-2 .option-2.aap .character,
 .playing-audio .introduce-character-3 .option-3.aap .character {
 	-webkit-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
+	-moz-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
 }
 
 .playing-audio .introduce-character-1 .option-1.olifant .character,
 .playing-audio .introduce-character-2 .option-2.olifant .character,
 .playing-audio .introduce-character-3 .option-3.olifant .character {
 	-webkit-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
+	-moz-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
 }
 
 /* Update dialog */
