@@ -1,0 +1,58 @@
+{
+  "resources": [
+    "character_introduction.m4a",
+    "character_introduction.ogg"
+  ],
+  "spritemap": {
+    "intro.aap": {
+      "start": 0,
+      "end": 1.8365986394557823,
+      "loop": false
+    },
+    "intro.hond": {
+      "start": 3,
+      "end": 4.411632653061225,
+      "loop": false
+    },
+    "intro.olif": {
+      "start": 6,
+      "end": 8.4,
+      "loop": false
+    },
+    "m3": {
+      "start": 10,
+      "end": 15.363696145124717,
+      "loop": false
+    },
+    "m4": {
+      "start": 17,
+      "end": 18.576507936507937,
+      "loop": false
+    },
+    "m4n": {
+      "start": 20,
+      "end": 23.86705215419501,
+      "loop": false
+    },
+    "m5": {
+      "start": 25,
+      "end": 26.48371882086168,
+      "loop": false
+    },
+    "m5n": {
+      "start": 28,
+      "end": 31.69390022675737,
+      "loop": false
+    },
+    "m6": {
+      "start": 33,
+      "end": 34.409954648526075,
+      "loop": false
+    },
+    "m6n": {
+      "start": 36,
+      "end": 39.86462585034013,
+      "loop": false
+    }
+  }
+}

@@ -232,6 +232,8 @@
 
 		n.AudioSprite = function(url)
 		{
+			var self = this;
+
 			this.src = url;
 
 			this.audio = new Audio();
@@ -248,6 +250,17 @@
 			this.audio.addEventListener('ended', function() {
 				document.body.classList.remove('playing-audio');
 			});
+
+			this.audio.addEventListener('timeupdate', function() {
+				if (!self.currentSprite)
+					return;
+
+				if (self.audio.currentTime > self.currentSprite.end) {
+					var next = self.callback; 
+					self.stop();
+					if (next) next();
+				}
+			})
 		};
 
 		n.AudioSprite.prototype.load = function(next)
@@ -267,37 +280,30 @@
 					};
 				},
 				function(next) {
-					var extensions = ['m4a', 'ogg'];
-					var extension;
-
-					while (extension = extensions.pop()) {
-						if (sprite.audio.canPlayType('audio/' + extension)) {
-							sprite.audio.addEventListener('loadeddata', next);
-							sprite.audio.src = sprite.src + '.' + extension;
-							sprite.audio.load();
-							break;
-						}
-					}
+					sprite.audio.src = sprite.src + '.m4a';
+					sprite.audio.addEventListener('loadeddata', next);
+					sprite.audio.load();
 				}
 			], next);
 		};
 
 		n.AudioSprite.prototype.play = function(chapter, next)
 		{
-			var audio = this.audio,
-				sprite = this.data.spritemap[chapter];
+			if (this.currentSprite)
+				this.stop();
 
-			var stopper = function() {
-				if (audio.currentTime > sprite.end) {
-					audio.pause()
-					audio.removeEventListener('timeupdate', stopper);
-					if (next) next();
-				}
-			};
+			this.currentSprite = this.data.spritemap[chapter];
+			this.callback = next;
 
-			audio.addEventListener('timeupdate', stopper);
-			audio.currentTime = sprite.start;
-			audio.play();
+			this.audio.currentTime = this.currentSprite.start;
+			this.audio.play();
+		};
+
+		n.AudioSprite.prototype.stop = function()
+		{
+			this.audio.pause();
+			this.currentSprite = null;
+			this.callback = null;
 		};
 
 		/* Act */
@@ -701,19 +707,13 @@
 		
 		var acts = [];
 
-		var audio = new n.AudioSprite('assets/audio/sprites');
+		var audio = null;
 
 		// Login act
 		acts.push(function(next) {
 			new n.Act({
 				stage: document.getElementById('login-stage'),
 				scenes: [
-					function(stage, next) {
-						clickOnce([stage.querySelector('.start-button')], next);
-					},
-					function(stage, next) {
-						audio.load(next);
-					},
 					function(stage, next) {
 						clickOnce([stage.querySelector('.start-button')], next);
 					}
@@ -726,6 +726,10 @@
 			new n.Act({
 				stage: document.getElementById('character-introduction-stage'),
 				scenes: [
+					function(stage, next) {
+						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
+						audio.load(next);
+					},
 					// Hey there animals, who are you?
 					function(stage, next) {
 						var act = this;
@@ -823,6 +827,10 @@
 				stage: document.getElementById('game-stage'),
 				scenes: [
 					function(stage, next) {
+						audio = new n.AudioSprite('assets/audio/sprites/no_report_items');
+						audio.load(next);
+					},
+					function(stage, next) {
 						audio.play('instruction2', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
@@ -844,6 +852,10 @@
 				id: 'instruction-3',
 				stage: document.getElementById('game-stage'),
 				scenes: [
+					function(stage, next) {
+						audio = new n.AudioSprite('assets/audio/sprites/direct_and_indirect_speech_items');
+						audio.load(next);
+					},
 					function(stage, next) {
 						audio.play('instruction3', next);
 					},

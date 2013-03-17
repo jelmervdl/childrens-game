@@ -1,7 +1,8 @@
 <?php
 
 $files = array_merge(
-	glob('assets/audio/sprites.*'),
+	glob('assets/audio/sprites/*.json'),
+	glob('assets/audio/sprites/*.m4a'),
 	glob('assets/characters/*.svg'),
 	glob('assets/objects/*.png'),
 	glob('assets/objects/*.svg'),
