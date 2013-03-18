@@ -1079,7 +1079,9 @@
 							n.Measurements.submit({
 								'age': age,
 								'sex': sex,
-								'native_tongue': native_tongue
+								'native_tongue': native_tongue,
+								'browser': window.navigator.userAgent,
+								'platform': window.navigator.platform
 							});
 							
 							next();
