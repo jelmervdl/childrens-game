@@ -1,7 +1,6 @@
 {
   "resources": [
-    "no_report_items.m4a",
-    "no_report_items.ogg"
+    "no_report_items.m4a"
   ],
   "spritemap": {
     "instruction2": {
