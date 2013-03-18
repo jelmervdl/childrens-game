@@ -117,6 +117,8 @@
 			</div>
 		</div>
 
+		<div id="experiment-progress"></div>
+
 		<script src="configuration.php"></script>
 		<script src="lib/sequence.js"></script>
 
@@ -518,6 +520,29 @@
 			n.Measurements.push(this);
 		};
 
+		n.ProgressBar = function(element)
+		{
+			this.element = element;
+			this.value = 0;
+			this.max = 0;
+		};
+
+		n.ProgressBar.prototype.add = function(length)
+		{
+			this.max += length;
+		};
+
+		n.ProgressBar.prototype.increment = function()
+		{
+			this.value++;
+			this.update();
+		};
+
+		n.ProgressBar.prototype.update = function()
+		{
+			this.element.style.width = (this.value / this.max) * 100 + '%';
+		};
+
 		var templates = {
 			mark: function(name) {
 				return function(stage, next) {
@@ -745,6 +770,9 @@
 							stage.querySelector('.option-3').classList.add(config.addressee);
 							break;
 					}
+
+					// Increment the global progress bar
+					window.progress.increment();
 				},
 				tearDown: function(stage) {
 					// Clear the type
@@ -773,6 +801,8 @@
 		var acts = [];
 
 		var audio = null;
+
+		window.progress = new n.ProgressBar(document.getElementById('experiment-progress'));
 
 		// Login act
 		acts.push(function(next) {
@@ -957,6 +987,7 @@
 		configuration.practise_items.shuffle().map(function(act) {
 			return bind(createAct(act), 'play');
 		}).forEach(bind(acts, 'push'));
+		window.progress.add(configuration.practise_items.length);
 
 		// "Nu gaan we naar het volgende level:""
 		acts.push(function(next) {
@@ -983,6 +1014,7 @@
 		configuration.no_report_items.shuffle().map(function(act) {
 			return bind(createAct(act), 'play');
 		}).forEach(bind(acts, 'push'));
+		window.progress.add(configuration.no_report_items.length);
 
 		// "Nu gaat het een klein beetje anders"
 		acts.push(function(next) {
@@ -1009,6 +1041,7 @@
 		configuration.direct_and_indirect_speech_items.shuffle().map(function(act) {
 			return bind(createAct(act), 'play');
 		}).forEach(bind(acts, 'push'));
+		window.progress.add(configuration.direct_and_indirect_speech_items.length);
 
 		// Thank you! act, show a form
 		acts.push(function(next) {

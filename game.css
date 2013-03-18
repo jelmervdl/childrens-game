@@ -735,3 +735,19 @@ button.clickable {
 #object-introduction-stage .object.highlight {
 	opacity: 0.99;
 }
+
+/* Progress bar */
+#experiment-progress {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 100;
+
+	width: 0;
+	height: 0.2em;
+	background: #2fb1e4;
+
+	transition: width .25s ease-out;
+	-webkit-transition: width .25s ease-out;
+	-moz-transition: width .25s ease-out;
+}
