@@ -610,6 +610,34 @@
 					});
 				}, 20000);
 			},
+			practise_task: function(stage, next) {
+				var act = this;
+				
+				if (!act.measurement)
+					act.measurement = new n.Measurement(this.id);
+
+				act.measurement.start();
+				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
+					if (option.classList.contains(act.get('correct_recipient'))) {
+						act.measurement.stop(option.id);
+						audio.play('magic-' + random(1, 3));
+						stage.classList.add('object-dropped-on-' + option.id);
+						act.setTimeout(next, 1000);
+					} else {
+						audio.play('m7', function() {
+							act.jump('begin-conversation');
+						});
+					}
+				});
+
+				// after 20 seconds, also show a "opnieuw" button to repeat the previous scene
+				this.setTimeout(function() {
+					act.clickOnce(stage.querySelectorAll('.replay-button'), function() {
+						stage.classList.remove('show-baskets');
+						act.jump('begin-conversation');
+					});
+				}, 20000);
+			},
 			next_button: function(stage, next) {
 				this.clickOnce(stage.querySelectorAll('.next-button'), next);
 			}
@@ -620,7 +648,8 @@
 			var scenes = [];
 
 			var resources = {
-				'conversation': config.audio_file_name
+				'conversation': config.audio_file_name,
+				'correct_recipient': config.correct_recipient_of_object
 			};
 
 			// Start with a little pause to put more focus on the come-together animation,
@@ -677,9 +706,11 @@
 					);
 			}
 
+			var is_practise_task = config.code.substr(0, 1) == 'p';
+
 			scenes.push(
 				templates.que,
-				templates.task,
+				is_practise_task ? templates.practise_task : templates.task,
 				templates.next_button);
 
 			return new n.Act({
@@ -988,7 +1019,7 @@
 						audio = new n.AudioSprite('assets/audio/sprites/thank_you');
 						audio.load();
 						next();
-					}
+					},
 					function(stage, next) {
 						// that's it :)
 						this.clickOnce(stage.querySelectorAll('button'), function() {
