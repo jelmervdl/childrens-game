@@ -624,6 +624,13 @@
 					act.measurement.stop(option.id);
 					audio.play('magic-' + random(1, 3));
 					stage.classList.add('object-dropped-on-' + option.id);
+
+					// Als de zonnebril aan de olifant gegeven wordt...
+					if (document.getElementById('object').classList.contains('zonnebril') && option.classList.contains('olifant'))
+						setTimeout(function() {
+							stage.classList.add('olifant-draagt-zonnebril');
+						}, 750);
+
 					act.setTimeout(next, 1000);
 				});
 
@@ -1023,6 +1030,9 @@
 				stage: document.getElementById('game-stage'),
 				scenes: [
 					function(stage, next) {
+						// Nieuwe ronde, nieuwe kansen.
+						stage.classList.remove('olifant-draagt-zonnebril');
+
 						audio = new n.AudioSprite('assets/audio/sprites/direct_and_indirect_speech_items');
 						audio.load(next);
 					},

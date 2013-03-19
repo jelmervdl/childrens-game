@@ -294,6 +294,10 @@ button.clickable {
 	background-image: url(assets/characters/elephant_front.svg);
 }
 
+.olifant-draagt-zonnebril .olifant .character {
+	background-image: url(assets/characters/elephant_sunglasses.svg);
+}
+
 .aap .character {
 	background-image: url(assets/characters/monkey_front.svg);
 }
