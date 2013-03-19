@@ -1,0 +1,12 @@
+{
+  "resources": [
+    "thank_you.m4a"
+  ],
+  "spritemap": {
+    "m8": {
+      "start": 0,
+      "end": 6.2,
+      "loop": false
+    }
+  }
+}
