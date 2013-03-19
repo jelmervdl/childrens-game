@@ -1,1 +1,3 @@
 .DS_Store
+assets/audio/sprites/*.m4a
+assets/audio/sprites/*.json

@@ -1,8 +1,8 @@
 AUDIO_SPRITES_DIR = assets/audio/sprites
 
-.PHONY: audio_sprites
+.PHONY: all
 
-audio_sprites:
+all:
 	$(MAKE) -C $(AUDIO_SPRITES_DIR) all
 
 clean:
