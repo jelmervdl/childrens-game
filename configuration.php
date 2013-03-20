@@ -79,6 +79,50 @@ function beautify_json($json)
 	return $result;
 }
 
+function array_remove(&$array, $value)
+{
+	$index = array_search($value, $array);
+
+	if ($index === null || $index === false)
+		return;
+
+	array_splice($array, $index, 1);
+}
+
+function calculate_character_positions($configuration)
+{
+	$characters = array('hond', 'aap', 'olifant');
+	$positions = array(
+		'position-1' => null,
+		'position-2' => null,
+		'position-3' => null
+	);
+
+	$positions[] = $config['speaker'];
+	array_remove($positions, $config['speaker']);
+	array_remove($positions, $config['addressee']);
+	$spare = $characters[0];
+
+	switch ($configuration['type'])
+	{
+		case 'whispering-right':
+		case 'talking-left':
+		case 'speaking-left':
+			$positions['position-1'] = $configuration['addressee'];
+			$positions['position-3'] = $spare;
+			break;
+
+		case 'whispering-left':
+		case 'talking-right':
+		case 'speaking-right':
+			$positions['position-1'] = $spare;
+			$positions['position-3'] = $configuration['addressee'];
+			break;
+	}
+
+	return $positions;
+}
+
 function parse_configurations($f)
 {
 	$headers = fgetcsv($f);
@@ -122,6 +166,9 @@ function parse_configurations($f)
 		{
 			$configuration['type'] = parse_spatial_position($configuration['spatial_position'], $section);
 			$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
+
+			$positions = calculate_character_positions($configuration);
+			$configuration['correct_position'] = array_search($configuration['correct_recipient_of_object'], $positions);
 		}
 	}
 

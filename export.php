@@ -55,7 +55,8 @@ function export_to_r(PDO $db)
 			m.act_id,
 			m.choice,
 			m.start_time,
-			m.stop_time
+			m.stop_time,
+			(m.stop_time - m.start_time) as difference
 		FROM
 			personal_details p
 		LEFT JOIN
