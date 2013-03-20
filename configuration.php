@@ -168,7 +168,7 @@ function parse_configurations($f)
 			$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
 
 			$positions = calculate_character_positions($configuration);
-			$configuration['positions'] = calculate_character_positions($configuration);
+			//$configuration['positions'] = calculate_character_positions($configuration);
 			$configuration['correct_position'] = array_search($configuration['correct_recipient_of_object'], $positions);
 		}
 	}
