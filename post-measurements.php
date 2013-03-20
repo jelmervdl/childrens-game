@@ -9,7 +9,7 @@ class DataStore
 
 	public function insertPersonalDetails($subject_id, $details)
 	{
-		$stmt = $this->db->prepare("INSERT INTO personal_details (subject_id, age, sex, browser, platform) VALUES (:subject_id, :age, :sex, :browser, :platform)");
+		$stmt = $this->db->prepare("INSERT INTO personal_details (subject_id, age, sex, browser, platform, submitted) VALUES (:subject_id, :age, :sex, :browser, :platform, NOW())");
 
 		$stmt->bindParam(":subject_id", $subject_id);
 		$stmt->bindParam(":age", $details->age);
