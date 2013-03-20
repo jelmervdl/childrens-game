@@ -52,6 +52,7 @@ function export_to_r(PDO $db)
 			p.sex,
 			p.browser,
 			p.platform,
+			p.submitted,
 			n.language,
 			m.id as measurement_id,
 			m.act_id,
