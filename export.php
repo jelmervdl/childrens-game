@@ -83,6 +83,8 @@ function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
 	header("Content-Transfer-Encoding: Binary");
 	header("Content-disposition: attachment; filename=\"{$now}.csv\"");
 	
+	ob_start("ob_gzhandler");
+	
 	$printed_headers = false;
 
 	if (!$decorator)
