@@ -105,7 +105,7 @@ function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
 		}
 
 		// Enclose text fields in quotes, and escape quotes in these fields.
-		foreach (array('browser', 'platform', 'language') as $field)
+		foreach (array('browser', 'platform', 'language', 'submitted') as $field)
 			$row[$field] = sprintf('"%s"', str_replace('"', '""', $row[$field]));
 
 		// print the row.
