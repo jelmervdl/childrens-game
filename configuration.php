@@ -86,37 +86,37 @@ function array_remove(&$array, $value)
 	if ($index === null || $index === false)
 		return;
 
-	array_splice($array, $index, 1);
+	unset($array[$index]);
 }
 
 function calculate_character_positions($configuration)
 {
 	$characters = array('hond', 'aap', 'olifant');
 	$positions = array(
-		'position-1' => null,
-		'position-2' => null,
-		'position-3' => null
+		'option-1' => null,
+		'option-2' => null,
+		'option-3' => null
 	);
 
-	$positions[] = $configuration['speaker'];
-	array_remove($positions, $configuration['speaker']);
-	array_remove($positions, $configuration['addressee']);
-	$spare = $characters[0];
+	$positions['option-2'] = $configuration['speaker'];
+	array_remove($characters, $configuration['speaker']);
+	array_remove($characters, $configuration['addressee']);
+	$spare = current($characters);
 
 	switch ($configuration['type'])
 	{
 		case 'whispering-right':
 		case 'talking-left':
 		case 'speaking-left':
-			$positions['position-1'] = $configuration['addressee'];
-			$positions['position-3'] = $spare;
+			$positions['option-1'] = $configuration['addressee'];
+			$positions['option-3'] = $spare;
 			break;
 
 		case 'whispering-left':
 		case 'talking-right':
 		case 'speaking-right':
-			$positions['position-1'] = $spare;
-			$positions['position-3'] = $configuration['addressee'];
+			$positions['option-1'] = $spare;
+			$positions['option-3'] = $configuration['addressee'];
 			break;
 	}
 
@@ -168,6 +168,7 @@ function parse_configurations($f)
 			$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
 
 			$positions = calculate_character_positions($configuration);
+			$configuration['positions'] = calculate_character_positions($configuration);
 			$configuration['correct_position'] = array_search($configuration['correct_recipient_of_object'], $positions);
 		}
 	}

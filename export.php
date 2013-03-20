@@ -37,6 +37,8 @@ class ConfigurationDecorator implements Decorator
 	{
 		$configuration = $this->configurations[$row['act_id']];
 
+		$configuration['correct'] = $row['choice'] == $configuration['correct_position'] ? '1' : '0';
+
 		return array_merge($row, $configuration);
 	}
 }
