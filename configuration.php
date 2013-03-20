@@ -1,9 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('auto_detect_line_endings', true);
-
 function simplify_header($header)
 {
 	$header = preg_replace('/\(.+\)/', '', $header);
@@ -83,51 +79,74 @@ function beautify_json($json)
 	return $result;
 }
 
-$f = fopen('./configuration.csv', 'r');
-
-$headers = fgetcsv($f);
-
-foreach ($headers as &$header)
-	$header = simplify_header($header);
-
-$configurations = array();
-$current = '';
-
-while ($row = fgetcsv($f))
+function parse_configurations($f)
 {
-	$row = array_filter($row);
+	$headers = fgetcsv($f);
 
-	// Ignore empty rows
-	if (empty($row))
-		continue;
+	foreach ($headers as &$header)
+		$header = simplify_header($header);
 
-	// Section
-	elseif (count($row) === 1)
+	$configurations = array();
+	$current = '';
+
+	while ($row = fgetcsv($f))
 	{
-		$name = simplify_header($row[0]);
-		$configurations[$name] = array();
-		$current = $name;
+		$row = array_filter($row);
+
+		// Ignore empty rows
+		if (empty($row))
+			continue;
+
+		// Section
+		elseif (count($row) === 1)
+		{
+			$name = simplify_header($row[0]);
+			$configurations[$name] = array();
+			$current = $name;
+		}
+
+		// Actual data
+		else
+		{
+			$row = array_map('trim', $row);
+			$configurations[$current][] = array_combine($headers, $row);
+		}
 	}
 
-	// Actual data
-	else
+	// Post-process:
+	// - identify the type of scene (talking|wispering-left|right)
+	// - normalize object (de vlag -> vlag)
+	foreach ($configurations as $section => &$section_configurations)
 	{
-		$row = array_map('trim', $row);
-		$configurations[$current][] = array_combine($headers, $row);
+		foreach ($section_configurations as &$configuration)
+		{
+			$configuration['type'] = parse_spatial_position($configuration['spatial_position'], $section);
+			$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
+		}
 	}
+
+	return $configurations;
 }
 
-fclose($f);
+function get_configurations()
+{
+	$f = fopen('./configuration.csv', 'r');
 
-// Post-process:
-// - identify the type of scene (talking|wispering-left|right)
-// - normalize object (de vlag -> vlag)
-foreach ($configurations as $section => &$section_configurations)
-	foreach ($section_configurations as &$configuration)
-	{
-		$configuration['type'] = parse_spatial_position($configuration['spatial_position'], $section);
-		$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
-	}
+	$configurations = parse_configurations($f);
 
-header('Content-type: application/json');
-printf('window.configuration = %s;', beautify_json(json_encode($configurations)));
+	fclose($f);
+
+	return $configurations;
+}
+
+if ($_SERVER['SCRIPT_FILENAME'] == __FILE__)
+{
+	error_reporting(E_ALL);
+	ini_set('display_errors', true);
+	ini_set('auto_detect_line_endings', true);
+
+	$configurations = get_configurations();
+
+	header('Content-type: application/json');
+	printf('window.configuration = %s;', beautify_json(json_encode($configurations)));
+}
