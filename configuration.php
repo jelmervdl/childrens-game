@@ -98,9 +98,9 @@ function calculate_character_positions($configuration)
 		'position-3' => null
 	);
 
-	$positions[] = $config['speaker'];
-	array_remove($positions, $config['speaker']);
-	array_remove($positions, $config['addressee']);
+	$positions[] = $configuration['speaker'];
+	array_remove($positions, $configuration['speaker']);
+	array_remove($positions, $configuration['addressee']);
 	$spare = $characters[0];
 
 	switch ($configuration['type'])
