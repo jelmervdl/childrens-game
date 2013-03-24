@@ -1,6 +1,7 @@
 {
   "resources": [
-    "character_introduction.m4a"
+    "character_introduction.m4a",
+    "character_introduction.ogg"
   ],
   "spritemap": {
     "intro.aap": {

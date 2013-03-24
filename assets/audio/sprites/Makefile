@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 AUDIOSPRITE = audiosprite
-FORMATS = m4a
+FORMATS = m4a,ogg
 
 PRACTISE_CONVERSATION_FILES = $(shell ls ../conversations/p{1,2,3}.*.wav)
 NO_REPORT_CONVERSATION_FILES = $(shell ls ../conversations/*.{ik,jij,hij}.wav)

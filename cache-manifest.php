@@ -3,6 +3,7 @@
 $files = array_merge(
 	glob('assets/audio/sprites/*.json'),
 	glob('assets/audio/sprites/*.m4a'),
+	glob('assets/audio/sprites/*.ogg'),
 	glob('assets/characters/*.svg'),
 	glob('assets/objects/*.png'),
 	glob('assets/objects/*.svg'),
@@ -11,7 +12,8 @@ $files = array_merge(
 		'game.css',
 		'configuration.php',
 		'index.html',
-		'lib/sequence.js')
+		'lib/sequence.js',
+		'lib/howler/howler.min.js')
 );
 
 $latest_change = 0;

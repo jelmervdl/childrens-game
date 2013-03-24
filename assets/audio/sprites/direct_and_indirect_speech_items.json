@@ -1,6 +1,7 @@
 {
   "resources": [
-    "direct_and_indirect_speech_items.m4a"
+    "direct_and_indirect_speech_items.m4a",
+    "direct_and_indirect_speech_items.ogg"
   ],
   "spritemap": {
     "instruction3": {

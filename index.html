@@ -121,6 +121,7 @@
 
 		<script src="configuration.php"></script>
 		<script src="lib/sequence.js"></script>
+		<script src="lib/howler/howler.min.js"></script>
 
 		<script>
 			if (!document.querySelector)
@@ -253,59 +254,71 @@
 
 		n.AudioSprite = function(url)
 		{
-			var self = this;
+			var sprite = this;
 
-			this.src = url;
+			sprite.listeners = [];
 
-			this.audio = new Audio();
-			this.audio.preload = 'none';
+			var request = new XMLHttpRequest();
+			request.open('GET', url + '.json', true);
+			request.send();
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					sprite.data = JSON.parse(request.responseText);
+					
+					var chapters = {};
 
-			this.audio.addEventListener('play', function() {
-				document.body.classList.add('playing-audio');
-			});
+					for (var name in sprite.data.spritemap) {
+						var chapter = sprite.data.spritemap[name];
+						chapters[name] = [
+							chapter.start * 1000,
+							(chapter.end - chapter.start) * 1000
+						];
+					}
 
-			this.audio.addEventListener('paused', function() {
-				document.body.classList.remove('playing-audio');
-			});
+					sprite.audio = new Howl({
+						urls: sprite.data.resources.map(function(filename) {
+							return url.replace(/\/[^\/]*$/, '') + '/' + filename;
+						}),
+						sprite: chapters,
+						buffer: true
+					});
 
-			this.audio.addEventListener('ended', function() {
-				document.body.classList.remove('playing-audio');
-			});
+					sprite.audio.on('load', function() {
+						sprite.isLoaded = true;
+						sprite.listeners.forEach(function(listener) {
+							listener();
+						});
+					});
 
-			this.audio.addEventListener('timeupdate', function() {
-				if (!self.currentSprite)
-					return;
+					sprite.audio.on('play', function() {
+						document.body.classList.add('playing-audio');
+					});
+			
+					sprite.audio.on('pause', function() {
+						document.body.classList.remove('playing-audio');
+					});
+			
+					sprite.audio.on('end', function() {
+						document.body.classList.remove('playing-audio');
+					});
 
-				if (self.audio.currentTime > self.currentSprite.end) {
-					var next = self.callback; 
-					self.stop();
-					if (next) next();
+					sprite.audio.on('end', function() {
+						var next = sprite.callback;
+						sprite.callback = null;
+						sprite.currentSprite = null;
+
+						if (next) next();
+					});
 				}
-			})
+			};
 		};
 
 		n.AudioSprite.prototype.load = function(next)
 		{
-			var sprite = this;
-
-			after([
-				function(next) {
-					var request = new XMLHttpRequest();
-					request.open('GET', sprite.src + '.json', true);
-					request.send();
-					request.onreadystatechange = function() {
-						if (request.readyState == 4) {
-							sprite.data = JSON.parse(request.responseText);
-							next();
-						}
-					};
-				},
-				function(next) {
-					sprite.audio.src = sprite.src + '.m4a';
-					sprite.audio.addEventListener('loadeddata', next);
-					sprite.audio.load();
-				}
-			], next);
+			if (this.isLoaded)
+				setTimeout(next, 50);
+			else
+				this.listeners.push(next);
 		};
 
 		n.AudioSprite.prototype.play = function(chapter, next)
@@ -313,11 +326,10 @@
 			if (this.currentSprite)
 				this.stop();
 
-			this.currentSprite = this.data.spritemap[chapter];
+			this.currentSprite = chapter;
 			this.callback = next;
 
-			this.audio.currentTime = this.currentSprite.start;
-			this.audio.play();
+			this.audio.play(chapter);
 		};
 
 		n.AudioSprite.prototype.stop = function()
