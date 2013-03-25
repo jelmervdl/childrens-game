@@ -1,8 +1,9 @@
 <?php
 
+$is_webkit = strstr($_SERVER['HTTP_USER_AGENT'], 'AppleWebKit/') !== false;
+
 $files = array_merge(
 	glob('assets/audio/sprites/*.json'),
-	glob('assets/audio/sprites/*.m4a'),
 	glob('assets/characters/*.svg'),
 	glob('assets/objects/*.svg'),
 	glob('assets/*.svg'),
@@ -12,6 +13,10 @@ $files = array_merge(
 		'index.html',
 		'lib/sequence.js')
 );
+
+$files = array_merge($files, $is_webkit
+	? glob('assets/audio/sprites/*.m4a')
+	: glob('assets/audio/sprites/*.ogg'));
 
 $latest_change = 0;
 $cache_size = 0;

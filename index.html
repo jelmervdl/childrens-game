@@ -149,6 +149,8 @@
 
 		<script>
 
+		window.isWebkit = window.navigator.userAgent.indexOf(' AppleWebKit/') !== -1;
+
 		// Disable scrolling altogether
 		document.ontouchmove = function(event){
 			event.preventDefault();
@@ -255,7 +257,7 @@
 		{
 			var self = this;
 
-			this.src = url;
+			this.src = isWebkit ? (url + '.m4a') : (url + '.ogg');
 
 			this.audio = new Audio();
 			this.audio.preload = 'none';
