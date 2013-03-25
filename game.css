@@ -58,7 +58,10 @@ button.clickable {
 	width: 20%;
 	height: 70%;
 	bottom: 25%;
-	-webkit-transition: bottom .5s ease-in-out, left .5s ease-in-out;
+
+	transition: bottom 0.5s ease-in-out, left 0.5s ease-in-out;
+	-webkit-transition: bottom 0.5s ease-in-out, left 0.5s ease-in-out;
+	-moz-transition: bottom 0.5s ease-in-out, left 0.5s ease-in-out;
 }
 
 .character {
@@ -71,7 +74,10 @@ button.clickable {
 	background-position: center bottom;
 	background-repeat: no-repeat;
 	background-size: contain;
-	-webkit-transition: bottom .5s ease-in-out, height .5s ease-in-out, background-position .5s ease-in-out, opacity .2s ease-in-out;
+
+	transition: bottom 0.5s ease-in-out, height 0.5s ease-in-out, background-position 0.5s ease-in-out, opacity 0.2s ease-in-out;
+	-webkit-transition: bottom 0.5s ease-in-out, height 0.5s ease-in-out, background-position 0.5s ease-in-out, opacity 0.2s ease-in-out;
+	-moz-transition: bottom 0.5s ease-in-out, height 0.5s ease-in-out, background-position 0.5s ease-in-out, opacity 0.2s ease-in-out;
 }
 
 .option-1,
@@ -131,8 +137,11 @@ button.clickable {
 	width: 20%;
 	height: 55%;
 	bottom: -150%;
-	-webkit-transition: bottom .5s ease-in-out;
 	pointer-events: none;
+
+	transition: bottom 0.5s ease-in-out;
+	-webkit-transition: bottom 0.5s ease-in-out;
+	-moz-transition: bottom 0.5s ease-in-out;
 }
 
 .show-baskets .basket {
@@ -174,7 +183,7 @@ button.clickable {
 	left: 45%;
 	bottom: -100%;
 	display: none;
-	-webkit-transition: bottom .75s ease-in-out, transition .75s ease-out;
+	-webkit-transition: bottom 0.75s ease-in-out, transition 0.75s ease-out;
 	pointer-events: none;
 }
 
@@ -305,12 +314,12 @@ button.clickable {
 #game-stage.object-dropped-on-option-1 .object,
 #game-stage.object-dropped-on-option-2 .object,
 #game-stage.object-dropped-on-option-3 .object {
-	-webkit-transition: bottom .75s, left .75s ease-in-out;
-	-webkit-animation: move-into-basket .75s 1 ease-out;
+	-webkit-transition: bottom 0.75s, left 0.75s ease-in-out;
+	-webkit-animation: move-into-basket 0.75s 1 ease-out;
 	-webkit-animation-fill-mode: forwards;
-	-moz-transition: bottom .75s, left .75s ease-in-out;
-	-moz-animation: move-into-basket .75s 1 ease-out;
-	-moz-animation-fill-mode: forwards;
+	
+	-moz-transition: left 0.75s ease-in-out;
+	-moz-animation: move-into-basket 0.75s ease-out 1 normal forwards;
 }
 
 #game-stage.object-dropped-on-option-1 .object {
@@ -357,20 +366,20 @@ button.clickable {
 
 .playing-audio #game-stage.character-1-2-talk .option-2.hond .character,
 .playing-audio #game-stage.character-2-3-talk .option-2.hond .character {
-	-webkit-animation: dog-speaking .4s steps(1, end) 0 infinite;
-	-moz-animation: dog-speaking .4s steps(1, end) 0 infinite;
+	-webkit-animation: dog-speaking 0.4s steps(1, end) 0 infinite;
+	-moz-animation: dog-speaking 0.4s steps(1, end) infinite;
 }
 
 .playing-audio #game-stage.character-1-2-talk .option-2.olifant .character,
 .playing-audio #game-stage.character-2-3-talk .option-2.olifant .character {
-	-webkit-animation: elephant-speaking .4s steps(1, end) 0 infinite;
-	-moz-animation: elephant-speaking .4s steps(1, end) 0 infinite;
+	-webkit-animation: elephant-speaking 0.4s steps(1, end) 0 infinite;
+	-moz-animation: elephant-speaking 0.4s steps(1, end) infinite;
 }
 
 .playing-audio #game-stage.character-1-2-talk .option-2.aap .character,
 .playing-audio #game-stage.character-2-3-talk .option-2.aap .character{
-	-webkit-animation: monkey-speaking .4s steps(1, end) 0 infinite;
-	-moz-animation: monkey-speaking .4s steps(1, end) 0 infinite;
+	-webkit-animation: monkey-speaking 0.4s steps(1, end) 0 infinite;
+	-moz-animation: monkey-speaking 0.4s steps(1, end) infinite;
 }
 
 /* Whispering */
@@ -446,11 +455,9 @@ button.clickable {
 @-moz-keyframes glow {
 	0% {
 		box-shadow: 0 0 1px #FFCE0D;
-		-moz-box-shadow: 0 0 1px #FFCE0D;
 	}
 	100% {
 		box-shadow: 0 0 25px #FFCE0D;
-		-moz-box-shadow: 0 0 25px #FFCE0D;
 	}
 }
 
@@ -522,7 +529,7 @@ button.clickable {
 		background-image: url(assets/characters/monkey_front_speaking_a.svg);
 	}
 	50% {
-		background-image: url(assets/characters/monkey_front_speaking_b.svg);	
+		background-image: url(assets/characters/monkey_front_speaking_b.svg);
 	}
 }
 
@@ -531,7 +538,7 @@ button.clickable {
 		background-image: url(assets/characters/dog_speaking_a.svg);
 	}
 	50% {
-		background-image: url(assets/characters/dog_speaking_b.svg);	
+		background-image: url(assets/characters/dog_speaking_b.svg);
 	}
 }
 
@@ -540,7 +547,7 @@ button.clickable {
 		background-image: url(assets/characters/elephant_speaking_a.svg);
 	}
 	50% {
-		background-image: url(assets/characters/elephant_speaking_b.svg);	
+		background-image: url(assets/characters/elephant_speaking_b.svg);
 	}
 }
 
@@ -558,7 +565,7 @@ button.clickable {
 		background-image: url(assets/characters/dog_front_speaking_a.svg);
 	}
 	50% {
-		background-image: url(assets/characters/dog_front_speaking_b.svg);	
+		background-image: url(assets/characters/dog_front_speaking_b.svg);
 	}
 }
 
@@ -567,7 +574,7 @@ button.clickable {
 		background-image: url(assets/characters/elephant_front_speaking_a.svg);
 	}
 	50% {
-		background-image: url(assets/characters/elephant_front_speaking_b.svg);	
+		background-image: url(assets/characters/elephant_front_speaking_b.svg);
 	}
 }
 
@@ -576,7 +583,7 @@ button.clickable {
 		background-image: url(assets/characters/monkey_front_speaking_a.svg);
 	}
 	50% {
-		background-image: url(assets/characters/monkey_front_speaking_b.svg);	
+		background-image: url(assets/characters/monkey_front_speaking_b.svg);
 	}
 }
 
@@ -668,24 +675,24 @@ button.clickable {
 .playing-audio .introduce-character-2 .option-2.hond .character,
 .playing-audio .introduce-character-3 .option-3.hond .character,
 .playing-audio .character-2-speaks .option-2.hond .character {
-	-webkit-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
-	-moz-animation: dog-speaking-front .4s steps(1, end) 0 infinite;
+	-webkit-animation: dog-speaking-front 0.4s steps(1, end) 0 infinite;
+	-moz-animation: dog-speaking-front 0.4s steps(1, end) infinite;
 }
 
 .playing-audio .introduce-character-1 .option-1.aap .character,
 .playing-audio .introduce-character-2 .option-2.aap .character,
 .playing-audio .introduce-character-3 .option-3.aap .character,
 .playing-audio .character-2-speaks .option-2.aap .character {
-	-webkit-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
-	-moz-animation: monkey-speaking-front .4s steps(1, end) 0 infinite;
+	-webkit-animation: monkey-speaking-front 0.4s steps(1, end) 0 infinite;
+	-moz-animation: monkey-speaking-front 0.4s steps(1, end) infinite;
 }
 
 .playing-audio .introduce-character-1 .option-1.olifant .character,
 .playing-audio .introduce-character-2 .option-2.olifant .character,
 .playing-audio .introduce-character-3 .option-3.olifant .character,
 .playing-audio .character-2-speaks .option-2.olifant .character {
-	-webkit-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
-	-moz-animation: elephant-speaking-front .4s steps(1, end) 0 infinite;
+	-webkit-animation: elephant-speaking-front 0.4s steps(1, end) 0 infinite;
+	-moz-animation: elephant-speaking-front 0.4s steps(1, end) infinite;
 }
 
 /* Update dialog */
@@ -731,9 +738,9 @@ button.clickable {
 	height: 20%;
 	opacity: 0.2;
 	
-	transition: opacity .2s ease-in-out;
-	-webkit-transition: opacity .2s ease-in-out;
-	-moz-transition: opacity .2s ease-in-out;
+	transition: opacity 0.2s ease-in-out;
+	-webkit-transition: opacity 0.2s ease-in-out;
+	-moz-transition: opacity 0.2s ease-in-out;
 }
 
 #object-introduction-stage .object.highlight {
@@ -751,7 +758,7 @@ button.clickable {
 	height: 0.5em;
 	background: #2fb1e4;
 
-	transition: width .25s ease-out;
-	-webkit-transition: width .25s ease-out;
-	-moz-transition: width .25s ease-out;
+	transition: width 0.25s ease-out;
+	-webkit-transition: width 0.25s ease-out;
+	-moz-transition: width 0.25s ease-out;
 }
