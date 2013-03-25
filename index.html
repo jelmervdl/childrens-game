@@ -1178,6 +1178,16 @@
 		// There may be unsubmitted data, let's see/sync:
 		n.Measurements.sync();
 
+		// If I can install apps, and I haven't done yet so, do so.
+		if (window.navigator.mozApps)
+		{
+			var req = window.navigator.mozApps.getInstalled();
+			req.onsuccess = function() {
+				if (req.result.length == 0)
+					window.navigator.mozApps.install(document.location.href + '/game.webapp');
+			}
+		}
+		
 		</script>
 	</body>
 </html>

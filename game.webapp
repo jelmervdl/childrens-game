@@ -1,0 +1,13 @@
+{
+  "name": "Spelletje",
+  "description": "Experiment",
+  "launch_path": "/franziska/",
+  "icons": {
+    "128": "/franziska/assets/apple-touch-icon.png"
+  },
+  "developer": {
+    "name": "Jelmer van der Linde",
+    "url": "http://jelmervanderlinde.nl"
+  },
+  "default_locale": "nl"
+}
