@@ -183,7 +183,6 @@ button.clickable {
 	left: 45%;
 	bottom: -100%;
 	display: none;
-	-webkit-transition: bottom 0.75s ease-in-out, transition 0.75s ease-out;
 	pointer-events: none;
 }
 
@@ -311,27 +310,19 @@ button.clickable {
 	background-image: url(assets/characters/monkey_front.svg);
 }
 
-#game-stage.object-dropped-on-option-1 .object,
-#game-stage.object-dropped-on-option-2 .object,
-#game-stage.object-dropped-on-option-3 .object {
-	-webkit-transition: bottom 0.75s, left 0.75s ease-in-out;
-	-webkit-animation: move-into-basket 0.75s 1 ease-out;
-	-webkit-animation-fill-mode: forwards;
-	
-	-moz-transition: left 0.75s ease-in-out;
-	-moz-animation: move-into-basket 0.75s ease-out 1 normal forwards;
-}
-
 #game-stage.object-dropped-on-option-1 .object {
-	left: 13%;
+	-webkit-animation: move-into-basket-1 0.75s 1 ease-out normal forwards;
+	-moz-animation: move-into-basket-1 0.75s ease-out 1 normal forwards;
 }
 
 #game-stage.object-dropped-on-option-2 .object {
-	left: 47%;
+	-webkit-animation: move-into-basket-2 0.75s 1 ease-out normal forwards;
+	-moz-animation: move-into-basket-2 0.75s ease-out 1 normal forwards;
 }
 
 #game-stage.object-dropped-on-option-3 .object {
-	left: 81%;
+	-webkit-animation: move-into-basket-3 0.75s 1 ease-out normal forwards;
+	-moz-animation: move-into-basket-3 0.75s ease-out 1 normal forwards;
 }
 
 #game-stage.character-1-2-together .option-1 .character,
@@ -401,42 +392,106 @@ button.clickable {
 
 /* Animations ftw! */
 
-@-webkit-keyframes move-into-basket {
+@-webkit-keyframes move-into-basket-1 {
 	50% {
-		width: 9%;
+		-webkit-transform: translate3d(-300%, -200%, 0) scale(0.7);
 	}
 	75% {
-		width: 8%;
-		bottom: 60%;
-		z-index: 6; 
+		z-index: 6;
 		-webkit-filter: drop-shadow(5px 5px 25px #000);
 	}
 	76% {
 		z-index: 4;
-	} /* Make sure it moves in front of it upwards, and in the back of it downwards */
+	}
 	100% {
-		width: 7%;
-		bottom: 36%;
+		-webkit-transform: translate3d(-340%, -50%, 0) scale(0.5);
 		z-index: 4;
 		-webkit-filter: drop-shadow(0 0 0 #000);
 	}
 }
 
-@-moz-keyframes move-into-basket {
+@-webkit-keyframes move-into-basket-2 {
 	50% {
-		width: 9%;
+		-webkit-transform: translate3d(0, -200%, 0) scale(0.7);
 	}
 	75% {
-		width: 8%;
-		bottom: 60%;
+		z-index: 6;
+		-webkit-filter: drop-shadow(5px 5px 25px #000);
+	}
+	76% {
+		z-index: 4;
+	}
+	100% {
+		-webkit-transform: translate3d(0, -50%, 0) scale(0.5);
+		z-index: 4;
+		-webkit-filter: drop-shadow(0 0 0 #000);
+	}
+}
+
+@-webkit-keyframes move-into-basket-3 {
+	50% {
+		-webkit-transform: translate3d(300%, -200%, 0) scale(0.7);
+	}
+	75% {
+		z-index: 6;
+		-webkit-filter: drop-shadow(5px 5px 25px #000);
+	}
+	76% {
+		z-index: 4;
+	}
+	100% {
+		-webkit-transform: translate3d(340%, -50%, 0) scale(0.5);
+		z-index: 4;
+		-webkit-filter: drop-shadow(0 0 0 #000);
+	}
+}
+
+
+
+@-moz-keyframes move-into-basket-1 {
+	50% {
+		transform: translate3d(-300%, -200%, 0) scale(0.7);
+	}
+	75% {
 		z-index: 6; 
 	}
 	76% {
 		z-index: 4;
-	} /* Make sure it moves in front of it upwards, and in the back of it downwards */
+	}
 	100% {
-		width: 7%;
-		bottom: 36%;
+		transform: translate3d(-340%, -50%, 0) scale(0.5);
+		z-index: 4;
+	}
+}
+
+@-moz-keyframes move-into-basket-2 {
+	50% {
+		transform: translate3d(0, -200%, 0) scale(0.7);
+	}
+	75% {
+		z-index: 6; 
+	}
+	76% {
+		z-index: 4;
+	}
+	100% {
+		transform: translate3d(0, -50%, 0) scale(0.5);
+		z-index: 4;
+	}
+}
+
+@-moz-keyframes move-into-basket-3 {
+	50% {
+		transform: translate3d(300%, -200%, 0) scale(0.7);
+	}
+	75% {
+		z-index: 6; 
+	}
+	76% {
+		z-index: 4;
+	}
+	100% {
+		transform: translate3d(340%, -50%, 0) scale(0.5);
 		z-index: 4;
 	}
 }
