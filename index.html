@@ -150,6 +150,8 @@
 
 		<script>
 
+		window.isWebkit = window.navigator.userAgent.indexOf(' AppleWebKit/') !== -1;
+
 		// Disable scrolling altogether
 		document.ontouchmove = function(event){
 			event.preventDefault();
@@ -275,10 +277,10 @@
 						];
 					}
 
+					var resource = isWebkit ? (url + '.m4a') : (url + '.ogg');
+
 					sprite.audio = new Howl({
-						urls: sprite.data.resources.map(function(filename) {
-							return url.replace(/\/[^\/]*$/, '') + '/' + filename;
-						}),
+						urls: [resource],
 						sprite: chapters,
 						buffer: true
 					});
