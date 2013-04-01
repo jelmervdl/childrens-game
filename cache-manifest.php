@@ -16,10 +16,12 @@ $files = array_merge(
 		'lib/howler/howler.min.js')
 );
 
-$files = array_merge($files, $is_webkit
-	? glob('assets/audio/sprites/*.m4a')
-	: glob('assets/audio/sprites/*.ogg'));
+// $files = array_merge($files, $is_webkit
+// 	? glob('assets/audio/sprites/*.m4a')
+// 	: glob('assets/audio/sprites/*.ogg'));
 
+foreach (glob('assets/audio/sprites/*.m4a') as $sprite)
+	$files[] = 'sprite.php?sprite=' . basename($sprite);
 
 $latest_change = 0;
 $cache_size = 0;

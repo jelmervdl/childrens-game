@@ -264,9 +264,19 @@
 			request.open('GET', url + '.json', true);
 			request.send();
 			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					sprite.data = JSON.parse(request.responseText);
-					
+				if (request.readyState != 4)
+					return;
+
+				sprite.data = JSON.parse(request.responseText);
+				
+				var datareq = new XMLHttpRequest();
+				datareq.open('GET', 'sprite.php?sprite=' + sprite.data.resources[0], true);
+				datareq.send();
+				datareq.onreadystatechange = function()
+				{
+					if (request.readyState != 4)
+						return;
+
 					var chapters = {};
 
 					for (var name in sprite.data.spritemap) {
@@ -277,10 +287,8 @@
 						];
 					}
 
-					var resource = isWebkit ? (url + '.m4a') : (url + '.ogg');
-
 					sprite.audio = new Howl({
-						urls: [resource],
+						urls: [datareq.responseText],
 						sprite: chapters,
 						buffer: true
 					});
@@ -311,7 +319,7 @@
 
 						if (next) next();
 					});
-				}
+				};
 			};
 		};
 
@@ -636,7 +644,7 @@
 				act.measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
 					act.measurement.stop(option.id);
-					audio.play('magic-' + random(1, 3));
+					// audio.play('magic-' + random(1, 3));
 					stage.classList.add('object-dropped-on-' + option.id);
 
 					// Als de zonnebril aan de olifant gegeven wordt...
@@ -666,7 +674,7 @@
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
 					if (option.classList.contains(act.get('correct_recipient'))) {
 						act.measurement.stop(option.id);
-						audio.play('magic-' + random(1, 3));
+						// audio.play('magic-' + random(1, 3));
 						stage.classList.add('object-dropped-on-' + option.id);
 						act.setTimeout(next, 1000);
 					} else {
@@ -826,162 +834,162 @@
 		window.progress = new n.ProgressBar(document.getElementById('experiment-progress'));
 
 		// Login act
-		acts.push(function(next) {
-			new n.Act({
-				stage: document.getElementById('login-stage'),
-				scenes: [
-					function(stage, next) {
-						clickOnce([stage.querySelector('.start-button')], next);
-					},
-					function(stage, next) {
-						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
-						audio.load(next);
-					},
-					// Hey, leuk dat je er bent
-					function(stage, next) {
-						audio.play('m1', function() {
-							setTimeout(next, 500);
-						});
-					}
-				]
-			}).play(next);
-		});
+		// acts.push(function(next) {
+		// 	new n.Act({
+		// 		stage: document.getElementById('login-stage'),
+		// 		scenes: [
+		// 			function(stage, next) {
+		// 				clickOnce([stage.querySelector('.start-button')], next);
+		// 			},
+		// 			function(stage, next) {
+		// 				audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
+		// 				audio.load(next);
+		// 			},
+		// 			// Hey, leuk dat je er bent
+		// 			function(stage, next) {
+		// 				audio.play('m1', function() {
+		// 					setTimeout(next, 500);
+		// 				});
+		// 			}
+		// 		]
+		// 	}).play(next);
+		// });
 		
 		// Character introduction
-		acts.push(function(next) {
-			new n.Act({
-				stage: document.getElementById('character-introduction-stage'),
-				scenes: [
-					// Hey there animals, who are you?
-					function(stage, next) {
-						var act = this;
-						audio.play('m3', next);
-					},
+		// acts.push(function(next) {
+		// 	new n.Act({
+		// 		stage: document.getElementById('character-introduction-stage'),
+		// 		scenes: [
+		// 			// Hey there animals, who are you?
+		// 			function(stage, next) {
+		// 				var act = this;
+		// 				audio.play('m3', next);
+		// 			},
 
-					// Hi, I'm the dog
-					function(stage, next) {
-						stage.classList.add('introduce-character-1');
-						audio.play('intro.hond', function() {
-							stage.classList.remove('introduce-character-1');
-							next();	
-						});
-					},
+		// 			// Hi, I'm the dog
+		// 			function(stage, next) {
+		// 				stage.classList.add('introduce-character-1');
+		// 				audio.play('intro.hond', function() {
+		// 					stage.classList.remove('introduce-character-1');
+		// 					next();	
+		// 				});
+		// 			},
 
-					// Hi, I'm the elephant
-					function(stage, next) {
-						stage.classList.add('introduce-character-2');
-						audio.play('intro.olif', function() {
-							stage.classList.remove('introduce-character-2');
-							next();	
-						});	
-					},
+		// 			// Hi, I'm the elephant
+		// 			function(stage, next) {
+		// 				stage.classList.add('introduce-character-2');
+		// 				audio.play('intro.olif', function() {
+		// 					stage.classList.remove('introduce-character-2');
+		// 					next();	
+		// 				});	
+		// 			},
 					
-					// Hi, I'm the monkey
-					function(stage, next) {
-						stage.classList.add('introduce-character-3');
-							audio.play('intro.aap', function() {
-								stage.classList.remove('introduce-character-3');
-								next();	
-						});
-					},
+		// 			// Hi, I'm the monkey
+		// 			function(stage, next) {
+		// 				stage.classList.add('introduce-character-3');
+		// 					audio.play('intro.aap', function() {
+		// 						stage.classList.remove('introduce-character-3');
+		// 						next();	
+		// 				});
+		// 			},
 					
-					// Who is the elephant?
-					function(stage, next) {
-						audio.play('m4', next);
-					},
-					function(stage, next) {
-						var act = this;
-						this.mark('m4');
+		// 			// Who is the elephant?
+		// 			function(stage, next) {
+		// 				audio.play('m4', next);
+		// 			},
+		// 			function(stage, next) {
+		// 				var act = this;
+		// 				this.mark('m4');
 						
-						clickOnce(stage.querySelectorAll('.option'), function(option) {
-							if (option.classList.contains('olifant'))
-								next();
-							else
-								audio.play('m4n', function() {
-									act.jump('m4');
-								});
-						});
-					},
+		// 				clickOnce(stage.querySelectorAll('.option'), function(option) {
+		// 					if (option.classList.contains('olifant'))
+		// 						next();
+		// 					else
+		// 						audio.play('m4n', function() {
+		// 							act.jump('m4');
+		// 						});
+		// 				});
+		// 			},
 
-					// Who is the monkey?
-					function(stage, next) {
-						audio.play('m6', next);
-					},
-					function(stage, next) {
-						var act = this;
-						this.mark('m6');
+		// 			// Who is the monkey?
+		// 			function(stage, next) {
+		// 				audio.play('m6', next);
+		// 			},
+		// 			function(stage, next) {
+		// 				var act = this;
+		// 				this.mark('m6');
 						
-						clickOnce(stage.querySelectorAll('.option'), function(option) {
-							if (option.classList.contains('aap'))
-								next();
-							else
-								audio.play('m6n', function() {
-									act.jump('m6');
-								});
-						});
-					},
+		// 				clickOnce(stage.querySelectorAll('.option'), function(option) {
+		// 					if (option.classList.contains('aap'))
+		// 						next();
+		// 					else
+		// 						audio.play('m6n', function() {
+		// 							act.jump('m6');
+		// 						});
+		// 				});
+		// 			},
 
-					// Who is the dog?
-					function(stage, next) {
-						audio.play('m5', next);
-					},
-					function(stage, next) {
-						var act = this;
-						this.mark('m5');
+		// 			// Who is the dog?
+		// 			function(stage, next) {
+		// 				audio.play('m5', next);
+		// 			},
+		// 			function(stage, next) {
+		// 				var act = this;
+		// 				this.mark('m5');
 						
-						clickOnce(stage.querySelectorAll('.option'), function(option) {
-							if (option.classList.contains('hond'))
-								next();
-							else
-								audio.play('m5n', function() {
-									act.jump('m5');
-								});
-						});
-					}
-				]
-			}).play(next);
-		});
+		// 				clickOnce(stage.querySelectorAll('.option'), function(option) {
+		// 					if (option.classList.contains('hond'))
+		// 						next();
+		// 					else
+		// 						audio.play('m5n', function() {
+		// 							act.jump('m5');
+		// 						});
+		// 				});
+		// 			}
+		// 		]
+		// 	}).play(next);
+		// });
 
 		// Object introduction
-		acts.push(function(next) {
-			var scenes = [];
+		// acts.push(function(next) {
+		// 	var scenes = [];
 
-			// load audio
-			scenes.push(function(stage, next) {
-				audio = new n.AudioSprite('assets/audio/sprites/object_introduction');
-				audio.load(next);
-			});
+		// 	// load audio
+		// 	scenes.push(function(stage, next) {
+		// 		audio = new n.AudioSprite('assets/audio/sprites/object_introduction');
+		// 		audio.load(next);
+		// 	});
 
-			// "Hier zijn een paar dingen"
-			scenes.push(function(stage, next) {
-				audio.play('m2', next);
-			});
+		// 	// "Hier zijn een paar dingen"
+		// 	scenes.push(function(stage, next) {
+		// 		audio.play('m2', next);
+		// 	});
 
-			// Highlight each object and name it.
-			for (var i = 1; i <= 18; ++i) {
-				scenes.push(function(object_num) {
-					return function(stage, next) {
-						if (object_num > 1)
-							document.getElementById('object-' + (object_num - 1)).classList.remove('highlight');
+		// 	// Highlight each object and name it.
+		// 	for (var i = 1; i <= 18; ++i) {
+		// 		scenes.push(function(object_num) {
+		// 			return function(stage, next) {
+		// 				if (object_num > 1)
+		// 					document.getElementById('object-' + (object_num - 1)).classList.remove('highlight');
 
-						document.getElementById('object-' + object_num).classList.add('highlight');
-						audio.play('o' + object_num, next);
-					};
-				}(i));
-			}
+		// 				document.getElementById('object-' + object_num).classList.add('highlight');
+		// 				audio.play('o' + object_num, next);
+		// 			};
+		// 		}(i));
+		// 	}
 
-			// Clean up.
-			scenes.push(function(stage, next) {
-				document.getElementById('object-18').classList.remove('highlight');
-				next();
-			});
+		// 	// Clean up.
+		// 	scenes.push(function(stage, next) {
+		// 		document.getElementById('object-18').classList.remove('highlight');
+		// 		next();
+		// 	});
 
-			// Lets make this a real act, not just a list of scenes.
-			new n.Act({
-				stage: document.getElementById('object-introduction-stage'),
-				scenes: scenes
-			}).play(next);
-		});
+		// 	// Lets make this a real act, not just a list of scenes.
+		// 	new n.Act({
+		// 		stage: document.getElementById('object-introduction-stage'),
+		// 		scenes: scenes
+		// 	}).play(next);
+		// });
 
 		// "Nu gaan we naar een spelletje spelen:""
 		acts.push(function(next) {
@@ -993,9 +1001,9 @@
 						audio = new n.AudioSprite('assets/audio/sprites/practise_items');
 						audio.load(next);
 					},
-					function(stage, next) {
-						audio.play('instruction1', next);
-					},
+					// function(stage, next) {
+					// 	audio.play('instruction1', next);
+					// },
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
 						clickOnce([stage.querySelector('.next-button')], next);
