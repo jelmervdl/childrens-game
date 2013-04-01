@@ -1,6 +1,7 @@
-SHELL=/bin/bash
+SHELL = /bin/bash
 AUDIOSPRITE = audiosprite
 FORMATS = m4a,ogg
+ARGS = --export $(FORMATS)
 
 PRACTISE_CONVERSATION_FILES = $(shell ls ../conversations/p{1,2,3}.*.wav)
 NO_REPORT_CONVERSATION_FILES = $(shell ls ../conversations/*.{ik,jij,hij}.wav)
@@ -23,22 +24,22 @@ AUDIO_FILES = $(PRACTISE_CONVERSATION_FILES) $(NO_REPORT_CONVERSATION_FILES) $(D
 .DEFAULT: all
 
 character_introduction.json: $(CHARACTER_INTRODUCTION_FILES)
-	$(AUDIOSPRITE) --output character_introduction --export $(FORMATS) $(CHARACTER_INTRODUCTION_FILES)
+	$(AUDIOSPRITE) $(ARGS) --output character_introduction $(CHARACTER_INTRODUCTION_FILES)
 
 object_introduction.json: $(OBJECT_INTRODUCTION_FILES)
-	$(AUDIOSPRITE) --output object_introduction --export $(FORMATS) $(OBJECT_INTRODUCTION_FILES)
+	$(AUDIOSPRITE) $(ARGS) --output object_introduction $(OBJECT_INTRODUCTION_FILES)
 
 practise_items.json: $(PRACTISE_FILES)
-	$(AUDIOSPRITE) --output practise_items --export $(FORMATS) $(PRACTISE_FILES)	
+	$(AUDIOSPRITE) $(ARGS) --output practise_items $(PRACTISE_FILES)	
 
 no_report_items.json: $(NO_REPORT_FILES)
-	$(AUDIOSPRITE) --output no_report_items --export $(FORMATS) $(NO_REPORT_FILES)
+	$(AUDIOSPRITE) $(ARGS) --output no_report_items $(NO_REPORT_FILES)
 
 direct_and_indirect_speech_items.json: $(DIRECT_INDIRECT_FILES) 
-	$(AUDIOSPRITE) --output  direct_and_indirect_speech_items --export $(FORMATS) $(DIRECT_INDIRECT_FILES)
+	$(AUDIOSPRITE) $(ARGS) --output  direct_and_indirect_speech_items $(DIRECT_INDIRECT_FILES)
 
 thank_you.json: $(THANK_YOU_FILES)
-	$(AUDIOSPRITE) --output thank_you --export $(FORMATS) $(THANK_YOU_FILES)
+	$(AUDIOSPRITE) $(ARGS) --output thank_you $(THANK_YOU_FILES)
 
 all: character_introduction.json practise_items.json no_report_items.json direct_and_indirect_speech_items.json object_introduction.json thank_you.json
 
