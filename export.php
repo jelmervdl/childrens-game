@@ -94,6 +94,8 @@ function export_to_excel(PDO $db)
 		RIGHT JOIN
 			measurements m
 			ON m.subject_id = p.subject_id
+		WHERE
+			p.submitted IS NOT NULL
 		ORDER BY
 			p.submitted ASC,
 			p.subject_id ASC");
