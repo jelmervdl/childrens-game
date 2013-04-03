@@ -130,6 +130,7 @@ function export_to_excel(PDO $db)
 	echo '</tr>';
 
 	$subject_id = null;
+	$subject_index = 0;
 	$stats = array();
 
 	while (true)
@@ -153,7 +154,7 @@ function export_to_excel(PDO $db)
 				break;
 		
 			echo '<tr>';
-			printf('<th scope="row">%s</th>', $row['subject_id']);
+			printf('<th scope="row">%s</th>', ++$subject_index);
 			$subject_id = $row['subject_id'];
 			$stats = array();
 		}
