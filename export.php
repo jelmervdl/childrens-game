@@ -86,6 +86,7 @@ function export_to_excel(PDO $db)
 	$query = $db->query("
 		SELECT
 			p.subject_id,
+			p.submitted,
 			m.act_id,
 			m.choice,
 			(m.stop_time - m.start_time) as response_time
@@ -154,7 +155,9 @@ function export_to_excel(PDO $db)
 				break;
 		
 			echo '<tr>';
-			printf('<th scope="row">%s</th>', ++$subject_index);
+			printf('<th scope="row">%d%s</th>',
+				++$subject_index,
+				$row['submitted'] == '' ? '*' : '');
 			$subject_id = $row['subject_id'];
 			$stats = array();
 		}
