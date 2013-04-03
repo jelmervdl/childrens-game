@@ -76,7 +76,90 @@ function export_to_r(PDO $db)
 
 function export_to_excel(PDO $db)
 {
-	echo 'Sorry, not implemented yet. You can also use the r-data file, it works with Excel, but it is simply one big list.';
+	$configurations = get_configurations();
+
+	$columns = array();
+	
+	foreach (array_merge($configurations['no_report_items'], $configurations['direct_and_indirect_speech_items']) as $configuration)
+		$columns[$configuration['code']] = $configuration;
+
+	$query = $db->query("
+		SELECT
+			p.subject_id,
+			m.act_id,
+			m.choice,
+			(m.stop_time - m.start_time) as response_time
+		FROM
+			personal_details p
+		RIGHT JOIN
+			measurements m
+			ON m.subject_id = p.subject_id
+		ORDER BY
+			p.submitted ASC,
+			p.subject_id ASC");
+
+	uasort($columns, function($a, $b) {
+		return strcmp($a['audio_file_name'], $b['audio_file_name']);
+	});
+
+	$now = date('YmdHis');
+
+	header("Content-Type: application/vnd.ms-excel; charset=utf-8");
+	header("Content-Disposition: attachment; filename={$now}.xls");  //File name extension was wrong
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+	header("Cache-Control: private", false);
+	ob_start('ob_gzhandler');
+
+	echo '<table>';
+
+	// Header row 1
+	echo '<tr><th scope="col" rowspan="2">Participants</th>';
+
+	foreach ($columns as $column)
+		printf('<th scope="col" colspan="2">%s</th>', $column['audio_file_name']);
+
+	echo '</tr>';
+
+	// Header row 2
+	echo '<tr>';
+
+	for ($i = 0; $i < count($columns); ++$i)
+		echo '<th scole="col">RT</th><th scole="col">Correct</th>';
+
+	echo '</tr>';
+
+	$subject_id = null;
+	$stats = array();
+
+	while (true)
+	{
+		$row = $query->fetch(PDO::FETCH_ASSOC);
+
+		if (!$row || $subject_id != $row['subject_id'])
+		{
+			// Print the collected columns
+			if ($subject_id != null)
+			{
+				foreach ($columns as $act_id => $column)
+					printf('<td>%d</td><td>%d</td>',
+						@$stats[$act_id]['response_time'],
+						@$stats[$act_id]['choice'] == $column['correct_position']);
+				
+				echo '</tr>';
+			}
+
+			if (!$row)
+				break;
+		
+			echo '<tr>';
+			printf('<th scope="row">%s</th>', $row['subject_id']);
+			$subject_id = $row['subject_id'];
+			$stats = array();
+		}
+
+		$stats[$row['act_id']] = $row;
+	}
 }
 
 function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
@@ -152,6 +235,7 @@ function main()
 	ini_set('auto_detect_line_endings', true);
 
 	$db = new PDO('mysql:host=127.0.0.1;dbname=franziska', 'franziska', 'franziska');
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	switch (@$_GET['target'])
 	{
