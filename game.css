@@ -748,7 +748,7 @@ button.clickable {
 	z-index: 100;
 
 	width: 0;
-	height: 0.2em;
+	height: 0.5em;
 	background: #2fb1e4;
 
 	transition: width .25s ease-out;
