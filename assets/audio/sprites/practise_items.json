@@ -28,24 +28,14 @@
       "end": 35.37176870748299,
       "loop": false
     },
-    "magic-1": {
+    "magic": {
       "start": 37,
       "end": 38,
       "loop": false
     },
-    "magic-2": {
-      "start": 39,
-      "end": 40,
-      "loop": false
-    },
-    "magic-3": {
-      "start": 41,
-      "end": 41.901972789115646,
-      "loop": false
-    },
     "whispering": {
-      "start": 43,
-      "end": 45.73995464852608,
+      "start": 39,
+      "end": 41.73995464852608,
       "loop": false
     }
   }
