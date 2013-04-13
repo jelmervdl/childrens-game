@@ -52,7 +52,7 @@ function export_to_r(PDO $db)
 {
 	$query = $db->query("
 		SELECT
-			p.subject_id,
+			CONCAT('p', p.subject_id) as subject_id,
 			p.age,
 			p.sex,
 			p.browser,
@@ -90,7 +90,7 @@ function export_to_excel(PDO $db)
 
 	$query = $db->query("
 		SELECT
-			p.subject_id,
+			CONCAT('p', p.subject_id) as subject_id,
 			p.submitted,
 			m.act_id,
 			m.choice,
@@ -182,7 +182,7 @@ function export_to_excel_complex(PDO $db)
 
 	$personal_details = $db->query("
 		SELECT
-			p.subject_id as ID,
+			CONCAT('p', p.subject_id) as ID,
 			GROUP_CONCAT(n.language) as Language,
 			p.age as Age,
 			p.sex as Gender,
@@ -208,7 +208,7 @@ function export_to_excel_complex(PDO $db)
 
 	$query = $db->query("
 		SELECT
-			p.subject_id,
+			CONCAT('p', p.subject_id) as subject_id,
 			m.act_id,
 			m.choice,
 			(m.stop_time - m.start_time) as response_time
