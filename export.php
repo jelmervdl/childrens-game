@@ -1,8 +1,12 @@
 <?php
 
 date_default_timezone_set('Europe/Amsterdam');
+setlocale(LC_ALL, 'nl_NL');
+ini_set('memory_limit', '512M');
 require_once 'configuration.php';
-
+require_once 'lib/php/PHPExcel.php';
+require_once 'lib/php/PHPExcel/Writer/Excel2007.php';
+	
 interface Decorator
 {
 	public function decorate(array $row);
@@ -28,6 +32,7 @@ class ConfigurationDecorator implements Decorator
 			foreach ($configurations as $configuration)
 			{
 				$configuration['section'] = $section;
+				$configuration['sentence'] = trim(@iconv('UTF-8', 'ASCII//TRANSLIT', $configuration['sentence']));
 				$this->configurations[$configuration['code']] = $configuration;
 			}
 		}
@@ -67,11 +72,11 @@ function export_to_r(PDO $db)
 			n.subject_id = p.subject_id
 		RIGHT JOIN
 			measurements m ON
-			m.subject_id = p.subject_id");
+			m.subject_id = p.subject_id
+		WHERE
+			p.submitted IS NOT NULL");
 
-	$decorator = new ConfigurationDecorator(get_configurations());
-
-	print_results_as_csv($query, $decorator);
+	return $query;
 }
 
 function export_to_excel(PDO $db)
@@ -166,6 +171,141 @@ function export_to_excel(PDO $db)
 	}
 }
 
+function export_to_excel_complex(PDO $db)
+{
+	$configurations = get_configurations();
+
+	$settings = array();
+	
+	foreach (array_merge($configurations['no_report_items'], $configurations['direct_and_indirect_speech_items']) as $configuration)
+		$settings[$configuration['code']] = $configuration;
+
+	$personal_details = $db->query("
+		SELECT
+			p.subject_id as ID,
+			GROUP_CONCAT(n.language) as Language,
+			p.age as Age,
+			p.sex as Gender,
+			-- p.browser as Browser,
+			-- p.platform as Platform,
+			p.submitted as 'Test time'
+		FROM
+			personal_details p
+		RIGHT JOIN
+			native_tongue n ON
+			n.subject_id = p.subject_id
+		WHERE
+			p.submitted IS NOT NULL
+		GROUP BY
+			p.subject_id,
+			p.age,
+			p.sex,
+			-- p.browser,
+			-- p.platform,
+			p.submitted
+		ORDER BY
+			p.submitted ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+	$query = $db->query("
+		SELECT
+			p.subject_id,
+			m.act_id,
+			m.choice,
+			(m.stop_time - m.start_time) as response_time
+		FROM
+			personal_details p
+		RIGHT JOIN
+			measurements m
+			ON m.subject_id = p.subject_id
+		WHERE
+			p.submitted IS NOT NULL
+		ORDER BY
+			m.act_id ASC,
+			p.submitted ASC");
+
+	// Creating a workbook
+	$workbook = new PHPExcel();
+	$workbook->setActiveSheetIndex(0);
+
+	$now = date('YmdHis');
+
+	$worksheet = $workbook->getActiveSheet();
+	$worksheet->setTitle('Exported data');
+	
+	$row = 1;
+	$col = 0;
+
+	// Header row
+	foreach (array_keys($personal_details[0]) as $column)
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
+
+	foreach (array('Subject ID', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item') as $column)
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
+
+	for ($i = 0;;++$i)
+	{
+		$row = $i + 2;
+		$col = 0;
+
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+
+		$details = $i < count($personal_details)
+			? $personal_details[$i]
+			: null;
+
+		if (!$data  && !$details)
+			break;
+
+		// Personal details columns
+		if ($details)
+			// Only if there is actually still some data left.
+			foreach ($details as $column => $value)
+				$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $value,
+					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
+		else
+			// if there is no more data, print fillers
+			$col += count($personal_details[0]);
+
+		if ($data) {
+			// Subject id
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['subject_id'], PHPExcel_Cell_DataType::TYPE_STRING);
+
+			// Skip rows that are not in the configuration file
+			if (!isset($settings[$data['act_id']]))
+				continue;
+
+			if(!preg_match('/\.(dir|ind|)(ik|jij|hij)$/', $settings[$data['act_id']]['audio_file_name'], $match))
+				throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
+
+			// Condition
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[1] ? $match['1'] : 'no'), PHPExcel_Cell_DataType::TYPE_STRING);
+			
+			// Pronoun
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[2]), PHPExcel_Cell_DataType::TYPE_STRING);
+
+			// Reaction time
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['response_time'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
+
+			// Correct
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['choice'] == $settings[$data['act_id']]['correct_position'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
+
+			// Item
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $settings[$data['act_id']]['audio_file_name'], PHPExcel_Cell_DataType::TYPE_STRING);
+		}
+	}
+
+	$writer = new PHPExcel_Writer_Excel2007($workbook);
+	
+	header("Pragma: public");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+	header("Content-type: application/vnd.ms-excel;charset=UTF-8"); 
+	header("Content-Disposition: attachment; filename=\"{$now}.xls\"");
+	header("Cache-control: private");
+
+	$writer->save('php://output');
+}
+
 function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
 {
 	$now = date('YmdHis');
@@ -200,6 +340,57 @@ function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
 	}
 }
 
+function print_results_as_excel(PDOStatement $stmt, Decorator $decorator = null)
+{
+	$now = date('YmdHis');
+
+	$printed_headers = false;
+
+	if (!$decorator)
+		$decorator = new DummyDecorator();
+
+	// Creating a workbook
+	$workbook = new PHPExcel();
+	$workbook->setActiveSheetIndex(0);
+
+	$now = date('YmdHis');
+
+	$worksheet = $workbook->getActiveSheet();
+	$worksheet->setTitle('Exported data');
+	
+	for ($row = 1, $col = 0; $data = $stmt->fetch(PDO::FETCH_ASSOC); ++$row, $col = 0)
+	{
+		$data = $decorator->decorate($data);
+		
+		// If this is the first row, print the column headers
+		if (!$printed_headers) {
+			foreach (array_keys($data) as $column)
+				$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
+			$printed_headers = true;
+			$row++;
+			$col = 0;
+		}
+
+		// Enclose text fields in quotes, and escape quotes in these fields.
+		$numeric_colums = array('start_time', 'stop_time', 'difference');
+		foreach ($data as $column => $field)
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $field,
+				in_array($column, $numeric_colums) ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
+	}
+
+	$writer = new PHPExcel_Writer_Excel2007($workbook);
+	
+	header("Pragma: public");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+	header("Content-type: application/vnd.ms-excel;charset=UTF-8"); 
+	header("Content-Disposition: attachment; filename=\"{$now}.xls\"");
+	header("Cache-control: private");
+
+	$writer->save('php://output');
+}
+
+
 function fetch_one(PDOStatement $stmt)
 {
 	$values = $stmt->fetch(PDO::FETCH_NUM);
@@ -226,7 +417,13 @@ function print_index(PDO $db)
 	<body>
 		<p>Submissions: <strong><?=$number_of_submissions?></strong></p>
 		<p>Last submission: <strong><?=$last_submission?></strong></p>
-		<p>Export to <a href="export.php?target=r">R data</a> or <a href="export.php?target=excel">Excel</a></p>
+		<p>Export to:</p>
+		<ul>
+			<li><a href="export.php?target=r-csv">Raw data CSV</a></li>
+			<li><a href="export.php?target=r-excel">Raw data Excel</a> (may be slow)</li>
+			<li><a href="export.php?target=excel">Simple excel sheet</a></li>
+			<li><a href="export.php?target=excel_complex">Complex excel sheet</a> (may be a bit slow)</li>
+		</ul>
 	</body>
 </html>
 <?php
@@ -243,12 +440,20 @@ function main()
 
 	switch (@$_GET['target'])
 	{
-		case 'r':
-			export_to_r($db);
+		case 'r-csv':
+			print_results_as_csv(export_to_r($db), new ConfigurationDecorator(get_configurations()));
+			break;
+
+		case 'r-excel':
+			print_results_as_excel(export_to_r($db), new ConfigurationDecorator(get_configurations()));
 			break;
 
 		case 'excel':
 			export_to_excel($db);
+			break;
+		
+		case 'excel_complex':
+			export_to_excel_complex($db);
 			break;
 
 		default:
