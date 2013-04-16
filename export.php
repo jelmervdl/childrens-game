@@ -232,13 +232,6 @@ function export_to_excel_complex(PDO $db)
 		if (!$data)
 			break;
 
-		foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time') as $column)
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column],
-					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
-		
-		// Subject id
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['subject_id'], PHPExcel_Cell_DataType::TYPE_STRING);
-
 		// Skip rows that are not in the configuration file
 		if (!isset($settings[$data['act_id']]))
 			continue;
@@ -246,6 +239,10 @@ function export_to_excel_complex(PDO $db)
 		if(!preg_match('/\.(dir|ind|)(ik|jij|hij)$/', $settings[$data['act_id']]['audio_file_name'], $match))
 			throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
 
+		foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time') as $column)
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column],
+					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
+		
 		// Condition
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[1] ? $match['1'] : 'no'), PHPExcel_Cell_DataType::TYPE_STRING);
 		
