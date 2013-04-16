@@ -264,9 +264,14 @@ function export_to_excel_complex(PDO $db)
 
 	$writer = new PHPExcel_Writer_Excel2007($workbook);
 
-	$writer->save("tmp/{$now}.xls");
+	header("Pragma: public");
+	header("Expires: 0");
+	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+	header("Content-type: application/vnd.ms-excel;charset=UTF-8"); 
+	header("Content-Disposition: attachment; filename=\"{$now}.xls\"");
+	header("Cache-control: private");
 
-	header("Location: tmp/{$now}.xls");
+	$writer->save('php://output');
 }
 
 function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
