@@ -180,35 +180,13 @@ function export_to_excel_complex(PDO $db)
 	foreach (array_merge($configurations['no_report_items'], $configurations['direct_and_indirect_speech_items']) as $configuration)
 		$settings[$configuration['code']] = $configuration;
 
-	$personal_details = $db->query("
+	$query = $db->query("
 		SELECT
 			CONCAT('p', p.subject_id) as ID,
 			GROUP_CONCAT(n.language) as Language,
 			p.age as Age,
 			p.sex as Gender,
-			-- p.browser as Browser,
-			-- p.platform as Platform,
-			p.submitted as 'Test time'
-		FROM
-			personal_details p
-		RIGHT JOIN
-			native_tongue n ON
-			n.subject_id = p.subject_id
-		WHERE
-			p.submitted IS NOT NULL
-		GROUP BY
-			p.subject_id,
-			p.age,
-			p.sex,
-			-- p.browser,
-			-- p.platform,
-			p.submitted
-		ORDER BY
-			p.submitted ASC")->fetchAll(PDO::FETCH_ASSOC);
-
-	$query = $db->query("
-		SELECT
-			CONCAT('p', p.subject_id) as subject_id,
+			p.submitted as 'Test time',
 			m.act_id,
 			m.choice,
 			(m.stop_time - m.start_time) as response_time
@@ -219,6 +197,11 @@ function export_to_excel_complex(PDO $db)
 			ON m.subject_id = p.subject_id
 		WHERE
 			p.submitted IS NOT NULL
+		GROUP BY
+			p.subject_id,
+			p.age,
+			p.sex,
+			p.submitted
 		ORDER BY
 			m.act_id ASC,
 			p.submitted ASC");
@@ -236,10 +219,7 @@ function export_to_excel_complex(PDO $db)
 	$col = 0;
 
 	// Header row
-	foreach (array_keys($personal_details[0]) as $column)
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
-
-	foreach (array('Subject ID', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item') as $column)
+	foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item') as $column)
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
 
 	for ($i = 0;;++$i)
@@ -249,49 +229,37 @@ function export_to_excel_complex(PDO $db)
 
 		$data = $query->fetch(PDO::FETCH_ASSOC);
 
-		$details = $i < count($personal_details)
-			? $personal_details[$i]
-			: null;
-
-		if (!$data  && !$details)
+		if (!$data)
 			break;
 
-		// Personal details columns
-		if ($details)
-			// Only if there is actually still some data left.
-			foreach ($details as $column => $value)
-				$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $value,
+		foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time') as $column)
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column],
 					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
-		else
-			// if there is no more data, print fillers
-			$col += count($personal_details[0]);
+		
+		// Subject id
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['subject_id'], PHPExcel_Cell_DataType::TYPE_STRING);
 
-		if ($data) {
-			// Subject id
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['subject_id'], PHPExcel_Cell_DataType::TYPE_STRING);
+		// Skip rows that are not in the configuration file
+		if (!isset($settings[$data['act_id']]))
+			continue;
 
-			// Skip rows that are not in the configuration file
-			if (!isset($settings[$data['act_id']]))
-				continue;
+		if(!preg_match('/\.(dir|ind|)(ik|jij|hij)$/', $settings[$data['act_id']]['audio_file_name'], $match))
+			throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
 
-			if(!preg_match('/\.(dir|ind|)(ik|jij|hij)$/', $settings[$data['act_id']]['audio_file_name'], $match))
-				throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
+		// Condition
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[1] ? $match['1'] : 'no'), PHPExcel_Cell_DataType::TYPE_STRING);
+		
+		// Pronoun
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[2]), PHPExcel_Cell_DataType::TYPE_STRING);
 
-			// Condition
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[1] ? $match['1'] : 'no'), PHPExcel_Cell_DataType::TYPE_STRING);
-			
-			// Pronoun
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[2]), PHPExcel_Cell_DataType::TYPE_STRING);
+		// Reaction time
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['response_time'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 
-			// Reaction time
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['response_time'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
+		// Correct
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['choice'] == $settings[$data['act_id']]['correct_position'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 
-			// Correct
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['choice'] == $settings[$data['act_id']]['correct_position'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
-
-			// Item
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $settings[$data['act_id']]['audio_file_name'], PHPExcel_Cell_DataType::TYPE_STRING);
-		}
+		// Item
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $settings[$data['act_id']]['audio_file_name'], PHPExcel_Cell_DataType::TYPE_STRING);
 	}
 
 	$writer = new PHPExcel_Writer_Excel2007($workbook);
