@@ -195,6 +195,9 @@ function export_to_excel_complex(PDO $db)
 		RIGHT JOIN
 			measurements m
 			ON m.subject_id = p.subject_id
+		LEFT JOIN
+			native_tongue n ON
+			n.subject_id = p.subject_id
 		WHERE
 			p.submitted IS NOT NULL
 		GROUP BY
