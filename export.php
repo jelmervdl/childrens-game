@@ -201,10 +201,7 @@ function export_to_excel_complex(PDO $db)
 		WHERE
 			p.submitted IS NOT NULL
 		GROUP BY
-			p.subject_id,
-			p.age,
-			p.sex,
-			p.submitted
+			m.id
 		ORDER BY
 			m.act_id ASC,
 			p.submitted ASC");
