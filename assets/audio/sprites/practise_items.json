@@ -1,6 +1,7 @@
 {
   "resources": [
-    "practise_items.m4a"
+    "practise_items.m4a",
+    "practise_items.ogg"
   ],
   "spritemap": {
     "instruction1": {

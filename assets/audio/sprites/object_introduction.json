@@ -1,6 +1,7 @@
 {
   "resources": [
-    "object_introduction.m4a"
+    "object_introduction.m4a",
+    "object_introduction.ogg"
   ],
   "spritemap": {
     "m2": {

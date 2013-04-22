@@ -1,6 +1,7 @@
 {
   "resources": [
-    "thank_you.m4a"
+    "thank_you.m4a",
+    "thank_you.ogg"
   ],
   "spritemap": {
     "m8": {
