@@ -257,7 +257,7 @@
 		{
 			var self = this;
 
-			this.src = isWebkit ? (url + '.m4a') : (url + '.ogg');
+			this.src = url;
 
 			this.audio = new Audio();
 			this.audio.preload = 'none';
@@ -303,7 +303,7 @@
 					};
 				},
 				function(next) {
-					sprite.audio.src = sprite.src + '.m4a';
+					sprite.audio.src = sprite.src + (isWebkit ? '.m4a' : '.ogg');
 					sprite.audio.addEventListener('loadeddata', next);
 					sprite.audio.load();
 				}
