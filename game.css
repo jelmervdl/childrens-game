@@ -366,20 +366,32 @@ button.clickable {
 
 .playing-audio #game-stage.character-1-2-talk .option-2.hond .character,
 .playing-audio #game-stage.character-2-3-talk .option-2.hond .character {
-	-webkit-animation: dog-speaking 0.4s steps(1, end) 0 infinite;
-	-moz-animation: dog-speaking 0.4s steps(1, end) infinite;
+	background-image: url(assets/characters/dog_speaking_a.svg);
+}
+
+.playing-audio.tick #game-stage.character-1-2-talk .option-2.hond .character,
+.playing-audio.tick #game-stage.character-2-3-talk .option-2.hond .character {
+	background-image: url(assets/characters/dog_speaking_b.svg);
 }
 
 .playing-audio #game-stage.character-1-2-talk .option-2.olifant .character,
 .playing-audio #game-stage.character-2-3-talk .option-2.olifant .character {
-	-webkit-animation: elephant-speaking 0.4s steps(1, end) 0 infinite;
-	-moz-animation: elephant-speaking 0.4s steps(1, end) infinite;
+	background-image: url(assets/characters/elephant_speaking_a.svg);
+}
+
+.playing-audio.tick #game-stage.character-1-2-talk .option-2.olifant .character,
+.playing-audio.tick #game-stage.character-2-3-talk .option-2.olifant .character {
+	background-image: url(assets/characters/elephant_speaking_b.svg);
 }
 
 .playing-audio #game-stage.character-1-2-talk .option-2.aap .character,
-.playing-audio #game-stage.character-2-3-talk .option-2.aap .character{
-	-webkit-animation: monkey-speaking 0.4s steps(1, end) 0 infinite;
-	-moz-animation: monkey-speaking 0.4s steps(1, end) infinite;
+.playing-audio #game-stage.character-2-3-talk .option-2.aap .character {
+	background-image: url(assets/characters/monkey_speaking_a.svg);
+}
+
+.playing-audio.tick #game-stage.character-1-2-talk .option-2.aap .character,
+.playing-audio.tick #game-stage.character-2-3-talk .option-2.aap .character {
+	background-image: url(assets/characters/monkey_speaking_b.svg);
 }
 
 /* Whispering */
@@ -479,114 +491,6 @@ button.clickable {
 	}
 }
 
-@-webkit-keyframes dog-speaking {
-	0% {
-		background-image: url(assets/characters/dog_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/dog_speaking_b.svg);	
-	}
-}
-
-@-webkit-keyframes elephant-speaking {
-	0% {
-		background-image: url(assets/characters/elephant_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/elephant_speaking_b.svg);	
-	}
-}
-
-@-webkit-keyframes monkey-speaking {
-	0% {
-		background-image: url(assets/characters/monkey_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/monkey_speaking_b.svg);	
-	}
-}
-
-@-webkit-keyframes dog-speaking-front {
-	0% {
-		background-image: url(assets/characters/dog_front_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/dog_front_speaking_b.svg);	
-	}
-}
-
-@-webkit-keyframes elephant-speaking-front {
-	0% {
-		background-image: url(assets/characters/elephant_front_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/elephant_front_speaking_b.svg);	
-	}
-}
-
-@-webkit-keyframes monkey-speaking-front {
-	0% {
-		background-image: url(assets/characters/monkey_front_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/monkey_front_speaking_b.svg);
-	}
-}
-
-@-moz-keyframes dog-speaking {
-	0% {
-		background-image: url(assets/characters/dog_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/dog_speaking_b.svg);
-	}
-}
-
-@-moz-keyframes elephant-speaking {
-	0% {
-		background-image: url(assets/characters/elephant_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/elephant_speaking_b.svg);
-	}
-}
-
-@-moz-keyframes monkey-speaking {
-	0% {
-		background-image: url(assets/characters/monkey_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/monkey_speaking_b.svg);	
-	}
-}
-
-@-moz-keyframes dog-speaking-front {
-	0% {
-		background-image: url(assets/characters/dog_front_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/dog_front_speaking_b.svg);
-	}
-}
-
-@-moz-keyframes elephant-speaking-front {
-	0% {
-		background-image: url(assets/characters/elephant_front_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/elephant_front_speaking_b.svg);
-	}
-}
-
-@-moz-keyframes monkey-speaking-front {
-	0% {
-		background-image: url(assets/characters/monkey_front_speaking_a.svg);
-	}
-	50% {
-		background-image: url(assets/characters/monkey_front_speaking_b.svg);
-	}
-}
-
 /* Thank you stage and form */
 .thank-you {
 	text-align: center;
@@ -675,24 +579,42 @@ button.clickable {
 .playing-audio .introduce-character-2 .option-2.hond .character,
 .playing-audio .introduce-character-3 .option-3.hond .character,
 .playing-audio .character-2-speaks .option-2.hond .character {
-	-webkit-animation: dog-speaking-front 0.4s steps(1, end) 0 infinite;
-	-moz-animation: dog-speaking-front 0.4s steps(1, end) infinite;
+	background-image: url(assets/characters/dog_front_speaking_a.svg);
+}
+
+.playing-audio.tick .introduce-character-1 .option-1.hond .character,
+.playing-audio.tick .introduce-character-2 .option-2.hond .character,
+.playing-audio.tick .introduce-character-3 .option-3.hond .character,
+.playing-audio.tick .character-2-speaks .option-2.hond .character {	
+	background-image: url(assets/characters/dog_front_speaking_b.svg);
 }
 
 .playing-audio .introduce-character-1 .option-1.aap .character,
 .playing-audio .introduce-character-2 .option-2.aap .character,
 .playing-audio .introduce-character-3 .option-3.aap .character,
 .playing-audio .character-2-speaks .option-2.aap .character {
-	-webkit-animation: monkey-speaking-front 0.4s steps(1, end) 0 infinite;
-	-moz-animation: monkey-speaking-front 0.4s steps(1, end) infinite;
+	background-image: url(assets/characters/monkey_front_speaking_a.svg);
+}
+
+.playing-audio.tick .introduce-character-1 .option-1.aap .character,
+.playing-audio.tick .introduce-character-2 .option-2.aap .character,
+.playing-audio.tick .introduce-character-3 .option-3.aap .character,
+.playing-audio.tick .character-2-speaks .option-2.aap .character {
+	background-image: url(assets/characters/monkey_front_speaking_b.svg);
 }
 
 .playing-audio .introduce-character-1 .option-1.olifant .character,
 .playing-audio .introduce-character-2 .option-2.olifant .character,
 .playing-audio .introduce-character-3 .option-3.olifant .character,
 .playing-audio .character-2-speaks .option-2.olifant .character {
-	-webkit-animation: elephant-speaking-front 0.4s steps(1, end) 0 infinite;
-	-moz-animation: elephant-speaking-front 0.4s steps(1, end) infinite;
+	background-image: url(assets/characters/elephant_front_speaking_a.svg);
+}
+
+.playing-audio.tick .introduce-character-1 .option-1.olifant .character,
+.playing-audio.tick .introduce-character-2 .option-2.olifant .character,
+.playing-audio.tick .introduce-character-3 .option-3.olifant .character,
+.playing-audio.tick .character-2-speaks .option-2.olifant .character {
+	background-image: url(assets/characters/elephant_front_speaking_b.svg);	
 }
 
 /* Update dialog */

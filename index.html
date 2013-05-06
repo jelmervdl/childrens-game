@@ -325,6 +325,10 @@
 		n.AudioSprite.prototype.stop = function()
 		{
 			this.audio.pause();
+
+			// Weird old webkit on old iPad doesn't fire paused event?
+			document.body.classList.remove('playing-audio');
+			
 			this.currentSprite = null;
 			this.callback = null;
 		};
@@ -977,8 +981,12 @@
 				id: 'instruction-1',
 				stage: document.getElementById('game-stage'),
 				scenes: [
+					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/practise_items');
+						clickOnce([stage.querySelector('.next-button')], next);
+					},
+					function(stage, next) {
 						audio.load(next);
 					},
 					function(stage, next) {
@@ -1161,6 +1169,11 @@
 				window.location.reload();
 			});
 		};
+
+		// Set up an interval which is used to simulate step animations in CSS
+		setInterval(function() {
+			document.body.classList.toggle('tick');
+		}, 200);
 
 		// Force an update of the manifest file
 		checkForUpdate(bind(main, 'play'));
