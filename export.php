@@ -219,7 +219,7 @@ function export_to_excel_complex(PDO $db)
 	$col = 0;
 
 	// Header row
-	foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item') as $column)
+	foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item', 'Evaluation of mistakes') as $column)
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
 
 	for ($i = 0;;++$i)
@@ -243,6 +243,8 @@ function export_to_excel_complex(PDO $db)
 			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column],
 					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
 		
+		$is_correct = $data['choice'] == $settings[$data['act_id']]['correct_position'];
+
 		// Condition
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[1] ? $match['1'] : 'no'), PHPExcel_Cell_DataType::TYPE_STRING);
 		
@@ -253,10 +255,25 @@ function export_to_excel_complex(PDO $db)
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['response_time'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 
 		// Correct
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['choice'] == $settings[$data['act_id']]['correct_position'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
+		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $is_correct, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 
 		// Item
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $settings[$data['act_id']]['audio_file_name'], PHPExcel_Cell_DataType::TYPE_STRING);
+
+		// Alternative correct column
+		if (!$is_correct)
+			switch ($match[1])
+			{
+				case 'dir':
+					$alternative_choice = evaluation_of_mistakes_dir_ind($data['choice'], $settings[$data['act_id']]['correct_position'], $match[2]);
+					$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $alternative_choice, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					break;
+
+				case 'ind':
+					$alternative_choice = !evaluation_of_mistakes_dir_ind($data['choice'], $settings[$data['act_id']]['correct_position'], $match[2]);
+					$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $alternative_choice, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					break;
+			}
 	}
 
 	$writer = new PHPExcel_Writer_Excel2007($workbook);
@@ -269,6 +286,24 @@ function export_to_excel_complex(PDO $db)
 	header("Cache-control: private");
 
 	$writer->save('php://output');
+}
+
+function evaluation_of_mistakes_dir_ind($choice, $correct, $pronoun)
+{
+	switch ($pronoun)
+	{
+		case 'hij':
+			return $choice == 'option-1' && $correct == 'option-3'
+				|| $choice == 'option-3' && $correct == 'option-1';
+
+		case 'ik':
+			return $choice == 'option-2' && $correct == 'option-1'
+				|| $choice == 'option-2' && $correct == 'option-3';
+
+		case 'jij':
+			return $choice == 'option-1' && $correct == 'option-2'
+				|| $choice == 'option-3' && $correct == 'option-2';
+	}
 }
 
 function print_results_as_csv(PDOStatement $stmt, Decorator $decorator = null)
