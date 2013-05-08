@@ -9,13 +9,14 @@ class DataStore
 
 	public function insertPersonalDetails($subject_id, $details)
 	{
-		$stmt = $this->db->prepare("INSERT INTO personal_details (subject_id, age, sex, browser, platform, submitted) VALUES (:subject_id, :age, :sex, :browser, :platform, NOW())");
+		$stmt = $this->db->prepare("INSERT INTO personal_details (subject_id, age, sex, browser, platform, submitted, branch) VALUES (:subject_id, :age, :sex, :browser, :platform, NOW(), :branch)");
 
 		$stmt->bindParam(":subject_id", $subject_id);
 		$stmt->bindParam(":age", $details->age);
 		$stmt->bindParam(":sex", $details->sex);
 		$stmt->bindParam(":browser", $details->browser);
 		$stmt->bindParam(":platform", $details->platform);
+		$stmt->bindValue(":branch", "koen");
 		$stmt->execute();
 
 		$stmt = $this->db->prepare("INSERT INTO native_tongue (subject_id, language) VALUES (:subject_id, :language)");
