@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="cache-manifest.php">
+<html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -119,7 +119,56 @@
 
 		<div id="experiment-progress"></div>
 
-		<script src="configuration.php"></script>
+		<script>
+		window.configuration = {
+		  "no_report_items":[
+		    {
+		      "audio_file_name":"13.olif.hij",
+		      "code":"13",
+		      "speaker":"olifant",
+		      "addressee":"aap",
+		      "spatial_position":"addresse (right)",
+		      "reported_speaker":"none",
+		      "condition":"no-hij",
+		      "object":"boek",
+		      "correct_recipient_of_object":"hond",
+		      "sentence":"Hij krijgt het boek.",
+		      "type":"talking-right",
+		      "correct_position":"option-1"
+		    }
+		  ],
+		  "direct_and_indirect_speech_items":[
+		    {
+		      "audio_file_name":"21.aap.indik",
+		      "code":"21",
+		      "speaker":"aap",
+		      "addressee":"hond",
+		      "spatial_position":"addresse (right)",
+		      "reported_speaker":"olifant",
+		      "condition":"ind-ik",
+		      "object":"voetbal",
+		      "correct_recipient_of_object":"aap",
+		      "sentence":"Olifant zei dat ik de voetbal krijg.",
+		      "type":"whispering-right",
+		      "correct_position":"option-2"
+		    },
+		    {
+		      "audio_file_name":"28.hond.dirjij",
+		      "code":"28",
+		      "speaker":"hond",
+		      "addressee":"olifant",
+		      "spatial_position":"addresse (left)",
+		      "reported_speaker":"aap",
+		      "condition":"dir-jij",
+		      "object":"roos",
+		      "correct_recipient_of_object":"hond",
+		      "sentence":null,
+		      "type":"whispering-left",
+		      "correct_position":"option-2"
+		    }
+		  ]
+		};
+		</script>
 		<script src="lib/sequence.js"></script>
 
 		<script>
@@ -452,80 +501,6 @@
 		};
 
 
-
-		n.Measurements = {
-			subjectId: s4(),
-			measurements: []
-		};
-
-		n.Measurements.push = function(measurement)
-		{
-			this.measurements.push(measurement);
-		};
-
-		n.Measurements.submit = function(personalData)
-		{
-			var queue = JSON.parse(localStorage.measurementsSubmitQueue || '[]') || [];
-			
-			queue.push({
-				subject_id: this.subjectId,
-				personal_data: personalData,
-				measurements: this.measurements 
-			});
-
-			localStorage.measurementsSubmitQueue = JSON.stringify(queue);
-
-			// Reset
-			this.subjectId = s4();
-			this.measurements = [];
-
-			this.sync();
-		}
-
-		n.Measurements.sync = function()
-		{
-			if (!localStorage.measurementsSubmitQueue)
-				return true;
-
-			try {
-				var request = new XMLHttpRequest();
-				request.open('POST', 'post-measurements.php', true);
-				request.onload = function() {
-					if (request.status == 200)
-						delete localStorage.measurementsSubmitQueue;
-				};
-				request.send(localStorage.measurementsSubmitQueue);
-
-				return true;
-			} catch (e) {
-				// Fail silently. We'll retry another time.
-				return false;
-			}
-		};
-
-		n.Measurement = function(id)
-		{
-			this.id = id;
-		};
-
-		n.Measurement.prototype.start = function()
-		{
-			if (this.startTime)
-				return;
-			
-			this.startTime = new Date().getTime();
-		};
-
-		n.Measurement.prototype.stop = function(choice)
-		{
-			if (this.stopTime)
-				return;
-
-			this.choice = choice;
-			this.stopTime = new Date().getTime();
-			n.Measurements.push(this);
-		};
-
 		n.ProgressBar = function(element)
 		{
 			this.element = element;
@@ -622,12 +597,7 @@
 			task: function(stage, next) {
 				var act = this;
 				
-				if (!act.measurement)
-					act.measurement = new n.Measurement(this.id);
-
-				act.measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
-					act.measurement.stop(option.id);
 					audio.play('magic');
 					stage.classList.add('object-dropped-on-' + option.id);
 
@@ -651,13 +621,8 @@
 			practise_task: function(stage, next) {
 				var act = this;
 				
-				if (!act.measurement)
-					act.measurement = new n.Measurement(this.id);
-
-				act.measurement.start();
 				this.clickOnce(stage.querySelectorAll('.option'), function(option) {
 					if (option.classList.contains(act.get('correct_recipient'))) {
-						act.measurement.stop(option.id);
 						audio.play('magic');
 						stage.classList.add('object-dropped-on-' + option.id);
 						act.setTimeout(next, 1000);
@@ -817,195 +782,6 @@
 
 		window.progress = new n.ProgressBar(document.getElementById('experiment-progress'));
 
-		// Login act
-		acts.push(function(next) {
-			new n.Act({
-				stage: document.getElementById('login-stage'),
-				scenes: [
-					function(stage, next) {
-						clickOnce([stage.querySelector('.start-button')], next);
-					},
-					function(stage, next) {
-						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
-						audio.load(next);
-					},
-					// Hey, leuk dat je er bent
-					function(stage, next) {
-						audio.play('m1', function() {
-							setTimeout(next, 500);
-						});
-					}
-				]
-			}).play(next);
-		});
-		
-		// Character introduction
-		acts.push(function(next) {
-			new n.Act({
-				stage: document.getElementById('character-introduction-stage'),
-				scenes: [
-					// Hey there animals, who are you?
-					function(stage, next) {
-						var act = this;
-						audio.play('m3', next);
-					},
-
-					// Hi, I'm the dog
-					function(stage, next) {
-						stage.classList.add('introduce-character-1');
-						audio.play('intro.hond', function() {
-							stage.classList.remove('introduce-character-1');
-							next();	
-						});
-					},
-
-					// Hi, I'm the elephant
-					function(stage, next) {
-						stage.classList.add('introduce-character-2');
-						audio.play('intro.olif', function() {
-							stage.classList.remove('introduce-character-2');
-							next();	
-						});	
-					},
-					
-					// Hi, I'm the monkey
-					function(stage, next) {
-						stage.classList.add('introduce-character-3');
-							audio.play('intro.aap', function() {
-								stage.classList.remove('introduce-character-3');
-								next();	
-						});
-					},
-					
-					// Who is the elephant?
-					function(stage, next) {
-						audio.play('m4', next);
-					},
-					function(stage, next) {
-						var act = this;
-						this.mark('m4');
-						
-						clickOnce(stage.querySelectorAll('.option'), function(option) {
-							if (option.classList.contains('olifant'))
-								next();
-							else
-								audio.play('m4n', function() {
-									act.jump('m4');
-								});
-						});
-					},
-
-					// Who is the monkey?
-					function(stage, next) {
-						audio.play('m6', next);
-					},
-					function(stage, next) {
-						var act = this;
-						this.mark('m6');
-						
-						clickOnce(stage.querySelectorAll('.option'), function(option) {
-							if (option.classList.contains('aap'))
-								next();
-							else
-								audio.play('m6n', function() {
-									act.jump('m6');
-								});
-						});
-					},
-
-					// Who is the dog?
-					function(stage, next) {
-						audio.play('m5', next);
-					},
-					function(stage, next) {
-						var act = this;
-						this.mark('m5');
-						
-						clickOnce(stage.querySelectorAll('.option'), function(option) {
-							if (option.classList.contains('hond'))
-								next();
-							else
-								audio.play('m5n', function() {
-									act.jump('m5');
-								});
-						});
-					}
-				]
-			}).play(next);
-		});
-
-		// Object introduction
-		acts.push(function(next) {
-			var scenes = [];
-
-			// load audio
-			scenes.push(function(stage, next) {
-				audio = new n.AudioSprite('assets/audio/sprites/object_introduction');
-				audio.load(next);
-			});
-
-			// "Hier zijn een paar dingen"
-			scenes.push(function(stage, next) {
-				audio.play('m2', next);
-			});
-
-			// Highlight each object and name it.
-			for (var i = 1; i <= 18; ++i) {
-				scenes.push(function(object_num) {
-					return function(stage, next) {
-						if (object_num > 1)
-							document.getElementById('object-' + (object_num - 1)).classList.remove('highlight');
-
-						document.getElementById('object-' + object_num).classList.add('highlight');
-						audio.play('o' + object_num, next);
-					};
-				}(i));
-			}
-
-			// Clean up.
-			scenes.push(function(stage, next) {
-				document.getElementById('object-18').classList.remove('highlight');
-				next();
-			});
-
-			// Lets make this a real act, not just a list of scenes.
-			new n.Act({
-				stage: document.getElementById('object-introduction-stage'),
-				scenes: scenes
-			}).play(next);
-		});
-
-		// "Nu gaan we naar een spelletje spelen:""
-		acts.push(function(next) {
-			new n.Act({
-				id: 'instruction-1',
-				stage: document.getElementById('game-stage'),
-				scenes: [
-					// Temporary solution for the audio won't start playing-problem
-					function(stage, next) {
-						audio = new n.AudioSprite('assets/audio/sprites/practise_items');
-						clickOnce([stage.querySelector('.next-button')], next);
-					},
-					function(stage, next) {
-						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction1', next);
-					},
-					// Temporary solution for the audio won't start playing-problem
-					function(stage, next) {
-						clickOnce([stage.querySelector('.next-button')], next);
-					}
-				]
-			}).play(next);
-		});
-
-		// Practise acts
-		configuration.practise_items.shuffle().map(function(act) {
-			return bind(createAct(act), 'play');
-		}).forEach(bind(acts, 'push'));
-		window.progress.add(configuration.practise_items.length);
-
 		// "Nu gaan we naar het volgende level:""
 		acts.push(function(next) {
 			new n.Act({
@@ -1017,10 +793,6 @@
 						audio.load(next);
 					},
 					function(stage, next) {
-						audio.play('instruction2', next);
-					},
-					// Temporary solution for the audio won't start playing-problem
-					function(stage, next) {
 						clickOnce([stage.querySelector('.next-button')], next);
 					}
 				]
@@ -1028,7 +800,7 @@
 		});
 
 		// Non-whispering acts
-		configuration.no_report_items.shuffle().map(function(act) {
+		configuration.no_report_items.map(function(act) {
 			return bind(createAct(act), 'play');
 		}).forEach(bind(acts, 'push'));
 		window.progress.add(configuration.no_report_items.length);
@@ -1040,25 +812,15 @@
 				stage: document.getElementById('game-stage'),
 				scenes: [
 					function(stage, next) {
-						// Nieuwe ronde, nieuwe kansen.
-						stage.classList.remove('olifant-draagt-zonnebril');
-
 						audio = new n.AudioSprite('assets/audio/sprites/direct_and_indirect_speech_items');
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction3', next);
-					},
-					// Temporary solution for the audio won't start playing-problem
-					function(stage, next) {
-						clickOnce([stage.querySelector('.next-button')], next);
 					}
 				]
 			}).play(next);
 		});
 
 		// Whispering acts
-		configuration.direct_and_indirect_speech_items.shuffle().map(function(act) {
+		configuration.direct_and_indirect_speech_items.map(function(act) {
 			return bind(createAct(act), 'play');
 		}).forEach(bind(acts, 'push'));
 		window.progress.add(configuration.direct_and_indirect_speech_items.length);
@@ -1070,42 +832,7 @@
 				scenes: [
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/thank_you');
-						audio.load();
-						next();
-					},
-					function(stage, next) {
-						// that's it :)
-						this.clickOnce(stage.querySelectorAll('button'), function() {
-							var age, sex, native_tongue = [];
-
-							age = stage.querySelector('input[name=age]').value;
-							
-							Array.prototype.forEach.call(stage.querySelectorAll('input[name=sex]'), function(option) {
-								if (option.checked)
-									sex = option.value;
-							});
-
-							Array.prototype.forEach.call(stage.querySelectorAll('input[name=native_tongue]'), function(option) {
-								if (option.checked)
-									native_tongue.push(option.value);
-							});
-
-							if (stage.querySelector('input[name=native_tongue_other]').value.trim())
-								native_tongue.push(stage.querySelector('input[name=native_tongue_other]').value.trim());
-
-							if (!age || !sex || native_tongue.length === 0)
-								return false;
-							
-							n.Measurements.submit({
-								'age': age,
-								'sex': sex,
-								'native_tongue': native_tongue,
-								'browser': window.navigator.userAgent,
-								'platform': window.navigator.platform
-							});
-							
-							next();
-						});
+						audio.load(next);
 					},
 					function(stage, next) {
 						audio.play('m8');
@@ -1117,69 +844,13 @@
 
 		var main = new Sequence(acts);
 		
-		function checkForUpdate(next)
-		{
-			if (!window.applicationCache) {
-				next();
-				return;
-			}
-
-			var dialog = document.getElementById('update-dialog');
-			dialog.classList.add('visible');
-
-			var has_started = false;
-			var start = function() {
-				if (!has_started) {
-					has_started = true;
-					dialog.classList.remove('visible');
-					next();					
-				}
-			};
-
-			// When checking, show some indication of doing so
-			window.applicationCache.addEventListener('checking', function(e) {
-				dialog.querySelector('span').innerHTML = 'Checking…';
-				dialog.classList.add('visible');
-			});
-
-			// If there is no update, just run.
-			window.applicationCache.addEventListener('noupdate', start);
-
-			// Continue to run as normal on error.
-			window.applicationCache.addEventListener('error', start);
-
-			// Continue to run as normal when caching has finished
-			window.applicationCache.addEventListener('cached', start);
-
-			// Show that we are downloading
-			window.applicationCache.addEventListener('downloading', function(e) {
-				dialog.querySelector('span').innerHTML = 'Downloading…';
-			});
-
-			// Show how much we have downloaded
-			window.applicationCache.addEventListener('progress', function(e) {
-				var progress = dialog.querySelector('progress');
-				progress.max = e.total;
-				progress.value = e.loaded;
-			});
-
-			// When we are done downloading, swap the cache.
-			window.applicationCache.addEventListener('updateready', function(e) {
-				window.applicationCache.swapCache();
-				window.location.reload();
-			});
-		};
-
 		// Set up an interval which is used to simulate step animations in CSS
 		setInterval(function() {
 			document.body.classList.toggle('tick');
 		}, 200);
 
 		// Force an update of the manifest file
-		checkForUpdate(bind(main, 'play'));
-
-		// There may be unsubmitted data, let's see/sync:
-		n.Measurements.sync();
+		main.play();
 
 		</script>
 	</body>
