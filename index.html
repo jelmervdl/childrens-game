@@ -120,6 +120,7 @@
 		<div id="experiment-progress"></div>
 
 		<script src="configuration.js"></script>
+		<script src="sprites.js"></script>
 		<script src="lib/sequence.js"></script>
 
 		<script>
@@ -292,15 +293,8 @@
 
 			after([
 				function(next) {
-					var request = new XMLHttpRequest();
-					request.open('GET', sprite.src + '.json', true);
-					request.send();
-					request.onreadystatechange = function() {
-						if (request.readyState == 4) {
-							sprite.data = JSON.parse(request.responseText);
-							next();
-						}
-					};
+					sprite.data = window.json_files[sprite.src + '.json'];
+					next();
 				},
 				function(next) {
 					sprite.audio.src = sprite.src + (isWebkit ? '.m4a' : '.ogg');
