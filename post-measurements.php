@@ -45,17 +45,24 @@ class DataStore
 $db = new PDO('mysql:host=127.0.0.1;dbname=franziska', 'franziska', 'franziska');
 
 $data = json_decode(file_get_contents("php://input"));
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $store = new DataStore($db);
 
-foreach ($data as $trail)
-{
-	$db->beginTransaction();
+try {
+	foreach ($data as $trail)
+	{
+		$db->beginTransaction();
 
-	$store->insertPersonalDetails($trail->subject_id, $trail->personal_data);
+		$store->insertPersonalDetails($trail->subject_id, $trail->personal_data);
 
-	foreach ($trail->measurements as $measurement)
-		$store->insertMeasurement($trail->subject_id, $measurement);
+		foreach ($trail->measurements as $measurement)
+			$store->insertMeasurement($trail->subject_id, $measurement);
 
-	$db->commit();
+		$db->commit();
+	}
+}
+catch (Exception $e) {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+	echo $e;
 }
