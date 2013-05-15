@@ -228,7 +228,7 @@
 
 		var after = function(tasks, callback)
 		{
-			var running = 0;
+			var running = tasks.length;
 			
 			var onfinish = function() {
 				if (--running === 0)
@@ -236,7 +236,6 @@
 			};
 
 			Array.prototype.forEach.call(tasks, function(task) {
-				++running;
 				task(onfinish);
 			});
 		};
@@ -307,7 +306,7 @@
 					sprite.audio.addEventListener('loadeddata', next);
 					sprite.audio.load();
 				}
-			], next);
+			], next || function() {});
 		};
 
 		n.AudioSprite.prototype.play = function(chapter, next)
