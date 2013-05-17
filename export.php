@@ -57,6 +57,7 @@ function export_to_r(PDO $db)
 			p.sex,
 			p.browser,
 			p.platform,
+			p.branch as version,
 			p.submitted,
 			n.language,
 			m.id as measurement_id,
@@ -186,6 +187,7 @@ function export_to_excel_complex(PDO $db)
 			GROUP_CONCAT(n.language) as Language,
 			p.age as Age,
 			p.sex as Gender,
+			p.branch as Version,
 			p.submitted as 'Test time',
 			m.act_id,
 			m.choice,
@@ -219,7 +221,7 @@ function export_to_excel_complex(PDO $db)
 	$col = 0;
 
 	// Header row
-	foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item', 'Evaluation of mistakes') as $column)
+	foreach (array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item', 'Evaluation of mistakes') as $column)
 		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
 
 	for ($i = 0;;++$i)
@@ -239,7 +241,7 @@ function export_to_excel_complex(PDO $db)
 		if(!preg_match('/\.(dir|ind|)(ik|jij|hij)$/', $settings[$data['act_id']]['audio_file_name'], $match))
 			throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
 
-		foreach (array('ID', 'Language', 'Age', 'Gender', 'Test time') as $column)
+		foreach (array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time') as $column)
 			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column],
 					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
 		
