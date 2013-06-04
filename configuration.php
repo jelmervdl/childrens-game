@@ -187,7 +187,7 @@ function get_configurations()
 	return $configurations;
 }
 
-if ($_SERVER['SCRIPT_FILENAME'] == __FILE__)
+if (basename($_SERVER['SCRIPT_FILENAME']) == basename(__FILE__))
 {
 	error_reporting(E_ALL);
 	ini_set('display_errors', true);
