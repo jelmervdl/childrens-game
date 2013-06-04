@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Pro SQL dump
-# Version 4097
+# Version 4096
 #
 # http://www.sequelpro.com/
 # http://code.google.com/p/sequel-pro/
 #
-# Host: 127.0.0.1 (MySQL 5.5.29-0ubuntu0.12.04.2)
+# Host: 127.0.0.1 (MySQL 5.5.25)
 # Database: franziska
-# Generation Time: 2013-05-11 19:56:59 +0000
+# Generation Time: 2013-06-04 10:34:21 +0000
 # ************************************************************
 
 
@@ -30,7 +30,9 @@ CREATE TABLE `measurements` (
   `choice` varchar(255) NOT NULL,
   `start_time` bigint(20) NOT NULL,
   `stop_time` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `subject_id` (`subject_id`),
+  CONSTRAINT `measurements_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `personal_details` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -42,7 +44,9 @@ CREATE TABLE `native_tongue` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `subject_id` char(4) NOT NULL DEFAULT '',
   `language` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `subject_id` (`subject_id`),
+  CONSTRAINT `native_tongue_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `personal_details` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -51,7 +55,6 @@ CREATE TABLE `native_tongue` (
 # ------------------------------------------------------------
 
 CREATE TABLE `personal_details` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `subject_id` char(4) NOT NULL DEFAULT '',
   `age` int(11) NOT NULL,
   `sex` enum('mannelijk','vrouwelijk') DEFAULT NULL,
@@ -59,7 +62,7 @@ CREATE TABLE `personal_details` (
   `platform` text,
   `submitted` datetime DEFAULT NULL,
   `branch` varchar(255) NOT NULL DEFAULT 'master',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
