@@ -3,6 +3,7 @@
 date_default_timezone_set('Europe/Amsterdam');
 setlocale(LC_ALL, 'nl_NL');
 ini_set('memory_limit', '512M');
+require_once 'config.php';
 require_once 'configuration.php';
 require_once 'lib/php/PHPExcel.php';
 require_once 'lib/php/PHPExcel/Writer/Excel2007.php';
@@ -437,8 +438,7 @@ function main()
 	ini_set('display_errors', true);
 	ini_set('auto_detect_line_endings', true);
 
-	$db = new PDO('mysql:host=127.0.0.1;dbname=franziska', 'franziska', 'franziska');
-	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$db = config_pdo();
 
 	switch (@$_GET['target'])
 	{
