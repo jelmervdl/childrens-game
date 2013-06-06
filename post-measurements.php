@@ -1,5 +1,7 @@
 <?php
 
+require_once 'config.php';
+
 class DataStore
 {
 	public function __construct(PDO $db)
@@ -42,7 +44,7 @@ class DataStore
 	}
 }
 
-$db = new PDO('mysql:host=127.0.0.1;dbname=franziska', 'franziska', 'franziska');
+$db = config_pdo();
 
 $data = json_decode(file_get_contents("php://input"));
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

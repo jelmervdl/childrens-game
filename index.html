@@ -226,6 +226,17 @@
 			return removeListeners;
 		};
 
+		var listenOnce = function(element, event, callback)
+		{
+			var next = function() {
+				console.log(event + " fired");
+				element.removeEventListener(next);
+				callback();
+			};
+
+			element.addEventListener(event, callback);
+		};
+
 		var after = function(tasks, callback)
 		{
 			var running = tasks.length;
@@ -273,6 +284,10 @@
 				document.body.classList.remove('playing-audio');
 			});
 
+			this.audio.addEventListener('error', function() {
+				console.log("Oh lord");
+			});
+
 			this.audio.addEventListener('timeupdate', function() {
 				if (!self.currentSprite)
 					return;
@@ -302,9 +317,23 @@
 					};
 				},
 				function(next) {
+					// For Google Chrome..
+					listenOnce(sprite.audio, 'durationchange', next);
+
+					// .. and for Firefox. I'm not even joking anymore. This is wrong.
+					sprite.audio.ondurationchange = function() {
+						sprite.audio.ondurationchange = null;
+						next();
+					};
+
 					sprite.audio.src = sprite.src + (isWebkit ? '.m4a' : '.ogg');
-					sprite.audio.addEventListener('loadeddata', next);
+
+					// Because .load does nothing, play and pause. Really WTF?!
 					sprite.audio.load();
+					sprite.audio.play();
+					setTimeout(function() {
+						sprite.audio.pause();
+					}, 10);
 				}
 			], next || function() {});
 		};
