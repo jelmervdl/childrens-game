@@ -1,9 +1,0 @@
-<?php
-
-function config_pdo()
-{
-	$db = new PDO('mysql:host=127.0.0.1;dbname=franziska', 'franziska', 'franziska');
-	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-	return $db;
-}
