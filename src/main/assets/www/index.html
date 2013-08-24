@@ -2,11 +2,9 @@
 <html manifest="cache-manifest.php">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 		<title>Game</title>
 		<link rel="stylesheet" href="game.css">
-		<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 	</head>
 	<body>
 		<div id="update-dialog">
@@ -119,7 +117,8 @@
 
 		<div id="experiment-progress"></div>
 
-		<script src="configuration.php"></script>
+		<script src="configuration.js"></script>
+		<script src="assets.js"></script>
 		<script src="lib/sequence.js"></script>
 
 		<script>
@@ -269,96 +268,45 @@
 
 			this.src = url;
 
-			this.audio = new Audio();
-			this.audio.preload = 'none';
+			window.onStartPlaying = function() {
+				console.log("Start playing");
+			    document.body.classList.add('playing-audio');
+			};
 
-			this.audio.addEventListener('play', function() {
-				document.body.classList.add('playing-audio');
-			});
-
-			this.audio.addEventListener('paused', function() {
+			window.onFinishPlaying = function() {
+				console.log("Finish playing");
 				document.body.classList.remove('playing-audio');
-			});
+				if (self.callback) self.callback();
+			};
 
-			this.audio.addEventListener('ended', function() {
-				document.body.classList.remove('playing-audio');
-			});
-
-			this.audio.addEventListener('error', function() {
+			window.onErrorPlaying = function() {
 				console.log("Oh lord");
-			});
-
-			this.audio.addEventListener('timeupdate', function() {
-				if (!self.currentSprite)
-					return;
-
-				if (self.audio.currentTime > self.currentSprite.end) {
-					var next = self.callback; 
-					self.stop();
-					if (next) next();
-				}
-			})
+			};
 		};
 
 		n.AudioSprite.prototype.load = function(next)
 		{
-			var sprite = this;
-
-			after([
-				function(next) {
-					var request = new XMLHttpRequest();
-					request.open('GET', sprite.src + '.json', true);
-					request.send();
-					request.onreadystatechange = function() {
-						if (request.readyState == 4) {
-							sprite.data = JSON.parse(request.responseText);
-							next();
-						}
-					};
-				},
-				function(next) {
-					// For Google Chrome..
-					listenOnce(sprite.audio, 'durationchange', next);
-
-					// .. and for Firefox. I'm not even joking anymore. This is wrong.
-					sprite.audio.ondurationchange = function() {
-						sprite.audio.ondurationchange = null;
-						next();
-					};
-
-					sprite.audio.src = sprite.src + (isWebkit ? '.m4a' : '.ogg');
-
-					// Because .load does nothing, play and pause. Really WTF?!
-					sprite.audio.load();
-					sprite.audio.play();
-					setTimeout(function() {
-						sprite.audio.pause();
-					}, 10);
-				}
-			], next || function() {});
+			next();
 		};
 
 		n.AudioSprite.prototype.play = function(chapter, next)
 		{
-			if (this.currentSprite)
+			if (this.callback)
 				this.stop();
 
-			this.currentSprite = this.data.spritemap[chapter];
 			this.callback = next;
-
-			this.audio.currentTime = this.currentSprite.start;
-			this.audio.play();
+			globalAudio.play(
+			    find_audio_asset(chapter),
+			    "window.onStartPlaying()",
+			    "window.onFinishPlaying()",
+			    "window.onErrorPlaying()");
 		};
 
 		n.AudioSprite.prototype.stop = function()
 		{
-			this.audio.pause();
-
-			// Weird old webkit on old iPad doesn't fire paused event?
-			document.body.classList.remove('playing-audio');
-			
-			this.currentSprite = null;
 			this.callback = null;
+		    globalAudio.stop();
+			document.body.classList.remove('playing-audio');
 		};
 
 		/* Act */
@@ -1204,7 +1152,8 @@
 		}, 200);
 
 		// Force an update of the manifest file
-		checkForUpdate(bind(main, 'play'));
+		// checkForUpdate(bind(main, 'play'));
+		window.onload = bind(main, 'play');
 
 		// There may be unsubmitted data, let's see/sync:
 		n.Measurements.sync();

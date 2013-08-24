@@ -1,5 +1,5 @@
 window.configuration = {
-  "practice_items":[
+  "practise_items":[
     {
       "audio_file_name":"p1.olif",
       "code":"p1",
@@ -7,11 +7,12 @@ window.configuration = {
       "addressee":"aap",
       "spatial_position":"addresse (right)",
       "reported_speaker":"none",
-      "condition":"Practice-1p",
+      "condition":"Practise-1p",
       "object":"boek",
       "correct_recipient_of_object":"olifant",
       "sentence":"Olifant krijgt het boek.",
-      "type":"talking-right"
+      "type":"speaking-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"p2.aap",
@@ -20,11 +21,12 @@ window.configuration = {
       "addressee":"olifant",
       "spatial_position":"addresse (left)",
       "reported_speaker":"none",
-      "condition":"Practice-3p",
+      "condition":"Practise-3p",
       "object":"auto",
       "correct_recipient_of_object":"hond",
       "sentence":"Hond krijgt de auto.",
-      "type":"talking-left"
+      "type":"speaking-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"p3.hond",
@@ -33,11 +35,12 @@ window.configuration = {
       "addressee":"aap",
       "spatial_position":"addresse (right)",
       "reported_speaker":"none",
-      "condition":"Practice-2p",
+      "condition":"Practise-2p",
       "object":"lepel",
       "correct_recipient_of_object":"aap",
       "sentence":"Aap krijgt de lepel.",
-      "type":"talking-right"
+      "type":"speaking-right",
+      "correct_position":"option-3"
     }
   ],
   "no_report_items":[
@@ -52,7 +55,8 @@ window.configuration = {
       "object":"paraplu",
       "correct_recipient_of_object":"aap",
       "sentence":"Ik krijg de paraplu.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"2.aap.hij",
@@ -65,7 +69,8 @@ window.configuration = {
       "object":"lepel",
       "correct_recipient_of_object":"hond",
       "sentence":"Hij krijgt de lepel.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"3.aap.ik",
@@ -78,7 +83,8 @@ window.configuration = {
       "object":"pen",
       "correct_recipient_of_object":"aap",
       "sentence":"Ik krijg de pen.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"4.aap.jij",
@@ -91,7 +97,8 @@ window.configuration = {
       "object":"hamer",
       "correct_recipient_of_object":"hond",
       "sentence":"Jij krijgt de hamer.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"5.aap.hij",
@@ -104,7 +111,8 @@ window.configuration = {
       "object":"voetbal",
       "correct_recipient_of_object":"olifant",
       "sentence":"Hij krijgt de voetbal.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"6.hond.ik",
@@ -117,7 +125,8 @@ window.configuration = {
       "object":"sjaal",
       "correct_recipient_of_object":"hond",
       "sentence":"Ik krijg de sjaal.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"7.hond.jij",
@@ -130,7 +139,8 @@ window.configuration = {
       "object":"gitaar",
       "correct_recipient_of_object":"aap",
       "sentence":"Jij krijgt de gitaar.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"8.hond.hij",
@@ -143,7 +153,8 @@ window.configuration = {
       "object":"schaar",
       "correct_recipient_of_object":"olifant",
       "sentence":"Hij krijgt de schaar.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"9.hond.jij",
@@ -156,7 +167,8 @@ window.configuration = {
       "object":"auto",
       "correct_recipient_of_object":"olifant",
       "sentence":"Jij krijgt de auto.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"10.hond.hij",
@@ -169,7 +181,8 @@ window.configuration = {
       "object":"tandenborstel",
       "correct_recipient_of_object":"aap",
       "sentence":"Hij krijgt de tandenborstel.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"11.olif.ik",
@@ -182,7 +195,8 @@ window.configuration = {
       "object":"zonnebril",
       "correct_recipient_of_object":"olifant",
       "sentence":"Ik krijg de zonnebril.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"12.olif.jij",
@@ -195,7 +209,8 @@ window.configuration = {
       "object":"kop",
       "correct_recipient_of_object":"aap",
       "sentence":"Jij krijgt de kop.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"13.olif.hij",
@@ -208,7 +223,8 @@ window.configuration = {
       "object":"boek",
       "correct_recipient_of_object":"hond",
       "sentence":"Hij krijgt het boek.",
-      "type":"talking-right"
+      "type":"talking-right",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"14.olif.ik",
@@ -221,7 +237,8 @@ window.configuration = {
       "object":"vliegtuig",
       "correct_recipient_of_object":"olifant",
       "sentence":"Ik krijg het vliegtuig.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"15.olif.jij",
@@ -234,7 +251,8 @@ window.configuration = {
       "object":"vlag",
       "correct_recipient_of_object":"hond",
       "sentence":"Jij krijgt de vlag.",
-      "type":"talking-left"
+      "type":"talking-left",
+      "correct_position":"option-1"
     }
   ],
   "direct_and_indirect_speech_items":[
@@ -249,7 +267,8 @@ window.configuration = {
       "object":"kop",
       "correct_recipient_of_object":"olifant",
       "sentence":"Hond zei dat jij de kop krijgt.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"17.aap.indhij",
@@ -262,7 +281,8 @@ window.configuration = {
       "object":"tandenborstel",
       "correct_recipient_of_object":"hond",
       "sentence":"Hond zei dat hij de tandenborstel krijgt.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"18.aap.dirik",
@@ -275,7 +295,8 @@ window.configuration = {
       "object":"hamer",
       "correct_recipient_of_object":"hond",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"19.aap.dirjij",
@@ -288,7 +309,8 @@ window.configuration = {
       "object":"schaar",
       "correct_recipient_of_object":"aap",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"20.aap.dirhij",
@@ -301,7 +323,8 @@ window.configuration = {
       "object":"roos",
       "correct_recipient_of_object":"olifant",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"21.aap.indik",
@@ -314,7 +337,8 @@ window.configuration = {
       "object":"voetbal",
       "correct_recipient_of_object":"aap",
       "sentence":"Olifant zei dat ik de voetbal krijg.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"22.aap.indjij",
@@ -327,7 +351,8 @@ window.configuration = {
       "object":"sjaal",
       "correct_recipient_of_object":"hond",
       "sentence":"Olifant zei dat jij de sjaal krijgt.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"23.aap.indhij",
@@ -340,7 +365,8 @@ window.configuration = {
       "object":"schaar",
       "correct_recipient_of_object":"olifant",
       "sentence":"Olifant zei dat hij de schaar krijgt.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"24.aap.dirik",
@@ -353,7 +379,8 @@ window.configuration = {
       "object":"zonnebril",
       "correct_recipient_of_object":"olifant",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"25.aap.dirjij",
@@ -366,7 +393,8 @@ window.configuration = {
       "object":"pen",
       "correct_recipient_of_object":"aap",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"26.hond.indik",
@@ -379,7 +407,8 @@ window.configuration = {
       "object":"tandenborstel",
       "correct_recipient_of_object":"hond",
       "sentence":"Aap zei dat ik de tandenborstel krijg.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"27.hond.indhij",
@@ -392,7 +421,8 @@ window.configuration = {
       "object":"vliegtuig",
       "correct_recipient_of_object":"aap",
       "sentence":"Aap zei dat hij het vliegtuig krijgt.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"28.hond.dirjij",
@@ -405,7 +435,8 @@ window.configuration = {
       "object":"roos",
       "correct_recipient_of_object":"hond",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"29.hond.dirhij",
@@ -418,7 +449,8 @@ window.configuration = {
       "object":"auto",
       "correct_recipient_of_object":"olifant",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"30.hond.indik",
@@ -431,7 +463,8 @@ window.configuration = {
       "object":"hoed",
       "correct_recipient_of_object":"hond",
       "sentence":"Olifant zei dat ik de hoed krijg.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"31.hond.indjij",
@@ -444,7 +477,8 @@ window.configuration = {
       "object":"hamer",
       "correct_recipient_of_object":"aap",
       "sentence":"Olifant zei dat jij de hamer krijgt.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"32.hond.indhij",
@@ -457,7 +491,8 @@ window.configuration = {
       "object":"gitaar",
       "correct_recipient_of_object":"olifant",
       "sentence":"Olifant zei dat hij de gitaar krijgt.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"33.hond.dirik",
@@ -470,7 +505,8 @@ window.configuration = {
       "object":"voetbal",
       "correct_recipient_of_object":"olifant",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"34.hond.dirjij",
@@ -483,7 +519,8 @@ window.configuration = {
       "object":"lepel",
       "correct_recipient_of_object":"hond",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"35.hond.dirhij",
@@ -496,7 +533,8 @@ window.configuration = {
       "object":"paraplu",
       "correct_recipient_of_object":"aap",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"36.olif.indik",
@@ -509,7 +547,8 @@ window.configuration = {
       "object":"vlag",
       "correct_recipient_of_object":"olifant",
       "sentence":"Aap zei dat ik de vlag krijg.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"37.olif.indjij",
@@ -522,7 +561,8 @@ window.configuration = {
       "object":"pen",
       "correct_recipient_of_object":"hond",
       "sentence":"Aap zei dat jij de pen krijgt.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"38.olif.indhij",
@@ -535,7 +575,8 @@ window.configuration = {
       "object":"zonnebril",
       "correct_recipient_of_object":"aap",
       "sentence":"Aap zei dat hij de zonnebril krijgt.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"39.olif.dirik",
@@ -548,7 +589,8 @@ window.configuration = {
       "object":"sleutel",
       "correct_recipient_of_object":"aap",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"40.olif.dirjij",
@@ -561,7 +603,8 @@ window.configuration = {
       "object":"vlag",
       "correct_recipient_of_object":"olifant",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"41.olif.dirhij",
@@ -574,7 +617,8 @@ window.configuration = {
       "object":"kop",
       "correct_recipient_of_object":"hond",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-1"
     },
     {
       "audio_file_name":"42.olif.indik",
@@ -587,7 +631,8 @@ window.configuration = {
       "object":"boek",
       "correct_recipient_of_object":"olifant",
       "sentence":"Hond zei dat ik het boek krijg.",
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-2"
     },
     {
       "audio_file_name":"43.olif.indjij",
@@ -600,7 +645,8 @@ window.configuration = {
       "object":"boek",
       "correct_recipient_of_object":"aap",
       "sentence":"Hond zei dat jij het boek krijgt.",
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"44.olif.dirik",
@@ -613,7 +659,8 @@ window.configuration = {
       "object":"hoed",
       "correct_recipient_of_object":"hond",
       "sentence":null,
-      "type":"whispering-right"
+      "type":"whispering-right",
+      "correct_position":"option-3"
     },
     {
       "audio_file_name":"45.olif.dirhij",
@@ -626,7 +673,8 @@ window.configuration = {
       "object":"vliegtuig",
       "correct_recipient_of_object":"aap",
       "sentence":null,
-      "type":"whispering-left"
+      "type":"whispering-left",
+      "correct_position":"option-3"
     }
   ]
 };
