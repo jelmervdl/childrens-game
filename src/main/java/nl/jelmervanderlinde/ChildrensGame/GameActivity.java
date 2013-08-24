@@ -24,12 +24,21 @@ public class GameActivity extends Activity {
     {
         super.onCreate(savedInstanceState);
 
+        // Disable the application title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
+
         setContentView(R.layout.activity_fullscreen);
 
+        // Capture long click events which toggle the controls
+        View contentView = findViewById(R.id.webView);
+        contentView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                toggleControls();
+                return true;
+            }
+        });
+        // Initially hide the controls
         toggleControls();
 
         // Init the webview
@@ -91,5 +100,7 @@ public class GameActivity extends Activity {
         View controlsView = findViewById(R.id.fullscreen_content_controls);
         boolean visible = controlsView.getVisibility() == View.VISIBLE;
         controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        boolean visible = controlsView.getVisibility() != View.GONE;
+        controlsView.setVisibility(visible ? View.GONE : View.VISIBLE);
     }
 }
