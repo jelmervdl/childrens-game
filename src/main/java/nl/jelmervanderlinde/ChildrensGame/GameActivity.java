@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -17,20 +20,24 @@ public class GameActivity extends Activity {
     private static final String LOG_TAG = "GameActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
         setContentView(R.layout.activity_fullscreen);
+
+        toggleControls();
 
         // Init the webview
         initWebView();
     }
 
-    private void initWebView() {
-//        getWindow().requestFeature(Window.FEATURE_PROGRESS);
-
-        Log.d("ChildrensGame", "initWebView");
-
+    private void initWebView()
+    {
         WebView browser = (WebView) findViewById(R.id.webView);
         browser.getSettings().setJavaScriptEnabled(true);
         browser.addJavascriptInterface(new WebAudioAPI(this, browser), "globalAudio");
@@ -77,5 +84,12 @@ public class GameActivity extends Activity {
         });
 
         browser.loadUrl("file:///android_asset/www/index.html");
+    }
+
+    private void toggleControls()
+    {
+        View controlsView = findViewById(R.id.fullscreen_content_controls);
+        boolean visible = controlsView.getVisibility() == View.VISIBLE;
+        controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 }
