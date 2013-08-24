@@ -14,6 +14,7 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class GameActivity extends Activity {
@@ -41,6 +42,16 @@ public class GameActivity extends Activity {
                 return true;
             }
         });
+
+        // Catch clicks on the restart button which reload the web view
+        Button restartButton = (Button) findViewById(R.id.restart_button);
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                restart();
+            }
+        });
+
         // Initially hide the controls
         toggleControls();
 

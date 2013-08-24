@@ -33,8 +33,8 @@
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="New Button"
-                    android:id="@+id/dummy_button"
+                    android:text="Restart"
+                    android:id="@+id/restart_button"
                     android:layout_gravity="center_horizontal|bottom"
                     style="@style/ButtonBarButton"/>
         </LinearLayout>
