@@ -82,6 +82,24 @@ public class WebAudioAPI
         release();
     }
 
+    @JavascriptInterface
+    public boolean isPlaying()
+    {
+        return player != null && player.isPlaying();
+    }
+
+    public void pause()
+    {
+        if (player != null)
+            player.pause();
+    }
+
+    public void resume()
+    {
+        if (player != null)
+            player.start();
+    }
+
     private void release()
     {
         if (player == null)
