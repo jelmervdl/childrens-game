@@ -43,7 +43,7 @@ public class WebAudioAPI
         if (player != null)
             release();
 
-        Log.d("ChildrensGame.WebAudioAPI", assetURI);
+//        Log.d("ChildrensGame.WebAudioAPI", assetURI);
 
         try {
             player = new MediaPlayer();

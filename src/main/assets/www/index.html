@@ -148,15 +148,10 @@
 
 		<script>
 
-		window.isWebkit = window.navigator.userAgent.indexOf(' AppleWebKit/') !== -1;
-
 		// Disable scrolling altogether
 		document.ontouchmove = function(event){
 			event.preventDefault();
 		};
-
-		// Todo: implement offline cache control
-		// see http://blogs.adobe.com/cantrell/archives/2011/11/building-an-offline-mobile-web-application.html
 
 		Array.prototype.shuffle = function ()
 		{
@@ -269,12 +264,12 @@
 			this.src = url;
 
 			window.onStartPlaying = function() {
-				console.log("Start playing");
+				// console.log("Start playing");
 			    document.body.classList.add('playing-audio');
 			};
 
 			window.onFinishPlaying = function() {
-				console.log("Finish playing");
+				// console.log("Finish playing");
 				document.body.classList.remove('playing-audio');
 				if (self.callback) self.callback();
 			};
@@ -286,7 +281,7 @@
 
 		n.AudioSprite.prototype.load = function(next)
 		{
-			next();
+			if (next) next();
 		};
 
 		n.AudioSprite.prototype.play = function(chapter, next)
@@ -441,43 +436,16 @@
 
 		n.Measurements.submit = function(personalData)
 		{
-			var queue = JSON.parse(localStorage.measurementsSubmitQueue || '[]') || [];
-			
-			queue.push({
+			window.activity.submitMeasurements(JSON.stringify([{
 				subject_id: this.subjectId,
 				personal_data: personalData,
 				measurements: this.measurements 
-			});
-
-			localStorage.measurementsSubmitQueue = JSON.stringify(queue);
+			}]));
 
 			// Reset
 			this.subjectId = s4();
 			this.measurements = [];
-
-			this.sync();
 		}
-
-		n.Measurements.sync = function()
-		{
-			if (!localStorage.measurementsSubmitQueue)
-				return true;
-
-			try {
-				var request = new XMLHttpRequest();
-				request.open('POST', 'post-measurements.php', true);
-				request.onload = function() {
-					if (request.status == 200)
-						delete localStorage.measurementsSubmitQueue;
-				};
-				request.send(localStorage.measurementsSubmitQueue);
-
-				return true;
-			} catch (e) {
-				// Fail silently. We'll retry another time.
-				return false;
-			}
-		};
 
 		n.Measurement = function(id)
 		{
@@ -522,7 +490,9 @@
 
 		n.ProgressBar.prototype.update = function()
 		{
-			this.element.style.width = (this.value / this.max) * 100 + '%';
+		    try {
+    			this.element.style.width = (this.value / this.max) * 100 + '%';
+    		} catch(e) {}
 		};
 
 		var templates = {
@@ -1046,8 +1016,7 @@
 				scenes: [
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/thank_you');
-						audio.load();
-						next();
+						audio.load(next);
 					},
 					function(stage, next) {
 						// that's it :)
@@ -1076,7 +1045,7 @@
 								'age': age,
 								'sex': sex,
 								'native_tongue': native_tongue,
-								'browser': window.navigator.userAgent,
+								'browser': 'native android app 1',
 								'platform': window.navigator.platform
 							});
 							
@@ -1092,59 +1061,6 @@
 		});
 
 		var main = new Sequence(acts);
-		
-		function checkForUpdate(next)
-		{
-			if (!window.applicationCache) {
-				next();
-				return;
-			}
-
-			var dialog = document.getElementById('update-dialog');
-			dialog.classList.add('visible');
-
-			var has_started = false;
-			var start = function() {
-				if (!has_started) {
-					has_started = true;
-					dialog.classList.remove('visible');
-					next();					
-				}
-			};
-
-			// When checking, show some indication of doing so
-			window.applicationCache.addEventListener('checking', function(e) {
-				dialog.querySelector('span').innerHTML = 'Checking…';
-				dialog.classList.add('visible');
-			});
-
-			// If there is no update, just run.
-			window.applicationCache.addEventListener('noupdate', start);
-
-			// Continue to run as normal on error.
-			window.applicationCache.addEventListener('error', start);
-
-			// Continue to run as normal when caching has finished
-			window.applicationCache.addEventListener('cached', start);
-
-			// Show that we are downloading
-			window.applicationCache.addEventListener('downloading', function(e) {
-				dialog.querySelector('span').innerHTML = 'Downloading…';
-			});
-
-			// Show how much we have downloaded
-			window.applicationCache.addEventListener('progress', function(e) {
-				var progress = dialog.querySelector('progress');
-				progress.max = e.total;
-				progress.value = e.loaded;
-			});
-
-			// When we are done downloading, swap the cache.
-			window.applicationCache.addEventListener('updateready', function(e) {
-				window.applicationCache.swapCache();
-				window.location.reload();
-			});
-		};
 
 		// Set up an interval which is used to simulate step animations in CSS
 		setInterval(function() {
@@ -1154,9 +1070,6 @@
 		// Force an update of the manifest file
 		// checkForUpdate(bind(main, 'play'));
 		window.onload = bind(main, 'play');
-
-		// There may be unsubmitted data, let's see/sync:
-		n.Measurements.sync();
 
 		</script>
 	</body>

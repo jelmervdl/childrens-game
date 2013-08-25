@@ -21,7 +21,7 @@
         android:fitsSystemWindows="true"
         style="@style/AppTheme">
 
-        <LinearLayout android:id="@+id/fullscreen_content_controls"
+        <GridLayout android:id="@+id/fullscreen_content_controls"
             style="@style/ButtonBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,19 @@
                     android:id="@+id/restart_button"
                     android:layout_gravity="center_horizontal|bottom"
                     style="@style/ButtonBarButton"/>
-        </LinearLayout>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Queue status"
+                    android:id="@+id/queue_status"
+                    android:gravity="right|fill_vertical"
+                    android:singleLine="false"
+                    android:layout_gravity="right|fill_vertical"
+                    android:layout_marginRight="4pt"/>
+
+        </GridLayout>
 
     </FrameLayout>
 
