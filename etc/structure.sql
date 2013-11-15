@@ -56,7 +56,7 @@ CREATE TABLE `native_tongue` (
 
 CREATE TABLE `personal_details` (
   `subject_id` char(4) NOT NULL DEFAULT '',
-  `age` int(11) NOT NULL,
+  `age` varchar(255) NOT NULL,
   `sex` enum('mannelijk','vrouwelijk') DEFAULT NULL,
   `browser` text,
   `platform` text,

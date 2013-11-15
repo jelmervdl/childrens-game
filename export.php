@@ -243,8 +243,7 @@ function export_to_excel_complex(PDO $db)
 			throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
 
 		foreach (array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time') as $column)
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column],
-					$column == 'Age' ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
+			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column], PHPExcel_Cell_DataType::TYPE_STRING);
 		
 		$is_correct = $data['choice'] == $settings[$data['act_id']]['correct_position'];
 
