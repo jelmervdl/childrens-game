@@ -31,17 +31,17 @@
     },
     "18.aap.dirik": {
       "start": 33,
-      "end": 35.80891156462585,
+      "end": 35.675442176870746,
       "loop": false
     },
     "19.aap.dirjij": {
       "start": 37,
-      "end": 39.9,
+      "end": 39.68353741496598,
       "loop": false
     },
     "20.aap.dirhij": {
       "start": 41,
-      "end": 43.87936507936508,
+      "end": 43.79589569160998,
       "loop": false
     },
     "21.aap.indik": {
@@ -61,112 +61,112 @@
     },
     "24.aap.dirik": {
       "start": 57,
-      "end": 59.94424036281179,
+      "end": 60.18036281179138,
       "loop": false
     },
     "25.aap.dirjij": {
-      "start": 61,
-      "end": 64,
+      "start": 62,
+      "end": 65.20358276643991,
       "loop": false
     },
     "26.hond.indik": {
-      "start": 65,
-      "end": 67.5,
+      "start": 67,
+      "end": 69.5,
       "loop": false
     },
     "27.hond.indhij": {
-      "start": 69,
-      "end": 71.58460317460317,
+      "start": 71,
+      "end": 73.58460317460317,
       "loop": false
     },
     "28.hond.dirjij": {
-      "start": 73,
-      "end": 75.61972789115646,
+      "start": 75,
+      "end": 77.7953514739229,
       "loop": false
     },
     "29.hond.dirhij": {
-      "start": 77,
-      "end": 79.72997732426303,
+      "start": 79,
+      "end": 82.10979591836735,
       "loop": false
     },
     "30.hond.indik": {
-      "start": 81,
-      "end": 83.55385487528345,
+      "start": 84,
+      "end": 86.55385487528345,
       "loop": false
     },
     "31.hond.indjij": {
-      "start": 85,
-      "end": 87.46791383219954,
+      "start": 88,
+      "end": 90.46791383219954,
       "loop": false
     },
     "32.hond.indhij": {
-      "start": 89,
-      "end": 91.57079365079365,
+      "start": 92,
+      "end": 94.57079365079365,
       "loop": false
     },
     "33.hond.dirik": {
-      "start": 93,
-      "end": 95.92353741496599,
+      "start": 96,
+      "end": 99.0618820861678,
       "loop": false
     },
     "34.hond.dirjij": {
-      "start": 97,
-      "end": 100.1,
+      "start": 101,
+      "end": 104.0909977324263,
       "loop": false
     },
     "35.hond.dirhij": {
-      "start": 102,
-      "end": 104.7,
+      "start": 106,
+      "end": 108.99242630385487,
       "loop": false
     },
     "36.olif.indik": {
-      "start": 106,
-      "end": 108.03580498866214,
+      "start": 110,
+      "end": 112.03580498866214,
       "loop": false
     },
     "37.olif.indjij": {
-      "start": 110,
-      "end": 112.17539682539683,
+      "start": 114,
+      "end": 116.17539682539683,
       "loop": false
     },
     "38.olif.indhij": {
-      "start": 114,
-      "end": 116.46027210884354,
+      "start": 118,
+      "end": 120.46027210884354,
       "loop": false
     },
     "39.olif.dirik": {
-      "start": 118,
-      "end": 120.55020408163266,
+      "start": 122,
+      "end": 124.72451247165533,
       "loop": false
     },
     "40.olif.dirjij": {
-      "start": 122,
-      "end": 124.7,
+      "start": 126,
+      "end": 128.75997732426305,
       "loop": false
     },
     "41.olif.dirhij": {
-      "start": 126,
-      "end": 128.6,
+      "start": 130,
+      "end": 132.70083900226757,
       "loop": false
     },
     "42.olif.indik": {
-      "start": 130,
-      "end": 131.9229931972789,
+      "start": 134,
+      "end": 135.9229931972789,
       "loop": false
     },
     "43.olif.indjij": {
-      "start": 133,
-      "end": 135.0316553287982,
+      "start": 137,
+      "end": 139.0316553287982,
       "loop": false
     },
     "44.olif.dirik": {
-      "start": 137,
-      "end": 139.54777777777778,
+      "start": 141,
+      "end": 143.6565306122449,
       "loop": false
     },
     "45.olif.dirhij": {
-      "start": 141,
-      "end": 143.8,
+      "start": 145,
+      "end": 147.94920634920635,
       "loop": false
     }
   }
