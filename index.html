@@ -872,12 +872,6 @@
 			new n.Act({
 				stage: document.getElementById('character-introduction-stage'),
 				scenes: [
-					// Hey there animals, who are you?
-					function(stage, next) {
-						var act = this;
-						audio.play('m3', next);
-					},
-
 					// Hi, I'm the dog
 					function(stage, next) {
 						stage.classList.add('introduce-character-1');
@@ -1012,13 +1006,7 @@
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/practise_items');
-						clickOnce([stage.querySelector('.next-button')], next);
-					},
-					function(stage, next) {
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction1', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
@@ -1043,9 +1031,6 @@
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/no_report_items');
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction2', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
@@ -1073,9 +1058,6 @@
 
 						audio = new n.AudioSprite('assets/audio/sprites/direct_and_indirect_speech_items');
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction3', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
