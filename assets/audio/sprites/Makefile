@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 AUDIOSPRITE = audiosprite
 FORMATS = m4a,ogg
-ARGS = --export $(FORMATS)
+ARGS = --log debug --export $(FORMATS)
 
 PRACTISE_CONVERSATION_FILES = $(shell ls ../conversations/p{1,2,3}.*.wav)
 NO_REPORT_CONVERSATION_FILES = $(shell ls ../conversations/*.{ik,jij,hij}.wav)
@@ -10,10 +10,10 @@ CUE_FILES = $(shell ls ../cues/*.wav)
 INSTRUCTION_FILES = $(shell ls ../instructions/*.wav)
 DECORATION_FILES = $(shell ls ../decorations/*.wav)
 
-CHARACTER_INTRODUCTION_FILES = $(shell ls ../instructions/m{1,3,4,5,6}*.wav ../instructions/intro.*.wav)
-PRACTISE_FILES = ../instructions/instruction1.wav ../instructions/m7.wav $(PRACTISE_CONVERSATION_FILES) $(DECORATION_FILES)
-NO_REPORT_FILES = ../instructions/instruction2.wav $(DECORATION_FILES) $(NO_REPORT_CONVERSATION_FILES)
-DIRECT_INDIRECT_FILES = ../instructions/instruction3.wav $(DECORATION_FILES) $(DIRECT_INDIRECT_CONVERSATION_FILES)
+CHARACTER_INTRODUCTION_FILES = $(shell ls ../instructions/m{3,4,5,6}*.wav ../instructions/intro.*.wav)
+PRACTISE_FILES = ../instructions/m7.wav $(PRACTISE_CONVERSATION_FILES) $(DECORATION_FILES)
+NO_REPORT_FILES = $(DECORATION_FILES) $(NO_REPORT_CONVERSATION_FILES)
+DIRECT_INDIRECT_FILES = $(DECORATION_FILES) $(DIRECT_INDIRECT_CONVERSATION_FILES)
 OBJECT_INTRODUCTION_FILES = ../instructions/m2.wav $(shell ls ../instructions/o*.wav)
 THANK_YOU_FILES = ../instructions/m8.wav
 

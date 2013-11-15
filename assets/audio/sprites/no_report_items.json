@@ -4,94 +4,89 @@
     "no_report_items.ogg"
   ],
   "spritemap": {
-    "instruction2": {
-      "start": 0,
-      "end": 10.045192743764172,
-      "loop": false
-    },
     "magic": {
-      "start": 12,
-      "end": 13,
+      "start": 0,
+      "end": 1.137891156462585,
       "loop": false
     },
     "whispering": {
-      "start": 14,
-      "end": 16.739954648526076,
+      "start": 3,
+      "end": 5.739954648526077,
       "loop": false
     },
     "1.aap.ik": {
-      "start": 18,
-      "end": 19.25,
+      "start": 7,
+      "end": 8.25,
       "loop": false
     },
     "10.hond.hij": {
-      "start": 21,
-      "end": 22.523628117913834,
+      "start": 10,
+      "end": 11.523628117913832,
       "loop": false
     },
     "11.olif.ik": {
-      "start": 24,
-      "end": 25.640997732426303,
+      "start": 13,
+      "end": 14.640997732426303,
       "loop": false
     },
     "12.olif.jij": {
-      "start": 27,
-      "end": 28.544784580498867,
+      "start": 16,
+      "end": 17.544784580498867,
       "loop": false
     },
     "13.olif.hij": {
-      "start": 30,
-      "end": 31.437142857142856,
+      "start": 19,
+      "end": 20.437142857142856,
       "loop": false
     },
     "14.olif.ik": {
-      "start": 33,
-      "end": 34.6753514739229,
+      "start": 22,
+      "end": 23.675351473922902,
       "loop": false
     },
     "15.olif.jij": {
-      "start": 36,
-      "end": 37.56226757369615,
+      "start": 25,
+      "end": 26.562267573696147,
       "loop": false
     },
     "2.aap.hij": {
-      "start": 39,
-      "end": 40.37238095238095,
+      "start": 28,
+      "end": 29.37238095238095,
       "loop": false
     },
     "3.aap.ik": {
-      "start": 42,
-      "end": 43.12403628117914,
+      "start": 31,
+      "end": 32.12403628117914,
       "loop": false
     },
     "4.aap.jij": {
-      "start": 45,
-      "end": 46.476893424036284,
+      "start": 34,
+      "end": 35.476893424036284,
       "loop": false
     },
     "5.aap.hij": {
-      "start": 48,
-      "end": 49.37777777777778,
+      "start": 37,
+      "end": 38.37777777777778,
       "loop": false
     },
     "6.hond.ik": {
-      "start": 51,
-      "end": 52.06854875283447,
+      "start": 40,
+      "end": 41.06854875283447,
       "loop": false
     },
     "7.hond.jij": {
-      "start": 54,
-      "end": 55.263514739229024,
+      "start": 43,
+      "end": 44.263514739229024,
       "loop": false
     },
     "8.hond.hij": {
-      "start": 57,
-      "end": 58.21784580498866,
+      "start": 46,
+      "end": 47.21784580498866,
       "loop": false
     },
     "9.hond.jij": {
-      "start": 60,
-      "end": 61.30750566893424,
+      "start": 49,
+      "end": 50.30750566893424,
       "loop": false
     }
   }

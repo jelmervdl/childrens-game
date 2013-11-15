@@ -4,39 +4,34 @@
     "practise_items.ogg"
   ],
   "spritemap": {
-    "instruction1": {
-      "start": 0,
-      "end": 22,
-      "loop": false
-    },
     "m7": {
-      "start": 23,
-      "end": 26.734761904761903,
+      "start": 0,
+      "end": 3.7347619047619047,
       "loop": false
     },
     "p1.olif": {
-      "start": 28,
-      "end": 30,
+      "start": 5,
+      "end": 7,
       "loop": false
     },
     "p2.aap": {
-      "start": 31,
-      "end": 32.33451247165533,
+      "start": 8,
+      "end": 9.334512471655328,
       "loop": false
     },
     "p3.hond": {
-      "start": 34,
-      "end": 35.37176870748299,
+      "start": 11,
+      "end": 12.371768707482993,
       "loop": false
     },
     "magic": {
-      "start": 37,
-      "end": 38,
+      "start": 14,
+      "end": 15.137891156462585,
       "loop": false
     },
     "whispering": {
-      "start": 39,
-      "end": 41.73995464852608,
+      "start": 17,
+      "end": 19.739954648526076,
       "loop": false
     }
   }
