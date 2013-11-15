@@ -18,7 +18,7 @@ class DataStore
 		$stmt->bindParam(":sex", $details->sex);
 		$stmt->bindParam(":browser", $details->browser);
 		$stmt->bindParam(":platform", $details->platform);
-		$stmt->bindValue(":branch", "koen");
+		$stmt->bindValue(":branch", "ipad-children");
 		$stmt->execute();
 
 		$stmt = $this->db->prepare("INSERT INTO native_tongue (subject_id, language) VALUES (:subject_id, :language)");
