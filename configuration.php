@@ -164,6 +164,10 @@ function parse_configurations($f)
 	{
 		foreach ($section_configurations as &$configuration)
 		{
+			// This field contains weird characters that json_encode cannot encode.
+			// Yet another reason to hate PHP intensely.
+			unset($configuration['sentence']);
+
 			$configuration['type'] = parse_spatial_position($configuration['spatial_position'], $section);
 			$configuration['object'] = preg_replace('/^(de|het|een)\s+/', '', $configuration['object']);
 

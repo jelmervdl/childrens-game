@@ -26,15 +26,14 @@ foreach ($files as $file)
 	$cache_size += filesize($file);
 }
 
+$latest_change = max(filemtime('configuration.csv'), $latest_change);
+
 header('Content-type: text/cache-manifest');
+header('Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $latest_change) . ' GMT'); 
 ?>
 CACHE MANIFEST
 # Version: <?=$latest_change?>
 
 # Total size: <?=number_format($cache_size / (1024 * 1024), 2)?>MB
 
-NETWORK:
-post-measurements.php
-
-CACHE:
 <?=implode("\n", $files)?>
