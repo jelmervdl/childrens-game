@@ -856,12 +856,6 @@
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
 						audio.load(next);
-					},
-					// Hey, leuk dat je er bent
-					function(stage, next) {
-						audio.play('m1', function() {
-							setTimeout(next, 500);
-						});
 					}
 				]
 			}).play(next);
@@ -872,6 +866,11 @@
 			new n.Act({
 				stage: document.getElementById('character-introduction-stage'),
 				scenes: [
+					// Hey there animals, who are you?
+					function(stage, next) {
+						var act = this;
+						audio.play('m3', next);
+					},
 					// Hi, I'm the dog
 					function(stage, next) {
 						stage.classList.add('introduce-character-1');
