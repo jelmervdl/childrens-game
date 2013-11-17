@@ -139,7 +139,7 @@ public class GameActivity extends Activity {
         browser.getSettings().setAppCacheEnabled(true);
 
         browser.getSettings().setSupportZoom(false);
-        browser.getSettings().setMediaPlaybackRequiresUserGesture(false);
+//        browser.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         final Activity activity = this;
         browser.setWebChromeClient(new WebChromeClient() {
@@ -242,6 +242,9 @@ public class GameActivity extends Activity {
         Log.d(LOG_TAG, "Syncing measurements");
 
         File[] measurements = getMeasurementSubmissionQueue();
+        if (measurements == null)
+            return;
+
         Log.d(LOG_TAG, "Submitting " + measurements.length + " measurements to server");
 
         AsyncTask<File, Void, Boolean> task = new AsyncTask<File, Void, Boolean>() {
