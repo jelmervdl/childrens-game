@@ -7,7 +7,9 @@
 		<link rel="stylesheet" href="game.css">
 	</head>
 	<body>
-		<div id="update-dialog">
+        <button id="next-stage-button" class="next-stage-button">Ga verder</button>
+
+        <div id="update-dialog">
 			<span>Loading…</span>
 			<progress id="update-progress"></progress>
 		</div>
@@ -84,8 +86,8 @@
 
 				<div id="object" class="object"></div>
 
-				<button class="next-button">Ga verder</button>
-				<button class="replay-button">Opnieuw</button>
+                <button class="next-button">Ga verder</button>
+                <button class="replay-button">Opnieuw</button>
 			</div>
 
 			<div id="end-stage" class="stage">
@@ -179,12 +181,6 @@
 
 		var clickOnce = function(elements, callback)
 		{
-			var listener = function(e) {
-				removeListeners();
-				e.preventDefault();
-				callback(e.target);
-			};
-
 			var listeners = Array.prototype.map.call(elements, function(element) {
 				return {
 					element: element,
@@ -201,7 +197,6 @@
 				listeners.forEach(function(listener) {
 					listener.element.classList.add('clickable');
 					listener.element.addEventListener('touchend', listener.callback, false);
-					listener.element.addEventListener('click', listener.callback, false);
 				});
 			};
 
@@ -209,7 +204,6 @@
 				listeners.forEach(function(listener) {
 					listener.element.classList.remove('clickable');
 					listener.element.removeEventListener('touchend', listener.callback, false);
-					listener.element.removeEventListener('click', listener.callback, false);
 				});
 
 				listeners = []; // To make sure you can only call removeListeners effectively once.
@@ -281,7 +275,7 @@
 
 		n.AudioSprite.prototype.load = function(next)
 		{
-			if (next) next();
+		    if (next) setTimeout(next, 10);
 		};
 
 		n.AudioSprite.prototype.play = function(chapter, next)
@@ -289,7 +283,7 @@
 			if (this.callback)
 				this.stop();
 
-			this.callback = next;
+            this.callback = next;
 			globalAudio.play(
 			    find_audio_asset(chapter),
 			    "window.onStartPlaying()",
@@ -927,7 +921,7 @@
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
-						clickOnce([stage.querySelector('.next-button')], next);
+						clickOnce([document.getElementById('next-stage-button')], next);
 					}
 				]
 			}).play(next);
@@ -946,12 +940,12 @@
 				stage: document.getElementById('game-stage'),
 				scenes: [
 					function(stage, next) {
-						audio = new n.AudioSprite('assets/audio/sprites/no_report_items');
-						audio.load(next);
+					    audio = new n.AudioSprite('assets/audio/sprites/no_report_items');
+					    audio.load(next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
-						clickOnce([stage.querySelector('.next-button')], next);
+						clickOnce([document.getElementById('next-stage-button')], next);
 					}
 				]
 			}).play(next);
@@ -978,7 +972,7 @@
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
-						clickOnce([stage.querySelector('.next-button')], next);
+						clickOnce([document.getElementById('next-stage-button')], next);
 					}
 				]
 			}).play(next);

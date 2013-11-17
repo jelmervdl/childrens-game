@@ -147,7 +147,15 @@ public class GameActivity extends Activity {
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 Log.d(LOG_TAG, message);
 
-                new AlertDialog.Builder(view.getContext()).setMessage(message).setCancelable(true).show();
+                new AlertDialog.Builder(view.getContext())
+                        .setMessage(message)
+                        .setCancelable(true)
+                        .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
                 result.confirm();
 
                 return true;
