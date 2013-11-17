@@ -531,10 +531,6 @@ button.clickable {
 	text-indent: 1em;
 }
 
-.personal-details input[name=age] {
-	width: 3em;
-}
-
 .personal-details input {
 	height: 1.5em;
 	line-height: inherit;

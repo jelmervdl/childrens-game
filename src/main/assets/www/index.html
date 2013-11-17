@@ -93,7 +93,7 @@
 					<h2>Persoonlijke gegevens</h2>
 					<p>
 						<label>Leeftijd:</label>
-						<input type="number" name="age">
+						<input type="text" name="age">
 					</p>
 					<p>
 						<label>Geslacht:</label>
@@ -774,12 +774,6 @@
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/character_introduction');
 						audio.load(next);
-					},
-					// Hey, leuk dat je er bent
-					function(stage, next) {
-						audio.play('m1', function() {
-							setTimeout(next, 500);
-						});
 					}
 				]
 			}).play(next);
@@ -795,7 +789,6 @@
 						var act = this;
 						audio.play('m3', next);
 					},
-
 					// Hi, I'm the dog
 					function(stage, next) {
 						stage.classList.add('introduce-character-1');
@@ -930,13 +923,7 @@
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/practise_items');
-						clickOnce([stage.querySelector('.next-button')], next);
-					},
-					function(stage, next) {
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction1', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
@@ -961,9 +948,6 @@
 					function(stage, next) {
 						audio = new n.AudioSprite('assets/audio/sprites/no_report_items');
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction2', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
@@ -991,9 +975,6 @@
 
 						audio = new n.AudioSprite('assets/audio/sprites/direct_and_indirect_speech_items');
 						audio.load(next);
-					},
-					function(stage, next) {
-						audio.play('instruction3', next);
 					},
 					// Temporary solution for the audio won't start playing-problem
 					function(stage, next) {
