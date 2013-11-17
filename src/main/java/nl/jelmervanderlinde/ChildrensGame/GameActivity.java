@@ -281,7 +281,7 @@ public class GameActivity extends Activity {
     private boolean submitMeasurementToAPI(File measurement)
     {
         HttpClient client = new DefaultHttpClient();
-        HttpPost postRequest = new HttpPost("http://www.philos.rug.nl/cgm/franziska/post-measurements.php");
+        HttpPost postRequest = new HttpPost("http://www.philos.rug.nl/cgm/ipad-children/post-measurements.php");
         FileInputStream in = null;
 
         try {
