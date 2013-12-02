@@ -3,6 +3,7 @@
 date_default_timezone_set('Europe/Amsterdam');
 setlocale(LC_ALL, 'nl_NL');
 ini_set('memory_limit', '512M');
+set_time_limit(0);
 require_once 'config.php';
 require_once 'configuration.php';
 require_once 'lib/php/PHPExcel.php';
