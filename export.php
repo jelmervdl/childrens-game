@@ -206,15 +206,21 @@ function export_to_excel_complex(PDO $db)
 		GROUP BY
 			m.id
 		ORDER BY
-			m.act_id ASC,
-			p.submitted ASC");
+			m.subject_id ASC,
+			m.start_time ASC");
 
 	// Creating a workbook
 	$export = new ExportDataExcel('browser', date('YmdHis') . '.xls');
 	$export->initialize();
 
 	// Header row
-	$export->addRow(array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item', 'Evaluation of mistakes'));
+	$export->addRow(array('ID', 'Language', 'Age', 'Gender', 'Version',
+		'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct',
+		'Item', 'Evaluation of mistakes',
+		'Animal', 'Trail nr', 'Type nr'));
+
+	$trails = array();
+	$types = array();
 
 	while ($data = $query->fetch(PDO::FETCH_ASSOC))
 	{
@@ -226,8 +232,10 @@ function export_to_excel_complex(PDO $db)
 		if (!isset($settings[$data['act_id']]))
 			continue;
 
-		if(!preg_match('/\.(dir|ind|)(ik|jij|hij)$/', $settings[$data['act_id']]['audio_file_name'], $match))
-			throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
+		list($num, $animal, $type) = explode('.', $settings[$data['act_id']]['audio_file_name']);
+
+		if(!preg_match('/^(dir|ind|)(ik|jij|hij)$/', $type, $match))
+			throw new Exception('Could not extract info from ' . $type);
 
 		foreach (array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time') as $column)
 			$row[$col++] = new ExportDataValue($data[$column], ExportDataValue::TYPE_STRING);
@@ -235,7 +243,7 @@ function export_to_excel_complex(PDO $db)
 		$is_correct = $data['choice'] == $settings[$data['act_id']]['correct_position'];
 
 		// Condition
-		$row[$col++] = new ExportDataValue(ucfirst($match[1] ? $match['1'] : 'no'), ExportDataValue::TYPE_STRING);
+		$row[$col++] = new ExportDataValue(ucfirst($match[1] ? $match[1] : 'no'), ExportDataValue::TYPE_STRING);
 		
 		// Pronoun
 		$row[$col++] = new ExportDataValue(ucfirst($match[2]), ExportDataValue::TYPE_STRING);
@@ -251,6 +259,7 @@ function export_to_excel_complex(PDO $db)
 
 		// Alternative correct column
 		if (!$is_correct)
+		{
 			switch ($match[1])
 			{
 				case 'dir':
@@ -262,7 +271,29 @@ function export_to_excel_complex(PDO $db)
 					$alternative_choice = !evaluation_of_mistakes_dir_ind($data['choice'], $settings[$data['act_id']]['correct_position'], $match[2]);
 					$row[$col++] = new ExportDataValue($alternative_choice, ExportDataValue::TYPE_NUMERIC);
 					break;
+
+				default:
+					$row[$col++] = null;
+					break;
 			}
+		}
+		else
+			$row[$col++] = null; // Increment anyway
+
+		// Animal
+		$row[$col++] = $animal;
+
+		// Trail number
+		if (!isset($trails[$data['ID']]))
+			$trails[$data['ID']] = 0;
+
+		$row[$col++] = ++$trails[$data['ID']];
+
+		// Seen of type
+		if (!isset($types[$data['ID'] . $match[0]]))
+			$types[$data['ID'] . $match[0]] = 0;
+
+		$row[$col++] = ++$types[$data['ID'] . $match[0]];
 
 		$export->addRow($row);
 	}
