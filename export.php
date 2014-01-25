@@ -6,8 +6,7 @@ ini_set('memory_limit', '512M');
 set_time_limit(0);
 require_once 'config.php';
 require_once 'configuration.php';
-require_once 'lib/php/PHPExcel.php';
-require_once 'lib/php/PHPExcel/Writer/Excel2007.php';
+require_once 'lib/php/php-export-data.class.php';
 	
 interface Decorator
 {
@@ -211,30 +210,17 @@ function export_to_excel_complex(PDO $db)
 			p.submitted ASC");
 
 	// Creating a workbook
-	$workbook = new PHPExcel();
-	$workbook->setActiveSheetIndex(0);
-
-	$now = date('YmdHis');
-
-	$worksheet = $workbook->getActiveSheet();
-	$worksheet->setTitle('Exported data');
-	
-	$row = 1;
-	$col = 0;
+	$export = new ExportDataExcel('browser', date('YmdHis') . '.xls');
+	$export->initialize();
 
 	// Header row
-	foreach (array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item', 'Evaluation of mistakes') as $column)
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
+	$export->addRow(array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time', 'Condition', 'Pronoun', 'Reaction time', 'Correct', 'Item', 'Evaluation of mistakes'));
 
-	for ($i = 0;;++$i)
+	while ($data = $query->fetch(PDO::FETCH_ASSOC))
 	{
-		$row = $i + 2;
 		$col = 0;
 
-		$data = $query->fetch(PDO::FETCH_ASSOC);
-
-		if (!$data)
-			break;
+		$row = array();
 
 		// Skip rows that are not in the configuration file
 		if (!isset($settings[$data['act_id']]))
@@ -244,24 +230,24 @@ function export_to_excel_complex(PDO $db)
 			throw new Exception('Could not extract info from ' . $settings[$data['act_id']]['audio_file_name']);
 
 		foreach (array('ID', 'Language', 'Age', 'Gender', 'Version', 'Test time') as $column)
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data[$column], PHPExcel_Cell_DataType::TYPE_STRING);
+			$row[$col++] = new ExportDataValue($data[$column], ExportDataValue::TYPE_STRING);
 		
 		$is_correct = $data['choice'] == $settings[$data['act_id']]['correct_position'];
 
 		// Condition
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[1] ? $match['1'] : 'no'), PHPExcel_Cell_DataType::TYPE_STRING);
+		$row[$col++] = new ExportDataValue(ucfirst($match[1] ? $match['1'] : 'no'), ExportDataValue::TYPE_STRING);
 		
 		// Pronoun
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, ucfirst($match[2]), PHPExcel_Cell_DataType::TYPE_STRING);
+		$row[$col++] = new ExportDataValue(ucfirst($match[2]), ExportDataValue::TYPE_STRING);
 
 		// Reaction time
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $data['response_time'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
+		$row[$col++] = new ExportDataValue($data['response_time'], ExportDataValue::TYPE_NUMERIC);
 
 		// Correct
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $is_correct, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+		$row[$col++] = new ExportDataValue($is_correct, ExportDataValue::TYPE_NUMERIC);
 
 		// Item
-		$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $settings[$data['act_id']]['audio_file_name'], PHPExcel_Cell_DataType::TYPE_STRING);
+		$row[$col++] = new ExportDataValue($settings[$data['act_id']]['audio_file_name'], ExportDataValue::TYPE_STRING);
 
 		// Alternative correct column
 		if (!$is_correct)
@@ -269,26 +255,19 @@ function export_to_excel_complex(PDO $db)
 			{
 				case 'dir':
 					$alternative_choice = evaluation_of_mistakes_dir_ind($data['choice'], $settings[$data['act_id']]['correct_position'], $match[2]);
-					$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $alternative_choice, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$row[$col++] = new ExportDataValue($alternative_choice, ExportDataValue::TYPE_NUMERIC);
 					break;
 
 				case 'ind':
 					$alternative_choice = !evaluation_of_mistakes_dir_ind($data['choice'], $settings[$data['act_id']]['correct_position'], $match[2]);
-					$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $alternative_choice, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$row[$col++] = new ExportDataValue($alternative_choice, ExportDataValue::TYPE_NUMERIC);
 					break;
 			}
+
+		$export->addRow($row);
 	}
 
-	$writer = new PHPExcel_Writer_Excel2007($workbook);
-
-	header("Pragma: public");
-	header("Expires: 0");
-	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
-	header("Content-type: application/vnd.ms-excel;charset=UTF-8"); 
-	header("Content-Disposition: attachment; filename=\"{$now}.xls\"");
-	header("Cache-control: private");
-
-	$writer->save('php://output');
+	$export->finalize();
 }
 
 function evaluation_of_mistakes_dir_ind($choice, $correct, $pronoun)
@@ -353,44 +332,36 @@ function print_results_as_excel(PDOStatement $stmt, Decorator $decorator = null)
 		$decorator = new DummyDecorator();
 
 	// Creating a workbook
-	$workbook = new PHPExcel();
-	$workbook->setActiveSheetIndex(0);
+	$export = new ExportDataExcel('browser', date('YmdHis') . '.xls');
+	$export->initialize();
 
-	$now = date('YmdHis');
-
-	$worksheet = $workbook->getActiveSheet();
-	$worksheet->setTitle('Exported data');
-	
-	for ($row = 1, $col = 0; $data = $stmt->fetch(PDO::FETCH_ASSOC); ++$row, $col = 0)
+	$row = array();
+		
+	while ($data = $stmt->fetch(PDO::FETCH_ASSOC))
 	{
 		$data = $decorator->decorate($data);
-		
+
+		$col = 0;
+
 		// If this is the first row, print the column headers
 		if (!$printed_headers) {
 			foreach (array_keys($data) as $column)
-				$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $column, PHPExcel_Cell_DataType::TYPE_STRING);
+				$row[$col++] = new ExportDataValue($column, ExportDataValue::TYPE_STRING);
+			$export->addRow($row);
 			$printed_headers = true;
-			$row++;
 			$col = 0;
 		}
 
 		// Enclose text fields in quotes, and escape quotes in these fields.
 		$numeric_colums = array('start_time', 'stop_time', 'difference');
 		foreach ($data as $column => $field)
-			$worksheet->setCellValueExplicitByColumnAndRow($col++, $row, $field,
-				in_array($column, $numeric_colums) ? PHPExcel_Cell_DataType::TYPE_NUMERIC : PHPExcel_Cell_DataType::TYPE_STRING);
+			$row[$col++] = new ExportDataValue($field,
+				in_array($column, $numeric_colums) ? ExportDataValue::TYPE_NUMERIC : ExportDataValue::TYPE_STRING);
+
+		$export->addRow($row);
 	}
 
-	$writer = new PHPExcel_Writer_Excel2007($workbook);
-	
-	header("Pragma: public");
-	header("Expires: 0");
-	header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
-	header("Content-type: application/vnd.ms-excel;charset=UTF-8"); 
-	header("Content-Disposition: attachment; filename=\"{$now}.xls\"");
-	header("Cache-control: private");
-
-	$writer->save('php://output');
+	$export->finalize();
 }
 
 
